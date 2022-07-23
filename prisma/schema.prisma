@@ -54,5 +54,4 @@ model Patient {
   pharmacist                 Pharmacist?
   code                       Int        @unique
   isOrderCompleted           Boolean    @default(false)
-  totalPurchase              Int        @default(0)
 }
