@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Pharmacist {
+  id                         String     @id @default(uuid())
+  name                       String     @db.VarChar(30)
+  password                   String     @db.VarChar(200)
+  dateJoined                 DateTime   @default(now())
+  dateUpdated                DateTime   @default(now())
+  todaySales                 Json       @db.Json()
+  patient                    Patient    @relation(fields: [currentPatientCode], references: [code])
+  currentPatientCode         Int        @unique
+}
+
+model Accountant {
+  id                         String     @id @default(uuid())
+  name                       String     @db.VarChar(30)
+  password                   String     @db.VarChar(200)
+  dateJoined                 DateTime   @default(now())
+  dateUpdated                DateTime   @default(now())
+  suppliedDrugs              Drug[]
+}
+
+model Drug {
+  id                         String     @id @default(uuid())
+  name                       String     @db.VarChar(30)
+  drugFamily                 String     @db.VarChar(20)
+  manufactureDate            DateTime
+  expirationDate             DateTime
+  requiresDoctorPrescription Boolean
+  price                      Int
+  remaining                  Int
+  supplier                   Accountant @relation(fields: [supplierId], references: [id]) 
+  supplierId                 String
+  supplierOrginazation       String     @db.VarChar(30)
+}
+
+model Patient {
+  id                         String     @id @default(uuid())
+  name                       String     @db.VarChar(30)
+  email                      String?    @unique
+  visitDate                  DateTime   @default(now())
+  demandedDrugs              Json       @db.Json()
+  hasValidDoctorPrescription Boolean
+  pharmacist                 Pharmacist?
+  code                       Int        @unique
+  isOrderCompleted           Boolean    @default(false)
+  totalPurchase              Int        @default(0)
+}
