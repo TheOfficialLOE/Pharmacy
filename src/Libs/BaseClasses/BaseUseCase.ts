@@ -1,4 +1,4 @@
 
-export interface BaseUseCase<Payload, DTO> {
+export interface UseCase<Payload, DTO> {
     execute(payload: Payload): Promise<DTO>;
 }
