@@ -2,8 +2,8 @@ import { Body, Controller, Post } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { CreatePharmacistCommand } from "./CreatePharmacistCommand";
 import { CreatePharmacistRequestDTO } from "./CreatePharmacistDTOs";
-import { AccessibleBy } from "../../../../Libs/Decorators/AccessibleByDecorator";
-import { StaffRoles } from "../../../../Libs/Enums/StaffRolesEnum";
+import { AccessibleBy } from "../../../../libs/decorators/AccessibleByDecorator";
+import { StaffRoles } from "../../../../libs/enums/StaffRolesEnum";
 
 @Controller("staff")
 export class CreatePharmacistController {

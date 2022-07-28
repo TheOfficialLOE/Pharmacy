@@ -1,8 +1,8 @@
-import { StaffRoles } from "../Enums/StaffRolesEnum";
+import { StaffRoles } from "../enums/StaffRolesEnum";
 import { applyDecorators, SetMetadata, UseGuards } from "@nestjs/common";
-import { RolesKey } from "../Tokens/RolesKey";
-import { IsAuthenticGuard } from "../Guards/IsAuthenticGuard";
-import { JwtAuthGuard } from "../Guards/JwtAuthGuard";
+import { RolesKey } from "../tokens/RolesKey";
+import { IsAuthenticGuard } from "../guards/IsAuthenticGuard";
+import { JwtAuthGuard } from "../guards/JwtAuthGuard";
 
 export const AccessibleBy = (...roles: StaffRoles[]) => {
     return applyDecorators(

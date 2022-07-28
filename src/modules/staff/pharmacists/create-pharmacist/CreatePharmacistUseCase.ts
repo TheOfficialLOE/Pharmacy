@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { PharmacistRepositoryPort } from "../Infrastructure/PharmacistRepositoryPort";
-import { CreatePharmacistPayload, Pharmacist } from "../Domain/PharmacistEntity";
-import { UseCase } from "../../../../Libs/BaseClasses/BaseUseCase";
+import { PharmacistRepositoryPort } from "../infrastructure/PharmacistRepositoryPort";
+import { CreatePharmacistPayload, Pharmacist } from "../domain/PharmacistEntity";
+import { UseCase } from "../../../../libs/base-classes/BaseUseCase";
 import { CreatePharmacistResponseDTO } from "./CreatePharmacistDTOs";
 
 @Injectable()

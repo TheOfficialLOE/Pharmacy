@@ -1,18 +1,18 @@
 import { Test } from "@nestjs/testing";
 import {
     CreatePharmacistCommandHandler
-} from "../../../../src/Modules/Staff/Pharmacists/CreatePharmacist/CreatePharmacistCommand";
-import { PharmacistRepository } from "../../../../src/Modules/Staff/Pharmacists/Infrastructure/PharmacistRepository";
-import { PharmacistDITokens } from "../../../../src/Libs/Tokens/PharmacistDITokens";
+} from "../../../../src/modules/staff/pharmacists/create-pharmacist/CreatePharmacistCommand";
+import { PharmacistRepository } from "../../../../src/modules/staff/pharmacists/infrastructure/PharmacistRepository";
+import { PharmacistDITokens } from "../../../../src/libs/tokens/PharmacistDITokens";
 import {
     CreatePharmacistUseCase
-} from "../../../../src/Modules/Staff/Pharmacists/CreatePharmacist/CreatePharmacistUseCase";
-import { PrismaAdapter } from "../../../../src/Infrastructure/Prisma/PrismaAdapter";
+} from "../../../../src/modules/staff/pharmacists/create-pharmacist/CreatePharmacistUseCase";
+import { PrismaAdapter } from "../../../../src/infrastructure/Prisma/PrismaAdapter";
 import {
     PharmacistRepositoryPort
-} from "../../../../src/Modules/Staff/Pharmacists/Infrastructure/PharmacistRepositoryPort";
+} from "../../../../src/modules/staff/pharmacists/infrastructure/PharmacistRepositoryPort";
 import { v4 as uuidv4 } from "uuid";
-import { Pharmacist } from "../../../../src/Modules/Staff/Pharmacists/Domain/PharmacistEntity";
+import { Pharmacist } from "../../../../src/modules/staff/pharmacists/domain/PharmacistEntity";
 
 describe("CreatePharmacistCommand.spec.ts", () => {
     let commandHandler: CreatePharmacistCommandHandler;

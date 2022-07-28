@@ -1,13 +1,13 @@
 import { Module } from "@nestjs/common";
-import { CreatePharmacistController } from "./Pharmacists/CreatePharmacist/CreatePharmacistController";
+import { CreatePharmacistController } from "./pharmacists/create-pharmacist/CreatePharmacistController";
 import { CqrsModule } from "@nestjs/cqrs";
-import { PrismaModule } from "../../Infrastructure/Prisma/PrismaModule";
+import { PrismaModule } from "../../infrastructure/Prisma/PrismaModule";
 import { JwtModule } from "@nestjs/jwt";
-import { CreatePharmacistCommandHandler } from "./Pharmacists/CreatePharmacist/CreatePharmacistCommand";
-import { JwtStrategy } from "../../Libs/Strategies/JwtStrategy";
-import { PharmacistRepository } from "./Pharmacists/Infrastructure/PharmacistRepository";
-import { PharmacistDITokens } from "../../Libs/Tokens/PharmacistDITokens";
-import { CreatePharmacistUseCase } from "./Pharmacists/CreatePharmacist/CreatePharmacistUseCase";
+import { CreatePharmacistCommandHandler } from "./pharmacists/create-pharmacist/CreatePharmacistCommand";
+import { JwtStrategy } from "../../libs/strategies/JwtStrategy";
+import { PharmacistRepository } from "./pharmacists/infrastructure/PharmacistRepository";
+import { PharmacistDITokens } from "../../libs/tokens/PharmacistDITokens";
+import { CreatePharmacistUseCase } from "./pharmacists/create-pharmacist/CreatePharmacistUseCase";
 
 @Module({
     imports: [

@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { Inject } from "@nestjs/common";
-import { PharmacistDITokens } from "../../../../Libs/Tokens/PharmacistDITokens";
+import { PharmacistDITokens } from "../../../../libs/tokens/PharmacistDITokens";
 import * as bcrypt from 'bcrypt';
 import { CreatePharmacistUseCase } from "./CreatePharmacistUseCase";
 
