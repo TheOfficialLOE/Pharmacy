@@ -1,4 +1,4 @@
-import { Entity } from "../../../../Libs/BaseClasses/BaseEntity";
+import { StaffEntity } from "../../BaseStaffEntity";
 
 export interface CreatePharmacistPayload {
     name: string;
@@ -6,18 +6,14 @@ export interface CreatePharmacistPayload {
 }
 
 export interface PharmacistProps extends CreatePharmacistPayload {
-    dateJoined: Date;
-    dateUpdated: Date;
     todaySales: object; // todo
     currentPatientCode: number;
 }
 
-export class Pharmacist extends Entity<PharmacistProps> {
+export class Pharmacist extends StaffEntity<PharmacistProps> {
     static registerNew(registerProps: CreatePharmacistPayload) {
         const props: PharmacistProps = {
             ...registerProps,
-            dateJoined: new Date(),
-            dateUpdated: null,
             todaySales: {},
             currentPatientCode: null
         };
@@ -30,9 +26,5 @@ export class Pharmacist extends Entity<PharmacistProps> {
 
     getPassword() {
         return this.props.password;
-    }
-
-    getDateJoined() {
-        return this.props.dateJoined;
     }
 }

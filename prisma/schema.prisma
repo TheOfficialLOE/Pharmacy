@@ -14,8 +14,8 @@ model Pharmacist {
   id                         String     @id @default(uuid())
   name                       String     @db.VarChar(30)
   password                   String     @db.VarChar(200)
-  dateJoined                 DateTime   @default(now())
-  dateUpdated                DateTime?
+  joinedAt                   DateTime   @default(now())
+  updatedAt                  DateTime?
   todaySales                 Json?      @db.Json()
   patient                    Patient?   @relation(fields: [currentPatientCode], references: [code])
   currentPatientCode         Int?       @unique
@@ -25,8 +25,8 @@ model Accountant {
   id                         String     @id @default(uuid())
   name                       String     @db.VarChar(30)
   password                   String     @db.VarChar(200)
-  dateJoined                 DateTime   @default(now())
-  dateUpdated                DateTime   @default(now())
+  joinedAt                   DateTime   @default(now())
+  updatedAt                  DateTime?
   suppliedDrugs              Drug[]
 }
 
@@ -36,6 +36,8 @@ model Drug {
   drugFamily                 String     @db.VarChar(20)
   manufactureDate            DateTime
   expirationDate             DateTime
+  suppliedAt                 DateTime   @default(now())
+  updatedAt                  DateTime?
   requiresDoctorPrescription Boolean
   price                      Int
   remaining                  Int
@@ -48,7 +50,8 @@ model Patient {
   id                         String     @id @default(uuid())
   name                       String     @db.VarChar(30)
   email                      String?    @unique
-  dateVisited                DateTime   @default(now())
+  visitedAt                  DateTime   @default(now())
+  updatedAt                  DateTime?
   demandedDrugs              Json       @db.Json()
   hasValidDoctorPrescription Boolean
   pharmacist                 Pharmacist?
