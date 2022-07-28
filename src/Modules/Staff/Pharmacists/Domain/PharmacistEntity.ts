@@ -21,6 +21,18 @@ export class Pharmacist extends Entity<PharmacistProps> {
             todaySales: {},
             currentPatientCode: null
         };
-        return new Pharmacist({props});
+        return new Pharmacist({ props });
+    }
+
+    getName() {
+        return this.props.name;
+    }
+
+    getPassword() {
+        return this.props.password;
+    }
+
+    getDateJoined() {
+        return this.props.dateJoined;
     }
 }

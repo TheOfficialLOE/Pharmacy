@@ -15,9 +15,8 @@ export class CreatePharmacistController {
     @AccessibleBy(StaffRoles.OWNER)
     async createPharmacist(@Body() createPharmacistDTO: CreatePharmacistRequestDTO) {
         const { name, password } = createPharmacistDTO;
-        await this.commandBus.execute(
+        return await this.commandBus.execute(
             new CreatePharmacistCommand(name, password)
         );
-        return "User created";
     }
 }

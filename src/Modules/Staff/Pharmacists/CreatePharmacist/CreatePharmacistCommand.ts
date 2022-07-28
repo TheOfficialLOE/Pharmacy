@@ -22,9 +22,6 @@ export class CreatePharmacistCommandHandler implements ICommandHandler<CreatePha
     async execute(command: CreatePharmacistCommand) {
         let { name, password } = command;
         password = await bcrypt.hash(command.password, 10);
-        await this.createPharmacistUseCase.execute({
-            name,
-            password
-        });
+        return await this.createPharmacistUseCase.execute({ name,  password });
     }
 }
