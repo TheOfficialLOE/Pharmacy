@@ -1,5 +1,5 @@
 import { Pharmacist } from "../Domain/PharmacistEntity";
 
 export interface PharmacistRepositoryPort {
-    create(pharmacist: Pharmacist): Promise<void>;
+    create(pharmacist: Pharmacist): Promise<{ id: string }>;
 }

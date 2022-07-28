@@ -10,10 +10,11 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
     ) {}
 
     async create(pharmacist: Pharmacist) {
-        await this.prismaAdapter.pharmacist.create({
+        const persistedPharmacist = await this.prismaAdapter.pharmacist.create({
             data: {
                 ...pharmacist.toObject()
             }
         });
+        return { id: persistedPharmacist.id };
     }
 }
