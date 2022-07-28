@@ -14,7 +14,7 @@ export class CreatePharmacistUseCase implements UseCase<CreatePharmacistPayload,
         const pharmacist = Pharmacist.registerNew(payload);
         await this.pharmacistRepository.create(pharmacist);
         return {
-            message: "Pharmacist created successfully"
+            id: pharmacist.getId()
         }
     }
 }

@@ -9,7 +9,7 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
         private readonly prismaAdapter: PrismaAdapter
     ) {}
 
-    async create(pharmacist: Pharmacist): Promise<void> {
+    async create(pharmacist: Pharmacist) {
         await this.prismaAdapter.pharmacist.create({
             data: {
                 ...pharmacist.toObject()

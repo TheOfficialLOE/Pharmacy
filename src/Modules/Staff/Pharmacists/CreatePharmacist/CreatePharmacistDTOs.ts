@@ -6,5 +6,5 @@ export interface CreatePharmacistRequestDTO {
 
 export interface CreatePharmacistResponseDTO {
     // not permanent
-    message: string;
+    id: string;
 }
