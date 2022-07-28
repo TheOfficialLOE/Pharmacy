@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { IsUUID } from "class-validator";
 
 interface BaseEntityProps {
     id?: string;
@@ -20,6 +21,7 @@ export abstract class Entity<EntityProps> {
         this.props = props;
     }
 
+    @IsUUID()
     protected readonly _id: string;
 
     protected readonly props: EntityProps;
