@@ -8,15 +8,16 @@ import { JwtStrategy } from "../../libs/strategies/JwtStrategy";
 import { PharmacistRepository } from "./pharmacists/infrastructure/PharmacistRepository";
 import { PharmacistDITokens } from "../../libs/tokens/PharmacistDITokens";
 import { CreatePharmacistUseCase } from "./pharmacists/create-pharmacist/CreatePharmacistUseCase";
+import { ServerConfig } from "../../infrastructure/config/ServerConfig";
 
 @Module({
     imports: [
         PrismaModule,
         CqrsModule,
         JwtModule.register({
-            secret: "123",
+            secret: ServerConfig.ACCESS_TOKEN_SECRET,
             signOptions: {
-                expiresIn: "1h"
+                expiresIn: ServerConfig.ACCESS_TOKEN_EXPIRATION_IN_HOURS
             }
         })
     ],
