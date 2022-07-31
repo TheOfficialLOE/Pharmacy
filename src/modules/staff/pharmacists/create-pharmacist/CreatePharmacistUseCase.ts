@@ -12,7 +12,7 @@ export class CreatePharmacistUseCase implements UseCase<CreatePharmacistPayload,
 
     async execute(payload: CreatePharmacistPayload): Promise<CreatePharmacistResponseDTO> {
         const pharmacist = Pharmacist.registerNew(payload);
-        await this.pharmacistRepository.create(pharmacist);
+        // await this.pharmacistRepository.create(pharmacist);
         return {
             id: pharmacist.getId(),
             name: pharmacist.getName(),

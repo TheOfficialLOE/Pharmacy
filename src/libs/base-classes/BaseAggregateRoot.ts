@@ -1,14 +1,38 @@
-import { Entity } from "./BaseEntity";
-import { DomainEvent } from "./BaseDomainEvent";
+import { AggregateRoot } from "@nestjs/cqrs";
+import { IsUUID } from "class-validator";
+import { CreateEntityProps } from "./BaseEntity";
+import { v4 as uuidv4 } from "uuid";
 
-export class AggregateRoot<EntityProps> extends Entity<EntityProps> {
-    private _domainEvents: DomainEvent[] = [];
 
-    get domainEvents(): DomainEvent[] {
-        return this._domainEvents;
+// I'm sorry I didn't have any other choice
+export abstract class BaseAggregateRoot<AggregateProps> extends AggregateRoot {
+    protected constructor({id, props, updatedAt}: CreateEntityProps<AggregateProps>) {
+        super();
+        this.id = id || uuidv4();
+        this.updatedAt = updatedAt || null;
+        this.props = props;
     }
 
-    public clearEvents(): void {
-        this._domainEvents = [];
+    @IsUUID()
+    protected readonly id: string;
+
+    protected readonly props: AggregateProps;
+
+    protected readonly updatedAt: Date;
+
+    getId(): string {
+        return this.id;
+    }
+
+    getUpdatedAt(): Date {
+        return this.updatedAt;
+    }
+
+    toObject() {
+        return {
+            id: this.getId(),
+            updatedAt: this.getUpdatedAt(),
+            ...this.props
+        };
     }
 }

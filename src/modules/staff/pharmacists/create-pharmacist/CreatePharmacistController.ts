@@ -19,4 +19,9 @@ export class CreatePharmacistController {
             new CreatePharmacistCommand(name, password)
         );
     }
+
+    @Post("/temp")
+    async temp() {
+        return "temppppppp";
+    }
 }

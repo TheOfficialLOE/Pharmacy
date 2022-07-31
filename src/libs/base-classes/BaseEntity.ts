@@ -6,7 +6,7 @@ interface BaseEntityProps {
     updatedAt?: Date;
 }
 
-interface CreateEntityProps<T> extends BaseEntityProps {
+export interface CreateEntityProps<T> extends BaseEntityProps {
     props: T;
 }
 
@@ -16,20 +16,20 @@ export abstract class Entity<EntityProps> {
         props,
         updatedAt
     }: CreateEntityProps<EntityProps>) {
-        this._id = id || uuidv4();
+        this.id = id || uuidv4();
         this.updatedAt = updatedAt || null;
         this.props = props;
     }
 
     @IsUUID()
-    protected readonly _id: string;
+    protected readonly id: string;
 
     protected readonly props: EntityProps;
 
     protected readonly updatedAt: Date;
 
     getId(): string {
-        return this._id;
+        return this.id;
     }
 
     getUpdatedAt(): Date {
