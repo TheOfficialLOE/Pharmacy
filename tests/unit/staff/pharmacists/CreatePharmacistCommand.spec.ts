@@ -7,7 +7,7 @@ import { PharmacistDITokens } from "../../../../src/libs/tokens/PharmacistDIToke
 import {
     CreatePharmacistUseCase
 } from "../../../../src/modules/staff/pharmacists/create-pharmacist/CreatePharmacistUseCase";
-import { PrismaAdapter } from "../../../../src/infrastructure/Prisma/PrismaAdapter";
+import { PrismaAdapter } from "../../../../src/infrastructure/prisma/PrismaAdapter";
 import {
     PharmacistRepositoryPort
 } from "../../../../src/modules/staff/pharmacists/infrastructure/PharmacistRepositoryPort";

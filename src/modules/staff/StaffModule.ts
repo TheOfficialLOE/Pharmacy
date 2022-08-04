@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { CreatePharmacistController } from "./pharmacists/create-pharmacist/CreatePharmacistController";
 import { CqrsModule } from "@nestjs/cqrs";
-import { PrismaModule } from "../../infrastructure/Prisma/PrismaModule";
+import { PrismaModule } from "../../infrastructure/prisma/PrismaModule";
 import { JwtModule } from "@nestjs/jwt";
 import { CreatePharmacistCommandHandler } from "./pharmacists/create-pharmacist/CreatePharmacistCommand";
 import { JwtStrategy } from "../../libs/strategies/JwtStrategy";
