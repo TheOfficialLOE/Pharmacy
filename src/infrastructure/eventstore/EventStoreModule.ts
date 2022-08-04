@@ -1,11 +1,12 @@
 import { Global, Module, Provider } from "@nestjs/common";
 import { EventStoreDBClient } from "@eventstore/db-client";
+import { ServerConfig } from "../config/ServerConfig";
 
 const EventStore: Provider = {
     provide: EventStoreDBClient,
     useFactory: () => {
         return EventStoreDBClient.connectionString(
-            "esdb+discover://admin:123@localhost:2113?tls=false"
+            ServerConfig.EVENTSTOREDB_CLIENT
         );
     }
 }

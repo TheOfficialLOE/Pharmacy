@@ -16,4 +16,8 @@ export class ServerConfig {
     public static readonly ACCESS_TOKEN_EXPIRATION_IN_HOURS: string = get('API_ACCESS_TOKEN_EXPIRATION_IN_HOURS')
         .required()
         .asString();
+
+    public static readonly EVENTSTOREDB_CLIENT: string = get("EVENTSTOREDB_CLIENT")
+        .required()
+        .asString();
 }

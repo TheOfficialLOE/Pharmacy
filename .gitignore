@@ -41,5 +41,6 @@ lerna-debug.log*
 tests/mixin.spec.ts
 
 # Experimental
+src/infrastructure/eventstore/DrugDeciderV1.ts
 src/infrastructure/eventstore/DrugDecider.ts
 src/infrastructure/eventstore/UserDecider.ts

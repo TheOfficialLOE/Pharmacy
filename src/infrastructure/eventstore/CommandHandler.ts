@@ -7,12 +7,10 @@ import {
     ResolvedEvent,
     AppendResult
 } from "@eventstore/db-client";
-
-type Decider<S, E, C> = {
-    initialState: S
-    evolve: (state: S, event: E) => S
-    decide: (state: S, command: C) => E[]
-}
+import { Command } from "./base-classes/Command";
+import { Event } from "./base-classes/Event";
+import { State } from "./base-classes/State";
+import { Decider } from "./base-classes/Decider";
 
 async function* handleEmpty(eventStream: AsyncIterable<ResolvedEvent>) {
     try {
@@ -26,15 +24,11 @@ async function* handleEmpty(eventStream: AsyncIterable<ResolvedEvent>) {
     }
 }
 
-type Ctx = { $correlationId?: string; $causationId?: string; userId?: string }
-
-type Event = { type: string; data: any }
-
-export const createCommandHandler = <S, E extends Event, C>(
+export const createCommandHandler = <S extends State, E extends Event, C extends Command>(
     client: EventStoreDBClient,
     getStreamName: (command: C) => string,
     decider: Decider<S, E, C>,
-) => async (command: C, context?: Ctx) => {
+) => async (command: C) => {
     const streamName = getStreamName(command)
     let state = decider.initialState
     let revision: ExpectedRevision = NO_STREAM
@@ -46,7 +40,7 @@ export const createCommandHandler = <S, E extends Event, C>(
         jsonEvent({
             type: event.type,
             data: event.data,
-            metadata: context,
+            metadata: event.metadata,
         }),
     )
     await client.appendToStream(streamName, newEvents, {
