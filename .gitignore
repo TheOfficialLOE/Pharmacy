@@ -36,4 +36,10 @@ lerna-debug.log*
 
 # ENV
 .env
-.env.test
+
+# Test
+tests/mixin.spec.ts
+
+# Experimental
+src/infrastructure/eventstore/DrugDecider.ts
+src/infrastructure/eventstore/UserDecider.ts

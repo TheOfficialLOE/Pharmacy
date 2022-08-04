@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { StaffModule } from "./modules/staff/StaffModule";
+import { EventStoreModule } from "./infrastructure/eventstore/EventStoreModule";
 
 @Module({
   imports: [
-      StaffModule
+      EventStoreModule,
+      StaffModule,
   ],
 })
 export class AppModule {}
