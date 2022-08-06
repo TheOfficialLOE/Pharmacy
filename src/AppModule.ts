@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { StaffModule } from "./modules/staff/StaffModule";
-import { EventStoreModule } from "./infrastructure/eventstore/EventStoreModule";
+// import { EventStoreModule } from "./infrastructure/eventstore/EventStoreModule";
 
 @Module({
   imports: [
-      EventStoreModule,
+      // EventStoreModule,
       StaffModule,
   ],
 })

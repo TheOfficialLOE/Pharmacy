@@ -2,7 +2,7 @@ import { Test } from "@nestjs/testing";
 import {
     CreatePharmacistCommandHandler
 } from "../../../../src/modules/staff/pharmacists/create-pharmacist/CreatePharmacistCommand";
-import { PharmacistRepository } from "../../../../src/modules/staff/pharmacists/infrastructure/PharmacistRepository";
+import { PharmacistRepository } from "../../../../src/modules/staff/infrastructure/pharmacist/PharmacistRepository";
 import { PharmacistDITokens } from "../../../../src/libs/tokens/PharmacistDITokens";
 import {
     CreatePharmacistUseCase
@@ -10,9 +10,9 @@ import {
 import { PrismaAdapter } from "../../../../src/infrastructure/prisma/PrismaAdapter";
 import {
     PharmacistRepositoryPort
-} from "../../../../src/modules/staff/pharmacists/infrastructure/PharmacistRepositoryPort";
+} from "../../../../src/modules/staff/infrastructure/pharmacist/PharmacistRepositoryPort";
 import { v4 as uuidv4 } from "uuid";
-import { Pharmacist } from "../../../../src/modules/staff/pharmacists/domain/PharmacistEntity";
+import { Pharmacist } from "../../../../src/modules/staff/domain/pharmacist/PharmacistEntity";
 
 describe("CreatePharmacistCommand.spec.ts", () => {
     let commandHandler: CreatePharmacistCommandHandler;

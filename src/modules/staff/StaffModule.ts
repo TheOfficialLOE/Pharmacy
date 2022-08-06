@@ -1,16 +1,21 @@
-import { Module } from "@nestjs/common";
-import { CreatePharmacistController } from "./pharmacists/create-pharmacist/CreatePharmacistController";
-import { CqrsModule } from "@nestjs/cqrs";
 import { PrismaModule } from "../../infrastructure/prisma/PrismaModule";
 import { JwtModule } from "@nestjs/jwt";
-import { CreatePharmacistCommandHandler } from "./pharmacists/create-pharmacist/CreatePharmacistCommand";
-import { JwtStrategy } from "../../libs/strategies/JwtStrategy";
-import { PharmacistRepository } from "./pharmacists/infrastructure/PharmacistRepository";
-import { PharmacistDITokens } from "../../libs/tokens/PharmacistDITokens";
-import { CreatePharmacistUseCase } from "./pharmacists/create-pharmacist/CreatePharmacistUseCase";
+import { CqrsModule } from "@nestjs/cqrs";
+import { Module } from "@nestjs/common";
 import { ServerConfig } from "../../infrastructure/config/ServerConfig";
+import { JwtStrategy } from "../../libs/strategies/JwtStrategy";
+import { StaffRepository } from "./infrastructure/StaffRepository";
+import { PharmacistRepository } from "./infrastructure/pharmacist/PharmacistRepository";
+import { CreateStaffController } from "./commands/create-staff/CreateStaffController";
+import { CreateStaffCommandHandler } from "./commands/create-staff/command/CreateStaffCommandHandler";
+import { CreateStaffUseCaseImpl } from "./commands/create-staff/usecase/CreateStaffUseCaseImpl";
+import { AccountantRepository } from "./infrastructure/accountant/AccountantRepository";
+import { PrismaAdapter } from "../../infrastructure/prisma/PrismaAdapter";
 
 @Module({
+    controllers: [
+        CreateStaffController,
+    ],
     imports: [
         PrismaModule,
         CqrsModule,
@@ -23,16 +28,23 @@ import { ServerConfig } from "../../infrastructure/config/ServerConfig";
     ],
     providers: [
         JwtStrategy,
-        PharmacistRepository,
-        CreatePharmacistCommandHandler,
         {
-            provide: PharmacistDITokens.CreatePharmacist,
-            useFactory: (pharmacistRepository) => new CreatePharmacistUseCase(pharmacistRepository),
-            inject: [PharmacistRepository]
+            provide: "accountantRepo",
+            useFactory: (prismaAdapter) => new AccountantRepository(prismaAdapter),
+            inject: [PrismaAdapter]
+        },
+        {
+            provide: "pharmacistRepo",
+            useFactory: (prismaAdapter) => new PharmacistRepository(prismaAdapter),
+            inject: [PrismaAdapter]
+        },
+        StaffRepository,
+        CreateStaffCommandHandler,
+        {
+            provide: "impl",
+            useFactory: (staffRepo) => new CreateStaffUseCaseImpl(staffRepo),
+            inject: [StaffRepository]
         }
-    ],
-    controllers: [
-        CreatePharmacistController
     ],
 })
 export class StaffModule {}

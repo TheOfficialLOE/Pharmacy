@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PharmacistRepositoryPort } from "./PharmacistRepositoryPort";
-import { Pharmacist } from "../domain/PharmacistEntity";
+import { Pharmacist } from "../../domain/pharmacist/PharmacistEntity";
 import { PrismaAdapter } from "../../../../infrastructure/prisma/PrismaAdapter";
 
 @Injectable()
@@ -16,5 +16,9 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
             }
         });
         return { id: persistedPharmacist.id };
+    }
+
+    async findAll(): Promise<Pharmacist[]> {
+        return Promise.resolve([]);
     }
 }
