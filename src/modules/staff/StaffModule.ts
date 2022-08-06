@@ -11,6 +11,7 @@ import { CreateStaffCommandHandler } from "./commands/create-staff/command/Creat
 import { CreateStaffUseCaseImpl } from "./commands/create-staff/usecase/CreateStaffUseCaseImpl";
 import { AccountantRepository } from "./infrastructure/accountant/AccountantRepository";
 import { PrismaAdapter } from "../../infrastructure/prisma/PrismaAdapter";
+import { StaffDiTokens } from "../../libs/tokens/StaffDiTokens";
 
 @Module({
     controllers: [
@@ -28,23 +29,23 @@ import { PrismaAdapter } from "../../infrastructure/prisma/PrismaAdapter";
     ],
     providers: [
         JwtStrategy,
+        CreateStaffCommandHandler,
         {
-            provide: "accountantRepo",
+            provide: StaffDiTokens.CreateStaffUseCase,
+            useFactory: (staffRepo) => new CreateStaffUseCaseImpl(staffRepo),
+            inject: [StaffRepository]
+        },
+        {
+            provide: StaffDiTokens.AccountantRepository,
             useFactory: (prismaAdapter) => new AccountantRepository(prismaAdapter),
             inject: [PrismaAdapter]
         },
         {
-            provide: "pharmacistRepo",
+            provide: StaffDiTokens.PharmacistRepository,
             useFactory: (prismaAdapter) => new PharmacistRepository(prismaAdapter),
             inject: [PrismaAdapter]
         },
-        StaffRepository,
-        CreateStaffCommandHandler,
-        {
-            provide: "impl",
-            useFactory: (staffRepo) => new CreateStaffUseCaseImpl(staffRepo),
-            inject: [StaffRepository]
-        }
+        StaffRepository
     ],
 })
 export class StaffModule {}
