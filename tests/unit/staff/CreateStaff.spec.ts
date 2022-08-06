@@ -15,9 +15,9 @@ import { StaffRoles } from "../../../src/libs/enums/StaffRolesEnum";
 import { CreateStaffCommand } from "../../../src/modules/staff/commands/create-staff/command/CreateStaffCommand";
 
 describe("CreateStaff", () => {
-    let commandHandler: CreateStaffCommandHandler;
-    let staffRepository: StaffRepository;
     const mockId = uuidv4();
+    let staffRepository: StaffRepository;
+    let commandHandler: CreateStaffCommandHandler;
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
