@@ -1,18 +1,18 @@
 import { Test } from "@nestjs/testing";
 import {
     CreateStaffCommandHandler
-} from "../../../src/modules/staff/commands/create-staff/command/CreateStaffCommandHandler";
+} from "#modules/staff/commands/create-staff/command/CreateStaffCommandHandler";
 import {
     CreateStaffUseCaseImpl
-} from "../../../src/modules/staff/commands/create-staff/usecase/CreateStaffUseCaseImpl";
-import { StaffDiTokens } from "../../../src/libs/tokens/StaffDiTokens";
-import { StaffRepository } from "../../../src/modules/staff/infrastructure/StaffRepository";
-import { AccountantRepository } from "../../../src/modules/staff/infrastructure/accountant/AccountantRepository";
-import { PrismaAdapter } from "../../../src/infrastructure/prisma/PrismaAdapter";
-import { PharmacistRepository } from "../../../src/modules/staff/infrastructure/pharmacist/PharmacistRepository";
+} from "#modules/staff/commands/create-staff/usecase/CreateStaffUseCaseImpl";
+import { StaffDiTokens } from "#libs/tokens/StaffDiTokens";
+import { StaffRepository } from "#modules/staff/infrastructure/StaffRepository";
+import { AccountantRepository } from "#modules/staff/infrastructure/accountant/AccountantRepository";
+import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
+import { PharmacistRepository } from "#modules/staff/infrastructure/pharmacist/PharmacistRepository";
 import { v4 as uuidv4 } from "uuid";
-import { StaffRoles } from "../../../src/libs/enums/StaffRolesEnum";
-import { CreateStaffCommand } from "../../../src/modules/staff/commands/create-staff/command/CreateStaffCommand";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
+import { CreateStaffCommand } from "#modules/staff/commands/create-staff/command/CreateStaffCommand";
 
 describe("CreateStaff", () => {
     const mockId = uuidv4();
@@ -51,7 +51,11 @@ describe("CreateStaff", () => {
         jest.spyOn(staffRepository.accountant, "create")
             .mockResolvedValue({ id: mockId });
         const { id } = await commandHandler.execute(
-            new CreateStaffCommand("accountant", "password", StaffRoles.ACCOUNTANT)
+            new CreateStaffCommand({
+                name: "accountant",
+                password: "password",
+                role: StaffRoles.ACCOUNTANT
+            })
         );
         expect(id).toEqual(mockId);
     });
@@ -60,7 +64,11 @@ describe("CreateStaff", () => {
         jest.spyOn(staffRepository.pharmacist, "create")
             .mockResolvedValue({ id: mockId });
         const { id } = await commandHandler.execute(
-            new CreateStaffCommand("pharmacist", "password", StaffRoles.PHARMACIST)
+            new CreateStaffCommand({
+                name: "pharmacist",
+                password: "password",
+                role: StaffRoles.PHARMACIST
+            })
         );
         expect(id).toEqual(mockId);
     });

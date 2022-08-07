@@ -1,5 +1,5 @@
-import { Accountant } from "../../../domain/accountant/AccountantEntity";
-import { Pharmacist } from "../../../domain/pharmacist/PharmacistEntity";
+import { Accountant } from "#modules/staff/domain/accountant/AccountantEntity";
+import { Pharmacist } from "#modules/staff/domain/pharmacist/PharmacistEntity";
 
 export class GetStaffResponseDTO {
     constructor(staff: Accountant | Pharmacist) {

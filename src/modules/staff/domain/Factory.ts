@@ -1,5 +1,5 @@
-import { CreateStaffPayload } from "../commands/create-staff/payload/CreateStaffPayload";
-import { StaffRoles } from "../../../libs/enums/StaffRolesEnum";
+import { CreateStaffPayload } from "#modules/staff/commands/create-staff/payload/CreateStaffPayload";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { Accountant } from "./accountant/AccountantEntity";
 import { Pharmacist } from "./pharmacist/PharmacistEntity";
 

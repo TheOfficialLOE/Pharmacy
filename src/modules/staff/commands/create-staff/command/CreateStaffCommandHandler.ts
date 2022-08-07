@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateStaffUseCase } from "../usecase/CreateStaffUseCase";
 import { CreateStaffCommand } from "./CreateStaffCommand";
 import { Inject } from "@nestjs/common";
-import { StaffDiTokens } from "../../../../../libs/tokens/StaffDiTokens";
+import { StaffDiTokens } from "#libs/tokens/StaffDiTokens";
 
 @CommandHandler(CreateStaffCommand)
 export class CreateStaffCommandHandler implements ICommandHandler<CreateStaffCommand> {
@@ -13,8 +13,9 @@ export class CreateStaffCommandHandler implements ICommandHandler<CreateStaffCom
     ) {}
 
     async execute(command: CreateStaffCommand) {
-        let { name, password, role } = command;
-        password = await bcrypt.hash(password, 10);
-        return await this.createStaffUseCase.execute({ name, password, role });
+        command.payload.password = await bcrypt.hash(command.payload.password, 10);
+        return await this.createStaffUseCase.execute(
+            command.payload
+        );
     }
 }

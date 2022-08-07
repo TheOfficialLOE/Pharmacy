@@ -4,3 +4,5 @@ export enum StaffRoles {
     PHARMACIST = "PHARMACIST",
     ACCOUNTANT = "ACCOUNTANT",
 }
+
+export type ExcludedRoles = Exclude<StaffRoles, StaffRoles.OWNER>;

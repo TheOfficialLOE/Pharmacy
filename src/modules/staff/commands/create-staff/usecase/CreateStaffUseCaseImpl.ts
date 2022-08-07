@@ -2,11 +2,11 @@ import { CreateStaffUseCase } from "./CreateStaffUseCase";
 import { CreateStaffPayload } from "../payload/CreateStaffPayload";
 import { Injectable } from "@nestjs/common";
 import { StaffRepository } from "../../../infrastructure/StaffRepository";
-import { StaffRoles } from "../../../../../libs/enums/StaffRolesEnum";
-import { Accountant } from "../../../domain/accountant/AccountantEntity";
-import { Pharmacist } from "../../../domain/pharmacist/PharmacistEntity";
-import { CreateStaffResponseDTO } from "../dtos/CreateStaffResponseDTO";
-import { createStaffFactory } from "../../../domain/Factory";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
+import { Accountant } from "#modules/staff/domain/accountant/AccountantEntity";
+import { Pharmacist } from "#modules/staff/domain/pharmacist/PharmacistEntity";
+import { CreateStaffResponseDTO } from "#modules/staff/commands/create-staff/dtos/CreateStaffResponseDTO";
+import { createStaffFactory } from "#modules/staff/domain/Factory";
 
 @Injectable()
 export class CreateStaffUseCaseImpl implements CreateStaffUseCase {
@@ -24,5 +24,4 @@ export class CreateStaffUseCaseImpl implements CreateStaffUseCase {
                 return await this.staffRepository.pharmacist.create(pharmacist);
         }
     }
-
 }

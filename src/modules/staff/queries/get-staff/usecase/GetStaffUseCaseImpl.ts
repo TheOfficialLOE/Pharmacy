@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { GetStaffUseCase } from "./GetStaffUseCase";
 import { GetStaffPayload } from "../payload/GetStaffPayload";
 import { GetStaffResponseDTO } from "../dtos/GetStaffResponseDTO";
-import { StaffRoles } from "../../../../../libs/enums/StaffRolesEnum";
-import { StaffRepository } from "../../../infrastructure/StaffRepository";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
+import { StaffRepository } from "#modules/staff/infrastructure/StaffRepository";
 
 @Injectable()
 export class GetStaffUseCaseImpl implements GetStaffUseCase {
@@ -21,5 +21,4 @@ export class GetStaffUseCaseImpl implements GetStaffUseCase {
                 return new GetStaffResponseDTO(pharmacist);
         }
     }
-
 }

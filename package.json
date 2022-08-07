@@ -70,13 +70,18 @@
       "ts"
     ],
     "testRegex": ".*.spec.ts$",
-    "rootDir": "tests",
+    "rootDir": ".",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "moduleNameMapper": {
+      "#modules/(.*)$": "<rootDir>/src/modules/$1",
+      "#libs/(.*)$": "<rootDir>/src/libs/$1",
+      "#infrastructure/(.*)$": "<rootDir>/src/infrastructure/$1"
+    },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }

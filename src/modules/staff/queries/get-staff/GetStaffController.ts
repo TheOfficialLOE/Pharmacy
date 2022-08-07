@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
-import { AccessibleBy } from "../../../../libs/decorators/AccessibleByDecorator";
-import { StaffRoles } from "../../../../libs/enums/StaffRolesEnum";
+import { AccessibleBy } from "#libs/decorators/AccessibleByDecorator";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { GetStaffQuery } from "./query/GetStaffQuery";
 import { GetStaffRequestDTO } from "./dtos/GetStaffRequestDTO";
 

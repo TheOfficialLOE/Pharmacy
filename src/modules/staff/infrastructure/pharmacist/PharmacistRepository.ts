@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PharmacistRepositoryPort } from "./PharmacistRepositoryPort";
-import { Pharmacist } from "../../domain/pharmacist/PharmacistEntity";
-import { PrismaAdapter } from "../../../../infrastructure/prisma/PrismaAdapter";
+import { Pharmacist } from "#modules/staff/domain/pharmacist/PharmacistEntity";
+import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 
 @Injectable()
 export class PharmacistRepository implements PharmacistRepositoryPort {

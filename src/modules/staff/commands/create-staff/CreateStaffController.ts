@@ -11,8 +11,13 @@ export class CreateStaffController {
 
     @Post()
     async createStaff(@Body() body: CreateStaffRequestDTO ) {
+        const { name, password, role } = body;
         return await this.commandBus.execute(
-            new CreateStaffCommand(body.name, body.password, body.role)
+            new CreateStaffCommand({
+                name,
+                password,
+                role
+            })
         );
     }
 }

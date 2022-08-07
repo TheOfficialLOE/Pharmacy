@@ -1,4 +1,4 @@
-import { Entity } from "../../../libs/base-classes/BaseEntity";
+import { Entity } from "#libs/base-classes/BaseEntity";
 
 export interface CreateStaffEntityPayload {
     name: string;
