@@ -12,10 +12,14 @@ import { CreateStaffUseCaseImpl } from "./commands/create-staff/usecase/CreateSt
 import { AccountantRepository } from "./infrastructure/accountant/AccountantRepository";
 import { PrismaAdapter } from "../../infrastructure/prisma/PrismaAdapter";
 import { StaffDiTokens } from "../../libs/tokens/StaffDiTokens";
+import { QetStaffQueryHandler } from "./queries/get-staff/query/QetStaffQueryHandler";
+import { GetStaffUseCaseImpl } from "./queries/get-staff/usecase/GetStaffUseCaseImpl";
+import { GetStaffController } from "./queries/get-staff/GetStaffController";
 
 @Module({
     controllers: [
         CreateStaffController,
+        GetStaffController,
     ],
     imports: [
         PrismaModule,
@@ -33,6 +37,12 @@ import { StaffDiTokens } from "../../libs/tokens/StaffDiTokens";
         {
             provide: StaffDiTokens.CreateStaffUseCase,
             useFactory: (staffRepo) => new CreateStaffUseCaseImpl(staffRepo),
+            inject: [StaffRepository]
+        },
+        QetStaffQueryHandler,
+        {
+            provide: StaffDiTokens.GetStaffUseCase,
+            useFactory: (staffRepo) => new GetStaffUseCaseImpl(staffRepo),
             inject: [StaffRepository]
         },
         {

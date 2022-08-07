@@ -18,8 +18,13 @@ export class AccountantRepository implements AccountantRepositoryPort {
         return { id: accountant.getId() };
     }
 
-    async findAll(): Promise<Accountant[]> {
-        return Promise.resolve([]);
+    async find(id: string): Promise<Accountant> {
+        const accountant = await this.prismaAdapter.accountant.findUnique({
+            where: {
+                id
+            }
+        });
+        return Accountant.loadExisting(accountant)
     }
 
 }

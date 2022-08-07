@@ -13,6 +13,16 @@ export class Accountant extends StaffEntity<AccountantProps> {
         return new Accountant({ props });
     }
 
+    static loadExisting(props: { id: string, name: string, password: string, joinedAt: Date, updatedAt: Date }) {
+        const { id, updatedAt, joinedAt, ...rest } = props;
+        return new Accountant({
+            id: props.id,
+            props: rest,
+            updatedAt,
+            joinedAt
+        })
+    }
+
     getSuppliedDrugs() {
         return this.props.suppliedDrugs;
     }

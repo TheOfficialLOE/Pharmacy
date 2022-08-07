@@ -14,4 +14,17 @@ export class Pharmacist extends StaffEntity<PharmacistProps> {
         };
         return new Pharmacist({ props });
     }
+
+    static loadExisting(props: {
+        id: string, name: string, password: string, joinedAt: Date, updatedAt: Date,
+        todaySales: any, currentPatientCode: number
+    }) {
+        const { id, joinedAt, updatedAt, ...rest } = props;
+        return new Pharmacist({
+            id,
+            props: rest,
+            updatedAt,
+            joinedAt
+        })
+    }
 }

@@ -18,7 +18,13 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
         return { id: persistedPharmacist.id };
     }
 
-    async findAll(): Promise<Pharmacist[]> {
-        return Promise.resolve([]);
+    async find(id: string): Promise<Pharmacist> {
+        const pharmacist = await this.prismaAdapter.pharmacist.findUnique({
+            where: {
+                id
+            }
+        });
+        return Pharmacist.loadExisting(pharmacist)
     }
+
 }

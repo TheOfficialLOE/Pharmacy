@@ -3,6 +3,7 @@ import { Entity } from "../../../libs/base-classes/BaseEntity";
 export interface CreateStaffEntityPayload {
     name: string;
     password: string;
+    joinedAt? :Date;
 }
 
 export abstract class StaffEntity<StaffProps extends CreateStaffEntityPayload> extends Entity<StaffProps> {
@@ -10,7 +11,7 @@ export abstract class StaffEntity<StaffProps extends CreateStaffEntityPayload> e
 
     constructor(props) {
         super(props);
-        this.joinedAt = new Date();
+        this.joinedAt = props.joinedAt || new Date();
     }
 
     getName(): string {
