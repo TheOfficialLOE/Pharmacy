@@ -42,60 +42,70 @@ import {
     GetAccountantQueryHandler
 } from "#modules/staff/accountant/queries/get-accountant/query/GetAccountantQueryHandler";
 
-const accountant = {
+export const accountant = {
     controllers: [
         CreateAccountantController,
         GetAccountantController
     ],
-    providers: [
-        CreateAccountantCommandHandler,
-        GetAccountantQueryHandler,
-        {
-            provide: AccountantDiTokens.createAccountantUseCase,
-            useFactory: (accountantRepository) => new CreateAccountantUseCaseImpl(accountantRepository),
-            inject: [AccountantRepository]
-        },
-
-        {
-            provide: AccountantDiTokens.getAccountantUseCase,
-            useFactory: (accountantRepository) => new GetAccountantUseCaseImpl(accountantRepository),
-            inject: [AccountantRepository]
-        },
+    sharedProviders: [
+        PrismaAdapter,
         {
             provide: AccountantDiTokens.accountantRepository,
             useFactory: (prismaAdapter) => new AccountantRepository(prismaAdapter),
             inject: [PrismaAdapter]
         },
-        AccountantRepository,
-    ]
+    ],
+    providers: {
+        createAccountant: [
+            CreateAccountantCommandHandler,
+            {
+                provide: AccountantDiTokens.createAccountantUseCase,
+                useFactory: (accountantRepository) => new CreateAccountantUseCaseImpl(accountantRepository),
+                inject: [AccountantDiTokens.accountantRepository]
+            },
+        ],
+        getAccountant: [
+            GetAccountantQueryHandler,
+            {
+                provide: AccountantDiTokens.getAccountantUseCase,
+                useFactory: (accountantRepository) => new GetAccountantUseCaseImpl(accountantRepository),
+                inject: [AccountantDiTokens.accountantRepository]
+            },
+        ]
+    },
 };
 
-const pharmacist = {
+export const pharmacist = {
     controllers: [
         CreatePharmacistController,
         GetPharmacistController
     ],
-    providers: [
-        CreatePharmacistCommandHandler,
-        GetPharmacistQueryHandler,
-        {
-            provide: PharmacistDiTokens.createPharmacistUseCase,
-            useFactory: (pharmacistRepository) => new CreatePharmacistUseCaseImpl(pharmacistRepository),
-            inject: [PharmacistRepository]
-        },
-
-        {
-            provide: PharmacistDiTokens.getPharmacistUseCase,
-            useFactory: (pharmacistRepository) => new GetPharmacistUseCaseImpl(pharmacistRepository),
-            inject: [AccountantRepository]
-        },
+    sharedProviders: [
+        PrismaAdapter,
         {
             provide: PharmacistDiTokens.pharmacistRepository,
             useFactory: (prismaAdapter) => new PharmacistRepository(prismaAdapter),
             inject: [PrismaAdapter]
         },
-        PharmacistRepository,
-    ]
+    ],
+    providers: {
+        createPharmacist: [
+            CreatePharmacistCommandHandler,
+            {
+                provide: PharmacistDiTokens.createPharmacistUseCase,
+                useFactory: (pharmacistRepository) => new CreatePharmacistUseCaseImpl(pharmacistRepository),
+                inject: [PharmacistDiTokens.pharmacistRepository]
+            },
+        ],
+        getPharmacist: [
+            GetPharmacistQueryHandler,
+            {
+                provide: PharmacistDiTokens.getPharmacistUseCase,
+                useFactory: (pharmacistRepository) => new GetPharmacistUseCaseImpl(pharmacistRepository),
+                inject: [PharmacistDiTokens.pharmacistRepository]
+            },
+        ]
+    },
 }
 
 @Module({
@@ -115,8 +125,12 @@ const pharmacist = {
     ],
     providers: [
         JwtStrategy,
-        ...accountant.providers,
-        ...pharmacist.providers,
+        ...accountant.sharedProviders,
+        ...accountant.providers.createAccountant,
+        ...accountant.providers.getAccountant,
+        ...pharmacist.sharedProviders,
+        ...pharmacist.providers.createPharmacist,
+        ...pharmacist.providers.getPharmacist,
     ],
 })
 export class StaffModule {
