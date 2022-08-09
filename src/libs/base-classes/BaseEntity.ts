@@ -32,14 +32,14 @@ export abstract class Entity<EntityProps> {
         return this.id;
     }
 
-    getUpdatedAt(): Date {
+    getDateUpdated(): Date {
         return this.updatedAt;
     }
 
     toObject() {
         return {
             id: this.getId(),
-            updatedAt: this.getUpdatedAt(),
+            updatedAt: this.getDateUpdated(),
             ...this.props
         };
     }
