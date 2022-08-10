@@ -18,6 +18,7 @@ export class CreatePharmacistController {
     async createPharmacist(@Body() body: CreatePharmacistRequestDTO) {
         const command = new CreatePharmacistCommand(
             body.name,
+            body.email,
             body.password
         );
         return await this.commandBus.execute(

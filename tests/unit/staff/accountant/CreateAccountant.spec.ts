@@ -34,9 +34,10 @@ describe("CreateAccountant", () => {
             });
         const accountant = await createAccountantCommandHandler.execute({
             name: "John Doe",
+            email: "JohnDoe@Yahoo.com",
             password: "12345678"
         });
 
-        expect(accountant.id).toEqual(mockId)
+        expect(accountant.id).toEqual(mockId);
     });
 });

@@ -16,6 +16,7 @@ export class GetPharmacistUseCaseImpl implements GetPharmacistUseCase {
         const pharmacist = await this.pharmacistRepository.find(query.id);
         return {
             name: pharmacist.getName(),
+            email: pharmacist.getEmail(),
             joinedAt: pharmacist.getDateJoined(),
             updatedAt: pharmacist.getDateUpdated()
         };

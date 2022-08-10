@@ -16,7 +16,7 @@ export class Pharmacist extends StaffEntity<PharmacistProps> {
     }
 
     static loadExisting(props: {
-        id: string, name: string, password: string, joinedAt: Date, updatedAt: Date,
+        id: string, name: string, email:string, password: string, joinedAt: Date, updatedAt: Date,
         todaySales: any, currentPatientCode: number
     }) {
         const { id, joinedAt, updatedAt, ...rest } = props;

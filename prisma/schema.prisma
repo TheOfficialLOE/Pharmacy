@@ -13,6 +13,7 @@ datasource db {
 model Pharmacist {
   id                         String     @id @default(uuid())
   name                       String     @db.VarChar(30)
+  email                      String     @unique @db.VarChar(30)
   password                   String     @db.VarChar(200)
   joinedAt                   DateTime   @default(now())
   updatedAt                  DateTime?
@@ -24,6 +25,7 @@ model Pharmacist {
 model Accountant {
   id                         String     @id @default(uuid())
   name                       String     @db.VarChar(30)
+  email                      String     @unique @db.VarChar(30)
   password                   String     @db.VarChar(200)
   joinedAt                   DateTime   @default(now())
   updatedAt                  DateTime?

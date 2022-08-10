@@ -18,6 +18,7 @@ export class CreateAccountantController {
     async createAccountant(@Body() body: CreateAccountantRequestDTO) {
         const command = new CreateAccountantCommand(
             body.name,
+            body.email,
             body.password
         )
         return await this.commandBus.execute(command);

@@ -21,8 +21,9 @@ export class CreateAccountantUseCaseImpl implements CreateAccountantUseCase {
 
     async execute(command: CreateAccountantCommand): Promise<CreateAccountantResponseDTO> {
         const accountant = Accountant.registerNew({
-           name: command.name,
-           password: command.password
+            name: command.name,
+            email: command.email,
+            password: command.password
         });
         await this.accountantRepository.create(accountant);
         return {

@@ -34,9 +34,10 @@ describe("CreatePharmacist", () => {
             });
         const pharmacist = await createPharmacistCommandHandler.execute({
             name: "John Doe",
+            email: "JohnDoe@Yahoo.com",
             password: "12345678"
         });
 
-        expect(pharmacist.id).toEqual(mockId)
+        expect(pharmacist.id).toEqual(mockId);
     });
 });

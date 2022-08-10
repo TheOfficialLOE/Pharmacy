@@ -31,6 +31,7 @@ describe("GetPharmacist", () => {
                 return Pharmacist.loadExisting({
                     id: id,
                     name: "John Doe",
+                    email: "JohnDoe@Yahoo.com",
                     password: "12345678",
                     joinedAt: new Date(),
                     updatedAt: null,

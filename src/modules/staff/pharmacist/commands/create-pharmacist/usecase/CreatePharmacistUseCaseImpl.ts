@@ -21,8 +21,9 @@ export class CreatePharmacistUseCaseImpl implements CreatePharmacistUseCase {
 
     async execute(command: CreateAccountantCommand): Promise<CreatePharmacistResponseDTO> {
         const pharmacist = Pharmacist.registerNew({
-           name: command.name,
-           password: command.password
+            name: command.name,
+            email: command.email,
+            password: command.password
         });
         await this.pharmacistRepository.create(pharmacist);
         return {

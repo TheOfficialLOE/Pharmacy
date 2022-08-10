@@ -16,6 +16,7 @@ export class GetAccountantUseCaseImpl implements GetAccountantUseCase {
         const accountant = await this.accountantRepository.find(query.id);
         return {
             name: accountant.getName(),
+            email: accountant.getEmail(),
             joinedAt: accountant.getDateJoined(),
             updatedAt: accountant.getDateUpdated()
         };
