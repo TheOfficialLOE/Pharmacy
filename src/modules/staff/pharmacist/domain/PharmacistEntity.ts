@@ -1,30 +1,68 @@
-import { CreateStaffEntityPayload, StaffEntity } from "../../BaseStaffEntity";
+import { PersonalInformation } from "#modules/staff/shared/value-objects/PersonalInformation";
+import { History } from "#modules/staff/shared/value-objects/History";
+import { PharmacistEntityPayload } from "#modules/staff/pharmacist/domain/type/PharmacistEntityPayload";
+import { v4 as uuidv4 } from "uuid";
 
-export interface PharmacistProps extends CreateStaffEntityPayload {
-    todaySales: object; // todo
-    currentPatientCode: number;
-}
+export class Pharmacist {
+    private id: string;
+    private personalInformation: PersonalInformation;
+    private password: string;
+    private history: History;
+    private todaySales: {};
+    private currentPatientCode: number;
 
-export class Pharmacist extends StaffEntity<PharmacistProps> {
-    static registerNew(registerProps: CreateStaffEntityPayload) {
-        const props: PharmacistProps = {
-            ...registerProps,
-            todaySales: {},
-            currentPatientCode: null
-        };
-        return new Pharmacist({ props });
+    private constructor(payload: PharmacistEntityPayload) {
+        this.id = payload.id || uuidv4();
+        this.personalInformation = new PersonalInformation(
+            payload.name, payload.email
+        );
+        this.password = payload.password;
+        this.history = new History(
+            payload.joinedAt, payload.updatedAt
+        );
+        this.todaySales = payload.todaySales;
+        this.currentPatientCode = payload.currentPatientCode;
     }
 
-    static loadExisting(props: {
-        id: string, name: string, email:string, password: string, joinedAt: Date, updatedAt: Date,
-        todaySales: any, currentPatientCode: number
-    }) {
-        const { id, joinedAt, updatedAt, ...rest } = props;
-        return new Pharmacist({
-            id,
-            props: rest,
-            updatedAt,
-            joinedAt
-        })
+    public static new(payload: PharmacistEntityPayload): Pharmacist {
+        return new Pharmacist(payload);
+    }
+
+    public toObject(): Required<PharmacistEntityPayload> {
+        return {
+            id: this.id,
+            name: this.personalInformation.getName(),
+            email: this.personalInformation.getEmail(),
+            password: this.password,
+            joinedAt: this.history.getDateJoined(),
+            updatedAt: this.history.getDateJoined(),
+            todaySales: this.todaySales,
+            currentPatientCode: this.currentPatientCode
+        };
+    }
+
+
+    getId(): string {
+        return this.id;
+    }
+
+    getPersonalInformation(): PersonalInformation {
+        return this.personalInformation;
+    }
+
+    getPassword(): string {
+        return this.password;
+    }
+
+    getHistory(): History {
+        return this.history;
+    }
+
+    getTodaySales(): object {
+        return this.todaySales;
+    }
+
+    getCurrentPatientCode(): number {
+        return this.currentPatientCode;
     }
 }

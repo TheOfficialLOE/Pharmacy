@@ -24,7 +24,7 @@ export class AccountantRepository implements AccountantRepositoryPort {
                 id
             }
         });
-        return Accountant.loadExisting(accountant)
+        return Accountant.new(accountant);
     }
 
 }

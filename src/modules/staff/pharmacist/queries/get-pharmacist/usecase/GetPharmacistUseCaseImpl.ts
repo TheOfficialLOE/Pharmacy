@@ -15,10 +15,10 @@ export class GetPharmacistUseCaseImpl implements GetPharmacistUseCase {
     async execute(query: GetPharmacistQuery): Promise<GetPharmacistResponseDTO> {
         const pharmacist = await this.pharmacistRepository.find(query.id);
         return {
-            name: pharmacist.getName(),
-            email: pharmacist.getEmail(),
-            joinedAt: pharmacist.getDateJoined(),
-            updatedAt: pharmacist.getDateUpdated()
+            name: pharmacist.getPersonalInformation().getName(),
+            email: pharmacist.getPersonalInformation().getEmail(),
+            joinedAt: pharmacist.getHistory().getDateJoined(),
+            updatedAt: pharmacist.getHistory().getDateUpdated()
         };
     }
 }

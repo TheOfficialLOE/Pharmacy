@@ -15,10 +15,10 @@ export class GetAccountantUseCaseImpl implements GetAccountantUseCase {
     async execute(query: GetAccountantQuery): Promise<GetAccountantResponseDTO> {
         const accountant = await this.accountantRepository.find(query.id);
         return {
-            name: accountant.getName(),
-            email: accountant.getEmail(),
-            joinedAt: accountant.getDateJoined(),
-            updatedAt: accountant.getDateUpdated()
+            name: accountant.getPersonalInformation().getName(),
+            email: accountant.getPersonalInformation().getEmail(),
+            joinedAt: accountant.getHistory().getDateJoined(),
+            updatedAt: accountant.getHistory().getDateUpdated(),
         };
     }
 }

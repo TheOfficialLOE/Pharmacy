@@ -20,7 +20,7 @@ export class CreatePharmacistUseCaseImpl implements CreatePharmacistUseCase {
     ) {}
 
     async execute(command: CreateAccountantCommand): Promise<CreatePharmacistResponseDTO> {
-        const pharmacist = Pharmacist.registerNew({
+        const pharmacist = Pharmacist.new({
             name: command.name,
             email: command.email,
             password: command.password

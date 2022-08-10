@@ -24,7 +24,7 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
                 id
             }
         });
-        return Pharmacist.loadExisting(pharmacist)
+        return Pharmacist.new(pharmacist);
     }
 
 }

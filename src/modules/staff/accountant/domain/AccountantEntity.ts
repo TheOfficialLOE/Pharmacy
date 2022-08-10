@@ -1,29 +1,61 @@
-import { CreateStaffEntityPayload, StaffEntity } from "../../BaseStaffEntity";
+import { PersonalInformation } from "#modules/staff/shared/value-objects/PersonalInformation";
+import { History } from "#modules/staff/shared/value-objects/History";
+import { v4 as uuidv4 } from "uuid";
+import { AccountantEntityPayload } from "#modules/staff/accountant/domain/type/AccountantEntityPayload";
 
-export interface AccountantProps extends CreateStaffEntityPayload {
-    suppliedDrugs: any[] // todo
-}
+export class Accountant {
+    private id: string;
+    private personalInformation: PersonalInformation;
+    private password: string;
+    private history: History;
+    private suppliedDrugs: any[];
 
-export class Accountant extends StaffEntity<AccountantProps> {
-    static registerNew(registerProps: CreateStaffEntityPayload) {
-        const props: AccountantProps = {
-            ...registerProps,
-            suppliedDrugs: undefined
+    private constructor(payload: AccountantEntityPayload) {
+        this.id = payload.id || uuidv4();
+        this.personalInformation = new PersonalInformation(
+            payload.name, payload.email
+        );
+        this.password = payload.password;
+        this.history = new History(
+            payload.joinedAt, payload.updatedAt
+        );
+        this.suppliedDrugs = payload.suppliedDrugs || [];
+    };
+
+    public static new(payload: AccountantEntityPayload): Accountant {
+        return new Accountant(payload);
+    }
+
+    public toObject(): Required<AccountantEntityPayload> {
+        return {
+            id: this.id,
+            name: this.personalInformation.getName(),
+            email: this.personalInformation.getEmail(),
+            password: this.password,
+            joinedAt: this.history.getDateJoined(),
+            updatedAt: this.history.getDateUpdated(),
+            suppliedDrugs: this.suppliedDrugs
         };
-        return new Accountant({ props });
     }
 
-    static loadExisting(props: { id: string, name: string, email:string, password: string, joinedAt: Date, updatedAt: Date }) {
-        const { id, updatedAt, joinedAt, ...rest } = props;
-        return new Accountant({
-            id: props.id,
-            props: rest,
-            updatedAt,
-            joinedAt
-        })
+    public getId(): string {
+        return this.id;
     }
 
-    getSuppliedDrugs() {
-        return this.props.suppliedDrugs;
+
+    getPersonalInformation(): PersonalInformation {
+        return this.personalInformation;
+    }
+
+    getPassword(): string {
+        return this.password;
+    }
+
+    getHistory(): History {
+        return this.history;
+    }
+
+    getSuppliedDrugs(): any[] {
+        return this.suppliedDrugs;
     }
 }

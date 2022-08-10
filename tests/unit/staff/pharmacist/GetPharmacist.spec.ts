@@ -28,15 +28,15 @@ describe("GetPharmacist", () => {
     it('should get an accountant', async () => {
         jest.spyOn(pharmacistRepository, "find")
             .mockImplementation(async (id: string) => {
-                return Pharmacist.loadExisting({
+                return Pharmacist.new({
                     id: id,
                     name: "John Doe",
                     email: "JohnDoe@Yahoo.com",
                     password: "12345678",
                     joinedAt: new Date(),
                     updatedAt: null,
-                    currentPatientCode: null,
-                    todaySales: null
+                    todaySales: {},
+                    currentPatientCode: null
                 });
             });
 

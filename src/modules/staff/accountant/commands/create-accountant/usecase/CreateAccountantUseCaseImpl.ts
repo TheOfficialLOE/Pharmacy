@@ -20,7 +20,7 @@ export class CreateAccountantUseCaseImpl implements CreateAccountantUseCase {
     ) {}
 
     async execute(command: CreateAccountantCommand): Promise<CreateAccountantResponseDTO> {
-        const accountant = Accountant.registerNew({
+        const accountant = Accountant.new({
             name: command.name,
             email: command.email,
             password: command.password

@@ -28,7 +28,7 @@ describe("GetAccountant", () => {
     it('should get an accountant', async () => {
         jest.spyOn(accountantRepository, "find")
             .mockImplementation(async (id: string) => {
-                return Accountant.loadExisting({
+                return Accountant.new({
                     id: id,
                     name: "John Doe",
                     email: "JohnDoe@Yahoo.com",
