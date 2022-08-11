@@ -2,7 +2,7 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { GetPharmacistQuery } from "#modules/pharmacist/queries/get-pharmacist/query/GetPharmacistQuery";
 
-@Controller("staff/pharmacist")
+@Controller("pharmacist")
 export class GetPharmacistController {
     constructor(
         private readonly queryBus: QueryBus

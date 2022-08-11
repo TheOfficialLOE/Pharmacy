@@ -2,7 +2,7 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { GetAccountantQuery } from "#modules/accountant/queries/get-accountant/query/GetAccountantQuery";
 
-@Controller("staff/accountant")
+@Controller("accountant")
 export class GetAccountantController {
     constructor(
         private readonly queryBus: QueryBus

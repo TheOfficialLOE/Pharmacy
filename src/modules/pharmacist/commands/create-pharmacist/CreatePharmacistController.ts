@@ -8,7 +8,7 @@ import {
 } from "#modules/pharmacist/commands/create-pharmacist/dtos/CreatePharmacistRequestDTO";
 
 
-@Controller("staff/pharmacist")
+@Controller("pharmacist")
 export class CreatePharmacistController {
     constructor(
         private readonly commandBus: CommandBus

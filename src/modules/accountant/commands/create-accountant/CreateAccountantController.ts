@@ -8,7 +8,7 @@ import {
 } from "#modules/accountant/commands/create-accountant/dtos/CreateAccountantRequestDTO";
 
 
-@Controller("staff/accountant")
+@Controller("accountant")
 export class CreateAccountantController {
     constructor(
        private readonly commandBus: CommandBus
