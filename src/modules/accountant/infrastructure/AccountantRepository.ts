@@ -26,4 +26,13 @@ export class AccountantRepository implements AccountantRepositoryPort {
         });
         return Accountant.new(accountant);
     }
+
+    async findByEmail(email: string): Promise<Accountant> {
+        const accountant = await this.prismaAdapter.accountant.findUnique({
+            where: {
+                email
+            }
+        })
+        return Accountant.new(accountant);
+    }
 }

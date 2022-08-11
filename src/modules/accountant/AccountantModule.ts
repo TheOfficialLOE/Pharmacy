@@ -14,13 +14,16 @@ import { GetAccountantQueryHandler } from "#modules/accountant/queries/get-accou
 import { GetAccountantUseCaseImpl } from "#modules/accountant/queries/get-accountant/usecase/GetAccountantUseCaseImpl";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { CqrsModule } from "@nestjs/cqrs";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
+import { LoginAccountantController } from "#modules/accountant/queries/login/LoginAccountantController";
+import { LoginAccountantQueryHandler } from "#modules/accountant/queries/login/query/LoginAccountantQueryHandler";
 
 export const accountant = {
     controllers: [
         CreateAccountantController,
-        GetAccountantController
+        GetAccountantController,
+        LoginAccountantController,
     ],
     sharedProviders: [
         PrismaAdapter,
@@ -46,6 +49,9 @@ export const accountant = {
                 useFactory: (accountantRepository) => new GetAccountantUseCaseImpl(accountantRepository),
                 inject: [AccountantDiTokens.accountantRepository]
             },
+        ],
+        loginAccountant: [
+            LoginAccountantQueryHandler,
         ]
     },
 };
@@ -68,6 +74,7 @@ export const accountant = {
         ...accountant.sharedProviders,
         ...accountant.providers.createAccountant,
         ...accountant.providers.getAccountant,
+        ...accountant.providers.loginAccountant,
     ],
 })
 export class AccountantModule {

@@ -71,6 +71,7 @@
     ],
     "testRegex": ".*.spec.ts$",
     "rootDir": ".",
+    "globalSetup": "<rootDir>/tests/JestGlobalSetup.ts",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
