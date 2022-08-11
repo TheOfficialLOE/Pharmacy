@@ -16,6 +16,7 @@ import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { CqrsModule } from "@nestjs/cqrs";
 import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
+import { LoginPharmacistQueryHandler } from "#modules/pharmacist/queries/login/query/LoginPharmacistQueryHandler";
 
 
 export const pharmacist = {
@@ -47,6 +48,9 @@ export const pharmacist = {
                 useFactory: (pharmacistRepository) => new GetPharmacistUseCaseImpl(pharmacistRepository),
                 inject: [PharmacistDiTokens.pharmacistRepository]
             },
+        ],
+        loginPharmacist: [
+            LoginPharmacistQueryHandler,
         ]
     },
 }
@@ -68,7 +72,8 @@ export const pharmacist = {
     providers: [
         ...pharmacist.sharedProviders,
         ...pharmacist.providers.createPharmacist,
-        ...pharmacist.providers.getPharmacist
+        ...pharmacist.providers.getPharmacist,
+        ...pharmacist.providers.loginPharmacist,
     ]
 })
 export class PharmacistModule {

@@ -10,7 +10,6 @@ import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 
 describe("LoginAccountant", () => {
-
     let loginAccountantQueryHandler: LoginAccountantQueryHandler;
     let accountantRepository: AccountantRepository;
     let jwtService: JwtService;
@@ -19,10 +18,7 @@ describe("LoginAccountant", () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [
                 JwtModule.register({
-                    secret: ServerConfig.ACCESS_TOKEN_SECRET,
-                    signOptions: {
-                        expiresIn: ServerConfig.ACCESS_TOKEN_EXPIRATION_IN_HOURS
-                    }
+                    secret: ServerConfig.ACCESS_TOKEN_SECRET
                 }),
             ],
             providers: [

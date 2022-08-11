@@ -12,7 +12,7 @@ export class LoginAccountantQueryHandler implements IQueryHandler<LoginAccountan
         @Inject(AccountantDiTokens.accountantRepository)
         private readonly accountantRepository: AccountantRepositoryPort,
 
-        protected readonly jwtService: JwtService
+        private readonly jwtService: JwtService
     ) {}
 
     async execute(query: LoginAccountantQuery): Promise<any> {

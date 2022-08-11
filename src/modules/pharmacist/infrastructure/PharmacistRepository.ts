@@ -27,4 +27,12 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
         return Pharmacist.new(pharmacist);
     }
 
+    async findByEmail(email: string): Promise<Pharmacist> {
+        const pharmacist = await this.prismaAdapter.pharmacist.findUnique({
+            where: {
+                email
+            }
+        })
+        return Pharmacist.new(pharmacist);
+    }
 }
