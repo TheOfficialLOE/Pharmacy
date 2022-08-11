@@ -1,12 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { pharmacist } from "#modules/staff/StaffModule";
 import { v4 as uuidv4 } from "uuid";
 import {
     GetPharmacistQueryHandler
-} from "#modules/staff/pharmacist/queries/get-pharmacist/query/GetPharmacistQueryHandler";
-import { PharmacistRepository } from "#modules/staff/pharmacist/infrastructure/PharmacistRepository";
+} from "#modules/pharmacist/queries/get-pharmacist/query/GetPharmacistQueryHandler";
+import { PharmacistRepository } from "#modules/pharmacist/infrastructure/PharmacistRepository";
 import { PharmacistDiTokens } from "#libs/tokens/PharmacistDiTokens";
-import { Pharmacist } from "#modules/staff/pharmacist/domain/PharmacistEntity";
+import { Pharmacist } from "#modules/pharmacist/domain/PharmacistEntity";
+import { pharmacist } from "#modules/pharmacist/PharmacistModule";
 
 describe("GetPharmacist", () => {
     const mockId = uuidv4();
@@ -26,7 +26,7 @@ describe("GetPharmacist", () => {
     });
 
     it('should get an accountant', async () => {
-        jest.spyOn(pharmacistRepository, "find")
+        jest.spyOn(pharmacistRepository, "findById")
             .mockImplementation(async (id: string) => {
                 return Pharmacist.new({
                     id: id,

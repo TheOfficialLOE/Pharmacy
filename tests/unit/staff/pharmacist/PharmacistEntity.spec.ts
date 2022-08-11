@@ -1,4 +1,4 @@
-import { Pharmacist } from "#modules/staff/pharmacist/domain/PharmacistEntity";
+import { Pharmacist } from "#modules/pharmacist/domain/PharmacistEntity";
 
 describe("PharmacistEntity", () => {
     it('should create an entity', function () {

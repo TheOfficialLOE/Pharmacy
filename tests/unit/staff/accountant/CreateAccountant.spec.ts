@@ -1,12 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { accountant } from "#modules/staff/StaffModule";
-import { AccountantRepository } from "#modules/staff/accountant/infrastructure/AccountantRepository";
+import { AccountantRepository } from "#modules/accountant/infrastructure/AccountantRepository";
 import {
     CreateAccountantCommandHandler
-} from "#modules/staff/accountant/commands/create-accountant/command/CreateAccountantCommandHandler";
+} from "#modules/accountant/commands/create-accountant/command/CreateAccountantCommandHandler";
 import { v4 as uuidv4 } from "uuid";
-import { Accountant } from "#modules/staff/accountant/domain/AccountantEntity";
+import { Accountant } from "#modules/accountant/domain/AccountantEntity";
 import { AccountantDiTokens } from "#libs/tokens/AccountantDiTokens";
+import { accountant } from "#modules/accountant/AccountantModule";
 
 describe("CreateAccountant", () => {
     const mockId = uuidv4();

@@ -1,4 +1,4 @@
-import { Accountant } from "#modules/staff/accountant/domain/AccountantEntity";
+import { Accountant } from "#modules/accountant/domain/AccountantEntity";
 
 describe("AccountantEntity", () => {
     it('should create an entity', function () {

@@ -1,12 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { pharmacist } from "#modules/staff/StaffModule";
 import { v4 as uuidv4 } from "uuid";
 import {
     CreatePharmacistCommandHandler
-} from "#modules/staff/pharmacist/commands/create-pharmacist/command/CreatePharmacistCommandHandler";
-import { PharmacistRepository } from "#modules/staff/pharmacist/infrastructure/PharmacistRepository";
+} from "#modules/pharmacist/commands/create-pharmacist/command/CreatePharmacistCommandHandler";
+import { PharmacistRepository } from "#modules/pharmacist/infrastructure/PharmacistRepository";
 import { PharmacistDiTokens } from "#libs/tokens/PharmacistDiTokens";
-import { Pharmacist } from "#modules/staff/pharmacist/domain/PharmacistEntity";
+import { Pharmacist } from "#modules/pharmacist/domain/PharmacistEntity";
+import { pharmacist } from "#modules/pharmacist/PharmacistModule";
 
 describe("CreatePharmacist", () => {
     const mockId = uuidv4();
