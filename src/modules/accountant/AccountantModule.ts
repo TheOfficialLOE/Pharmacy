@@ -7,14 +7,10 @@ import { AccountantRepository } from "#modules/accountant/infrastructure/Account
 import {
     CreateAccountantCommandHandler
 } from "#modules/accountant/commands/create-accountant/command/CreateAccountantCommandHandler";
-import {
-    CreateAccountantUseCaseImpl
-} from "#modules/accountant/commands/create-accountant/usecase/CreateAccountantUseCaseImpl";
 import { GetAccountantQueryHandler } from "#modules/accountant/queries/get-accountant/query/GetAccountantQueryHandler";
-import { GetAccountantUseCaseImpl } from "#modules/accountant/queries/get-accountant/usecase/GetAccountantUseCaseImpl";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { CqrsModule } from "@nestjs/cqrs";
-import { JwtModule, JwtService } from "@nestjs/jwt";
+import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { LoginAccountantController } from "#modules/accountant/queries/login/LoginAccountantController";
 import { LoginAccountantQueryHandler } from "#modules/accountant/queries/login/query/LoginAccountantQueryHandler";
@@ -36,19 +32,9 @@ export const accountant = {
     providers: {
         createAccountant: [
             CreateAccountantCommandHandler,
-            {
-                provide: AccountantDiTokens.createAccountantUseCase,
-                useFactory: (accountantRepository) => new CreateAccountantUseCaseImpl(accountantRepository),
-                inject: [AccountantDiTokens.accountantRepository]
-            },
         ],
         getAccountant: [
             GetAccountantQueryHandler,
-            {
-                provide: AccountantDiTokens.getAccountantUseCase,
-                useFactory: (accountantRepository) => new GetAccountantUseCaseImpl(accountantRepository),
-                inject: [AccountantDiTokens.accountantRepository]
-            },
         ],
         loginAccountant: [
             LoginAccountantQueryHandler,

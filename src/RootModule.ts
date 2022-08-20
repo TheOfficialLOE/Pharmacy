@@ -3,10 +3,12 @@ import { AccountantModule } from "#modules/accountant/AccountantModule";
 import { PharmacistModule } from "#modules/pharmacist/PharmacistModule";
 
 @Module({
-  imports: [
-      // EventStoreModule,
-      AccountantModule,
-      PharmacistModule,
-  ],
+    imports: [
+        // EventStoreModule,
+        AccountantModule,
+        PharmacistModule,
+    ],
 })
-export class AppModule {}
+export class RootModule {
+
+}

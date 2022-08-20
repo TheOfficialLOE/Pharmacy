@@ -3,7 +3,7 @@ import { QueryBus } from "@nestjs/cqrs";
 import { LoginPharmacistRequestDTO } from "#modules/pharmacist/queries/login/dtos/LoginPharmacistRequestDTO";
 import { LoginPharmacistQuery } from "#modules/pharmacist/queries/login/query/LoginPharmacistQuery";
 
-@Controller("pharmacist")
+@Controller("auth/pharmacist")
 export class LoginPharmacistController {
     constructor(
         private readonly queryBus: QueryBus

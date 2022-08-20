@@ -7,22 +7,20 @@ import { PharmacistRepository } from "#modules/pharmacist/infrastructure/Pharmac
 import {
     CreatePharmacistCommandHandler
 } from "#modules/pharmacist/commands/create-pharmacist/command/CreatePharmacistCommandHandler";
-import {
-    CreatePharmacistUseCaseImpl
-} from "#modules/pharmacist/commands/create-pharmacist/usecase/CreatePharmacistUseCaseImpl";
 import { GetPharmacistQueryHandler } from "#modules/pharmacist/queries/get-pharmacist/query/GetPharmacistQueryHandler";
-import { GetPharmacistUseCaseImpl } from "#modules/pharmacist/queries/get-pharmacist/usecase/GetPharmacistUseCaseImpl";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { CqrsModule } from "@nestjs/cqrs";
 import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { LoginPharmacistQueryHandler } from "#modules/pharmacist/queries/login/query/LoginPharmacistQueryHandler";
+import { LoginPharmacistController } from "#modules/pharmacist/queries/login/LoginPharmacistController";
 
 
 export const pharmacist = {
     controllers: [
         CreatePharmacistController,
-        GetPharmacistController
+        GetPharmacistController,
+        LoginPharmacistController
     ],
     sharedProviders: [
         PrismaAdapter,
@@ -35,19 +33,9 @@ export const pharmacist = {
     providers: {
         createPharmacist: [
             CreatePharmacistCommandHandler,
-            {
-                provide: PharmacistDiTokens.createPharmacistUseCase,
-                useFactory: (pharmacistRepository) => new CreatePharmacistUseCaseImpl(pharmacistRepository),
-                inject: [PharmacistDiTokens.pharmacistRepository]
-            },
         ],
         getPharmacist: [
             GetPharmacistQueryHandler,
-            {
-                provide: PharmacistDiTokens.getPharmacistUseCase,
-                useFactory: (pharmacistRepository) => new GetPharmacistUseCaseImpl(pharmacistRepository),
-                inject: [PharmacistDiTokens.pharmacistRepository]
-            },
         ],
         loginPharmacist: [
             LoginPharmacistQueryHandler,

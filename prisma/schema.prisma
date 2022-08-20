@@ -11,29 +11,28 @@ datasource db {
 }
 
 model Pharmacist {
-  id                         String     @id @default(uuid())
+  id                         String     @id
   name                       String     @db.VarChar(30)
   email                      String     @unique @db.VarChar(30)
   password                   String     @db.VarChar(200)
-  joinedAt                   DateTime   @default(now())
+  createdAt                  DateTime   @default(now())
   updatedAt                  DateTime?
-  todaySales                 Json?      @db.Json()
   patient                    Patient?   @relation(fields: [currentPatientCode], references: [code])
   currentPatientCode         Int?       @unique
 }
 
 model Accountant {
-  id                         String     @id @default(uuid())
+  id                         String     @id
   name                       String     @db.VarChar(30)
   email                      String     @unique @db.VarChar(30)
   password                   String     @db.VarChar(200)
-  joinedAt                   DateTime   @default(now())
+  createdAt                  DateTime   @default(now())
   updatedAt                  DateTime?
   suppliedDrugs              Drug[]
 }
 
 model Drug {
-  id                         String     @id @default(uuid())
+  id                         String     @id
   name                       String     @db.VarChar(30)
   drugFamily                 String     @db.VarChar(20)
   manufactureDate            DateTime
@@ -45,11 +44,11 @@ model Drug {
   remaining                  Int
   supplier                   Accountant @relation(fields: [supplierId], references: [id]) 
   supplierId                 String
-  supplierOrginazation       String     @db.VarChar(30)
+  supplierOrganization       String     @db.VarChar(30)
 }
 
 model Patient {
-  id                         String     @id @default(uuid())
+  id                         String     @id
   name                       String     @db.VarChar(30)
   email                      String?    @unique
   visitedAt                  DateTime   @default(now())

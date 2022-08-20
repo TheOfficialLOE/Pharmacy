@@ -6,7 +6,7 @@ import { PharmacistRepository } from "#modules/pharmacist/infrastructure/Pharmac
 import { pharmacist } from "#modules/pharmacist/PharmacistModule";
 import { PharmacistDiTokens } from "#libs/tokens/PharmacistDiTokens";
 import * as bcrypt from "bcrypt";
-import { Pharmacist } from "#modules/pharmacist/domain/PharmacistEntity";
+import { Pharmacist } from "#modules/pharmacist/domain/PharmacistDomainEntity";
 import { v4 as uuidv4 } from "uuid";
 
 describe("LoginPharmacist", () => {

@@ -1,6 +1,5 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { Inject } from "@nestjs/common";
-import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { LoginPharmacistQuery } from "#modules/pharmacist/queries/login/query/LoginPharmacistQuery";
 import { PharmacistDiTokens } from "#libs/tokens/PharmacistDiTokens";
@@ -11,14 +10,13 @@ export class LoginPharmacistQueryHandler implements IQueryHandler<LoginPharmacis
     constructor(
         @Inject(PharmacistDiTokens.pharmacistRepository)
         private readonly pharmacistRepository: PharmacistRepositoryPort,
-
         private readonly jwtService: JwtService
     ) {}
 
     async execute(query: LoginPharmacistQuery): Promise<any> {
         const { email, password } = query;
         const pharmacist = await this.pharmacistRepository.findByEmail(query.email);
-        if (await bcrypt.compare(password, pharmacist.getPassword())) {
+        if (await pharmacist.password.compare(password)) {
             const token = this.jwtService.sign({
                 email,
                 role: "PHARMACIST"

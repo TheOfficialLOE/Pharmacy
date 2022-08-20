@@ -4,7 +4,7 @@ import {
 } from "#modules/accountant/queries/get-accountant/query/GetAccountantQueryHandler";
 import { AccountantRepository } from "#modules/accountant/infrastructure/AccountantRepository";
 import { AccountantDiTokens } from "#libs/tokens/AccountantDiTokens";
-import { Accountant } from "#modules/accountant/domain/AccountantEntity";
+import { Accountant } from "#modules/accountant/domain/AccountantDomainEntity";
 import { v4 as uuidv4 } from "uuid";
 import { accountant } from "#modules/accountant/AccountantModule";
 

@@ -1,18 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { PharmacistRepositoryPort } from "./PharmacistRepositoryPort";
-import { Pharmacist } from "#modules/pharmacist/domain/PharmacistEntity";
+import { Pharmacist } from "#modules/pharmacist/domain/PharmacistDomainEntity";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
+import { Repository } from "#libs/ddd/base-classes/BaseRepository";
+import { PharmacistMapper } from "#modules/pharmacist/domain/PharmacistMapper";
 
 @Injectable()
-export class PharmacistRepository implements PharmacistRepositoryPort {
+export class PharmacistRepository extends Repository<PharmacistMapper> implements PharmacistRepositoryPort {
     constructor(
-        private readonly prismaAdapter: PrismaAdapter
-    ) {}
+        protected readonly prismaAdapter: PrismaAdapter,
+    ) {
+        super(prismaAdapter, new PharmacistMapper());
+    }
 
     async create(pharmacist: Pharmacist) {
         const persistedPharmacist = await this.prismaAdapter.pharmacist.create({
             data: {
-                ...pharmacist.toObject()
+                ...this.mapper.toOrm(pharmacist)
             }
         });
         return { id: persistedPharmacist.id };
@@ -24,7 +28,7 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
                 id
             }
         });
-        return Pharmacist.new(pharmacist);
+        return this.mapper.toDomain(pharmacist);
     }
 
     async findByEmail(email: string): Promise<Pharmacist> {
@@ -33,6 +37,6 @@ export class PharmacistRepository implements PharmacistRepositoryPort {
                 email
             }
         })
-        return Pharmacist.new(pharmacist);
+        return this.mapper.toDomain(pharmacist);
     }
 }

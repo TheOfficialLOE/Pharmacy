@@ -28,7 +28,7 @@ CREATE TABLE `Accountant` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Drug` (
+CREATE TABLE `DrugEntity` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(30) NOT NULL,
     `drugFamily` VARCHAR(20) NOT NULL,
@@ -66,4 +66,4 @@ CREATE TABLE `Patient` (
 ALTER TABLE `Pharmacist` ADD CONSTRAINT `Pharmacist_currentPatientCode_fkey` FOREIGN KEY (`currentPatientCode`) REFERENCES `Patient`(`code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Drug` ADD CONSTRAINT `Drug_supplierId_fkey` FOREIGN KEY (`supplierId`) REFERENCES `Accountant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `DrugEntity` ADD CONSTRAINT `Drug_supplierId_fkey` FOREIGN KEY (`supplierId`) REFERENCES `Accountant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

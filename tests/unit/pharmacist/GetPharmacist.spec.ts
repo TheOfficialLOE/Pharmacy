@@ -5,7 +5,7 @@ import {
 } from "#modules/pharmacist/queries/get-pharmacist/query/GetPharmacistQueryHandler";
 import { PharmacistRepository } from "#modules/pharmacist/infrastructure/PharmacistRepository";
 import { PharmacistDiTokens } from "#libs/tokens/PharmacistDiTokens";
-import { Pharmacist } from "#modules/pharmacist/domain/PharmacistEntity";
+import { Pharmacist } from "#modules/pharmacist/domain/PharmacistDomainEntity";
 import { pharmacist } from "#modules/pharmacist/PharmacistModule";
 
 describe("GetPharmacist", () => {

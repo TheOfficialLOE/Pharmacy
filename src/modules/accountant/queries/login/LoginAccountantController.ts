@@ -3,7 +3,7 @@ import { LoginAccountantRequestDTO } from "#modules/accountant/queries/login/dto
 import { QueryBus } from "@nestjs/cqrs";
 import { LoginAccountantQuery } from "#modules/accountant/queries/login/query/LoginAccountantQuery";
 
-@Controller("accountant")
+@Controller("auth/accountant")
 export class LoginAccountantController {
     constructor(
         private readonly queryBus: QueryBus

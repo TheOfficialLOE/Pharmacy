@@ -4,7 +4,7 @@ import {
     CreateAccountantCommandHandler
 } from "#modules/accountant/commands/create-accountant/command/CreateAccountantCommandHandler";
 import { v4 as uuidv4 } from "uuid";
-import { Accountant } from "#modules/accountant/domain/AccountantEntity";
+import { Accountant } from "#modules/accountant/domain/AccountantDomainEntity";
 import { AccountantDiTokens } from "#libs/tokens/AccountantDiTokens";
 import { accountant } from "#modules/accountant/AccountantModule";
 
