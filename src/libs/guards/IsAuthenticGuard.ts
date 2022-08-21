@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { Reflector } from "@nestjs/core";
-import { StaffRoles } from "../enums/StaffRolesEnum";
+import { PharmacyRoles } from "../enums/StaffRolesEnum";
 import { RolesKey } from "../tokens/RolesKey";
 import { Request } from "express";
 
@@ -13,7 +13,7 @@ export class IsAuthenticGuard implements CanActivate {
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const request = <Request>context.switchToHttp().getRequest();
-        const requiredRoles = this.reflector.getAllAndOverride<StaffRoles[]>(RolesKey, [
+        const requiredRoles = this.reflector.getAllAndOverride<PharmacyRoles[]>(RolesKey, [
             context.getHandler(),
             context.getClass()
         ]);

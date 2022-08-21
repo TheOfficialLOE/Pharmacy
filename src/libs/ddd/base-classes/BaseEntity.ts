@@ -2,32 +2,10 @@ import { ID } from "#libs/ddd/value-objects/IdVO";
 import { DateVO } from "#libs/ddd/value-objects/DateVO";
 import { Guard } from "#libs/ddd/Guard";
 
-export interface BaseEntityProps {
-    id: ID;
-    createdAt: DateVO;
-    updatedAt: DateVO;
-}
-
-export interface CreateEntityProps<T> {
-    id?: ID;
-    props: T;
-    createdAt?: DateVO;
-    updatedAt?: DateVO;
-}
-
 export abstract class Entity<EntityProps> {
-    constructor(
-        {
-            id,
-            createdAt,
-            updatedAt,
-            props,
-        }
-        : CreateEntityProps<EntityProps>) {
+    constructor(props: EntityProps, id?: ID) {
         this._id = id || ID.generate();
         this.validateProps(props);
-        this._createdAt = createdAt || DateVO.now();
-        this._updatedAt = updatedAt || null;
         this.props = props;
         this.validate();
     }
@@ -36,20 +14,8 @@ export abstract class Entity<EntityProps> {
 
     protected readonly props: EntityProps;
 
-    protected readonly _createdAt: DateVO;
-
-    protected readonly _updatedAt: DateVO;
-
     public get id(): ID {
         return this._id;
-    }
-
-    public get createdAt(): DateVO {
-        return this._createdAt;
-    }
-
-    public get updatedAt(): DateVO {
-        return this._updatedAt;
     }
 
     public abstract validate(): void;

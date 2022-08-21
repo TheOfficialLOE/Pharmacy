@@ -1,8 +1,11 @@
 
-export enum StaffRoles {
+export enum PharmacyRoles {
     OWNER = "OWNER",
     PHARMACIST = "PHARMACIST",
     ACCOUNTANT = "ACCOUNTANT",
 }
 
-export type ExcludedRoles = Exclude<StaffRoles, StaffRoles.OWNER>;
+export enum StaffRoles {
+    PHARMACIST = "PHARMACIST",
+    ACCOUNTANT = "ACCOUNTANT",
+}

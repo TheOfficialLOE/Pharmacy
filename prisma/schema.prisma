@@ -10,39 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pharmacist {
+// Pharmacist - Assistant - Accountant
+
+// Inventory management
+// Insurance maybeeeeee
+
+model Staff {
   id                         String     @id
-  name                       String     @db.VarChar(30)
   email                      String     @unique @db.VarChar(30)
+  name                       String     @db.VarChar(30)
   password                   String     @db.VarChar(200)
-  createdAt                  DateTime   @default(now())
-  updatedAt                  DateTime?
-  patient                    Patient?   @relation(fields: [currentPatientCode], references: [code])
-  currentPatientCode         Int?       @unique
+  joinedAt                   DateTime   @default(now())
+  role                       Roles
+  inventory                  Inventory[]
+  patient                    Patient?
 }
 
-model Accountant {
-  id                         String     @id
-  name                       String     @db.VarChar(30)
-  email                      String     @unique @db.VarChar(30)
-  password                   String     @db.VarChar(200)
-  createdAt                  DateTime   @default(now())
-  updatedAt                  DateTime?
-  suppliedDrugs              Drug[]
-}
-
-model Drug {
+model Inventory {
   id                         String     @id
   name                       String     @db.VarChar(30)
   drugFamily                 String     @db.VarChar(20)
   manufactureDate            DateTime
   expirationDate             DateTime
   suppliedAt                 DateTime   @default(now())
-  updatedAt                  DateTime?
   requiresDoctorPrescription Boolean
   price                      Int
   remaining                  Int
-  supplier                   Accountant @relation(fields: [supplierId], references: [id]) 
+  supplier                   Staff      @relation(fields: [supplierId], references: [id]) 
   supplierId                 String
   supplierOrganization       String     @db.VarChar(30)
 }
@@ -52,10 +46,15 @@ model Patient {
   name                       String     @db.VarChar(30)
   email                      String?    @unique
   visitedAt                  DateTime   @default(now())
-  updatedAt                  DateTime?
   demandedDrugs              Json       @db.Json()
   hasValidDoctorPrescription Boolean
-  pharmacist                 Pharmacist?
+  pharmacist                 Staff?     @relation(fields: [pharmacistId], references: [id])
+  pharmacistId               String?    @unique
   code                       Int        @unique
   isOrderCompleted           Boolean    @default(false)
+}
+
+enum Roles {
+  PHARMACIST
+  ACCOUNTANT
 }

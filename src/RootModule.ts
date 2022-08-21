@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AccountantModule } from "#modules/accountant/AccountantModule";
-import { PharmacistModule } from "#modules/pharmacist/PharmacistModule";
+import { IdentityAndAccessModule } from "#modules/identity-and-access/IdentityAndAccessModule";
 
 @Module({
     imports: [
         // EventStoreModule,
-        AccountantModule,
-        PharmacistModule,
+        IdentityAndAccessModule
     ],
 })
 export class RootModule {
