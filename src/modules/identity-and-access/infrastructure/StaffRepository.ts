@@ -3,6 +3,7 @@ import { StaffMapper } from "#modules/identity-and-access/domain/StaffMapper";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
+import { PharmacyRoles, StaffRoles } from "#libs/enums/StaffRolesEnum";
 
 @Injectable()
 export class StaffRepository implements StaffRepositoryPort {
@@ -37,11 +38,12 @@ export class StaffRepository implements StaffRepositoryPort {
         return this.mapper.toDomain(staff);
     }
 
-    public async findByEmail(email: string): Promise<Staff> {
-        const staff = await this.prismaAdapter.staff.findUnique({
-            where: {
-                email
-            }
+    public async findByEmail(email: string, role: StaffRoles): Promise<Staff> {
+        const staff = await this.prismaAdapter.staff.findFirst({
+           where: {
+               email,
+               role
+           }
         });
         return this.mapper.toDomain(staff);
     }

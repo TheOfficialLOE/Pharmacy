@@ -1,4 +1,4 @@
 
-export class StaffDiTokens {
+export class IdentityAndAccessDiToken {
     public static staffRepository: string = "STAFF_REPOSITORY";
 }

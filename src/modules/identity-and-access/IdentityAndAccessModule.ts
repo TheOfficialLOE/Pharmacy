@@ -1,10 +1,10 @@
-import { Module } from "@nestjs/common";
+import { Module, ModuleMetadata, Provider } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { SignUpController } from "#modules/identity-and-access/commands/sign-up/SignUpController";
 import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
-import { StaffDiTokens } from "#libs/tokens/StaffDiTokens";
+import { IdentityAndAccessDiToken } from "#libs/tokens/IdentityAndAccessDiToken";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
 import { StaffMapper } from "#modules/identity-and-access/domain/StaffMapper";
@@ -13,7 +13,7 @@ import { JwtStrategy } from "#libs/strategies/JwtStrategy";
 import { SignInController } from "#modules/identity-and-access/queries/sign-in/SignInController";
 import { SignInQueryHandler } from "#modules/identity-and-access/queries/sign-in/SignInQueryHandler";
 
-@Module({
+export const identityAndAccess = {
     imports: [
         PrismaModule,
         CqrsModule,
@@ -25,22 +25,40 @@ import { SignInQueryHandler } from "#modules/identity-and-access/queries/sign-in
             }
         }),
     ],
-    controllers: [
-        SignUpController,
-        SignInController
-    ],
-    providers: [
-        SignUpCommandHandler,
-        SignInQueryHandler,
+    signUp: {
+        controller: SignUpController,
+        provider: SignUpCommandHandler,
+    },
+    signIn: {
+        controller: SignInController,
+        provider: SignInQueryHandler,
+    },
+    shared: [
         StaffMapper,
         {
-            provide: StaffDiTokens.staffRepository,
+            provide: IdentityAndAccessDiToken.staffRepository,
             useFactory: (prismaAdapter: PrismaAdapter, staffMapper: StaffMapper) =>
                 new StaffRepository(
-                prismaAdapter, staffMapper
-            ),
+                    prismaAdapter, staffMapper
+                ),
             inject: [PrismaAdapter, StaffMapper]
         }
+    ]
+}
+
+
+@Module({
+    imports: [
+        ...identityAndAccess.imports
+    ],
+    controllers: [
+        identityAndAccess.signUp.controller,
+        identityAndAccess.signIn.controller,
+    ],
+    providers: [
+        identityAndAccess.signUp.provider,
+        identityAndAccess.signIn.provider,
+        ...identityAndAccess.shared,
     ]
 })
 export class IdentityAndAccessModule {

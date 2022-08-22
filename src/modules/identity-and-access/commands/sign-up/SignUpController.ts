@@ -13,7 +13,7 @@ export class SignUpController {
 
     @AccessibleBy(PharmacyRoles.OWNER)
     @Post()
-    async createStaff(@Body() body: SignUpRequestDto) {
+    public async createStaff(@Body() body: SignUpRequestDto): Promise<{ id: string }> {
         const { email, name, password, role } = body;
         const command = new SignUpCommand(email, name, password, role);
         return await this.commandBus.execute(command);

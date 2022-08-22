@@ -18,7 +18,6 @@ export class SignUpRequestDto {
     @MaxLength(30)
     public readonly password: string;
 
-    @IsString()
     @IsEnum(StaffRoles)
     public readonly role: StaffRoles;
 }

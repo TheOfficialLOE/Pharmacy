@@ -12,7 +12,7 @@ export class SignInController {
     @Get()
     async findStaff(@Body() body: SignInRequestDto) {
         return await this.queryBus.execute(
-            new SignInQuery(body.email, body.password)
+            new SignInQuery(body.email, body.password, body.role)
         );
     }
 }

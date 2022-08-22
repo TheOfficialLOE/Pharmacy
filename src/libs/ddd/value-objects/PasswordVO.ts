@@ -19,7 +19,7 @@ export class Password extends ValueObject<string> {
     public async compare(plain: string): Promise<void> {
         const succeedInCompare = await bcrypt.compare(plain, this.value);
         if (!succeedInCompare)
-            throw "Incorrect password";
+            throw new Error("Incorrect password");
     }
 
     protected validate({ value }: DomainPrimitive<string>): void {
