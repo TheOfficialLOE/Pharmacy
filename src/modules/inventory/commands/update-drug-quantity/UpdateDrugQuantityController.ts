@@ -3,8 +3,8 @@ import { AccessibleBy } from "#libs/decorators/AccessibleByDecorator";
 import { PharmacyRoles } from "#libs/enums/StaffRolesEnum";
 import {
     UpdateDrugQuantityRequestDto
-} from "#modules/Inventory/commands/update-drug-quantity/UpdateDrugQuantityRequestDto";
-import { UpdateDrugQuantityCommand } from "#modules/Inventory/commands/update-drug-quantity/UpdateDrugQuantityCommand";
+} from "#modules/inventory/commands/update-drug-quantity/UpdateDrugQuantityRequestDto";
+import { UpdateDrugQuantityCommand } from "#modules/inventory/commands/update-drug-quantity/UpdateDrugQuantityCommand";
 import { InfrastructureDiTokens } from "#libs/tokens/InfrastructureDiTokens";
 import { CommandBusPort } from "#libs/message/CommandBusPort";
 

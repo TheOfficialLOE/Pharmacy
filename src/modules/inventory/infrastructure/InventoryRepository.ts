@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { InventoryRepositoryPort } from "#modules/Inventory/infrastructure/InventoryRepositoryPort";
-import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";
+import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/InventoryRepositoryPort";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
-import { DrugMapper } from "#modules/Inventory/domain/DrugMapper";
+import { DrugMapper } from "#modules/inventory/domain/DrugMapper";
 
 @Injectable()
 export class InventoryRepository implements InventoryRepositoryPort {

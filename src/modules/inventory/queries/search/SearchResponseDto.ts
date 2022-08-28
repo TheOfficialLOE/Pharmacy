@@ -1,4 +1,4 @@
-import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 
 export class SearchResponseDto {
     public drugId: string;

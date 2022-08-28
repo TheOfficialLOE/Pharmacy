@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { SearchQuery } from "#modules/Inventory/queries/search/SearchQuery";
+import { SearchQuery } from "#modules/inventory/queries/search/SearchQuery";
 import { Inject } from "@nestjs/common";
 import { InventoryDiTokens } from "#libs/tokens/InventoryDiTokens";
-import { InventoryRepositoryPort } from "#modules/Inventory/infrastructure/InventoryRepositoryPort";
-import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";
+import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/InventoryRepositoryPort";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 
 @QueryHandler(SearchQuery)
 export class SearchQueryHandler implements IQueryHandler<SearchQuery> {

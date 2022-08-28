@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { RegisterCargoCommand } from "#modules/Inventory/commands/new-drug-cargo/RegisterCargoCommand";
+import { RegisterCargoCommand } from "#modules/inventory/commands/new-drug-cargo/RegisterCargoCommand";
 import { Inject } from "@nestjs/common";
-import { InventoryRepositoryPort } from "#modules/Inventory/infrastructure/InventoryRepositoryPort";
-import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";
+import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/InventoryRepositoryPort";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 import { InventoryDiTokens } from "#libs/tokens/InventoryDiTokens";
 
 @CommandHandler(RegisterCargoCommand)

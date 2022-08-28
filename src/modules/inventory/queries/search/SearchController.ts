@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject } from "@nestjs/common";
-import { SearchQuery } from "#modules/Inventory/queries/search/SearchQuery";
-import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";
-import { SearchResponseDto } from "#modules/Inventory/queries/search/SearchResponseDto";
+import { SearchQuery } from "#modules/inventory/queries/search/SearchQuery";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
+import { SearchResponseDto } from "#modules/inventory/queries/search/SearchResponseDto";
 import { InfrastructureDiTokens } from "#libs/tokens/InfrastructureDiTokens";
 import { QueryBusPort } from "#libs/message/QueryBusPort";
 

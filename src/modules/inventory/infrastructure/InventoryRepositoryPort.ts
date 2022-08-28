@@ -1,5 +1,5 @@
 import { BaseRepositoryPort } from "#libs/ddd/base-classes/BaseRepositoryPort";
-import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 
 export interface InventoryRepositoryPort extends BaseRepositoryPort<Drug> {
     update(drug: Drug): Promise<void>;

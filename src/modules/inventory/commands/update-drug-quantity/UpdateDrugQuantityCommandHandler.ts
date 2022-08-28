@@ -1,10 +1,10 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import {
     UpdateDrugQuantityCommand
-} from "#modules/Inventory/commands/update-drug-quantity/UpdateDrugQuantityCommand";
+} from "#modules/inventory/commands/update-drug-quantity/UpdateDrugQuantityCommand";
 import { Inject } from "@nestjs/common";
 import { InventoryDiTokens } from "#libs/tokens/InventoryDiTokens";
-import { InventoryRepositoryPort } from "#modules/Inventory/infrastructure/InventoryRepositoryPort";
+import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/InventoryRepositoryPort";
 
 @CommandHandler(UpdateDrugQuantityCommand)
 export class UpdateDrugQuantityCommandHandler implements ICommandHandler<UpdateDrugQuantityCommand> {
