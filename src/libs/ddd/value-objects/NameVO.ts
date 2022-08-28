@@ -1,5 +1,6 @@
 import { DomainPrimitive, ValueObject } from "#libs/ddd/base-classes/BaseValueObject";
 
+// This is unnecessary!!!
 export class Name extends ValueObject<string> {
     constructor(value: string) {
         super({ value });

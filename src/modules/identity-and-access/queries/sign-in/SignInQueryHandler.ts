@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { SignInQuery } from "#modules/identity-and-access/queries/sign-in/SignInQuery";
 import { Inject } from "@nestjs/common";
-import { IdentityAndAccessDiToken } from "#libs/tokens/IdentityAndAccessDiToken";
+import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
@@ -9,11 +9,12 @@ import { Password } from "#libs/ddd/value-objects/PasswordVO";
 import { Email } from "#libs/ddd/value-objects/EmailVO";
 import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { JwtService } from "@nestjs/jwt";
+import { ID } from "#libs/ddd/value-objects/IdVO";
 
 @QueryHandler(SignInQuery)
 export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
     constructor(
-        @Inject(IdentityAndAccessDiToken.staffRepository)
+        @Inject(IdentityAndAccessDiTokens.staffRepository)
         private readonly staffRepository: StaffRepositoryPort,
         private readonly jwtService: JwtService
     ) {}
@@ -32,12 +33,12 @@ export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
     private async performLoginByQuery(query: SignInQuery): Promise<string> {
         const staff = await this.staffRepository.findByEmail(query.email, query.role);
         await staff.password.compare(query.password);
-        return this.generateToken(staff.email, staff.role);
+        return this.generateToken(staff.id, staff.role);
     }
 
-    private generateToken(email: Email, role: StaffRoles): string {
+    private generateToken(id: ID, role: StaffRoles): string {
         return this.jwtService.sign({
-            email: email.value,
+            id: id.value,
             role
         })
     }

@@ -4,7 +4,7 @@ import { SignUpController } from "#modules/identity-and-access/commands/sign-up/
 import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
-import { IdentityAndAccessDiToken } from "#libs/tokens/IdentityAndAccessDiToken";
+import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
 import { StaffMapper } from "#modules/identity-and-access/domain/StaffMapper";
@@ -17,7 +17,6 @@ export const identityAndAccess = {
     imports: [
         PrismaModule,
         CqrsModule,
-        JwtStrategy,
         JwtModule.register({
             secret: ServerConfig.ACCESS_TOKEN_SECRET,
             signOptions: {
@@ -34,9 +33,10 @@ export const identityAndAccess = {
         provider: SignInQueryHandler,
     },
     shared: [
+        JwtStrategy,
         StaffMapper,
         {
-            provide: IdentityAndAccessDiToken.staffRepository,
+            provide: IdentityAndAccessDiTokens.staffRepository,
             useFactory: (prismaAdapter: PrismaAdapter, staffMapper: StaffMapper) =>
                 new StaffRepository(
                     prismaAdapter, staffMapper

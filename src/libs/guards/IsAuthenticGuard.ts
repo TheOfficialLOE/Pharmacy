@@ -11,7 +11,7 @@ export class IsAuthenticGuard implements CanActivate {
         private readonly reflector: Reflector
     ) {}
 
-    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    public canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const request = <Request>context.switchToHttp().getRequest();
         const requiredRoles = this.reflector.getAllAndOverride<PharmacyRoles[]>(RolesKey, [
             context.getHandler(),

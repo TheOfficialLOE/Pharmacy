@@ -22,23 +22,23 @@ model Staff {
   password                   String     @db.VarChar(200)
   joinedAt                   DateTime   @default(now())
   role                       Roles
-  inventory                  Inventory[]
+  drugs                      Drug[]
   patient                    Patient?
 }
 
-model Inventory {
+model Drug {
   id                         String     @id
-  name                       String     @db.VarChar(30)
-  drugFamily                 String     @db.VarChar(20)
+  supplier                   Staff      @relation(fields: [supplierId], references: [id])
+  supplierId                 String
+  supplierOrganization       String     @db.VarChar(30)
+  drugName                   String     @db.VarChar(30)
+  drugFamily                 String     @db.VarChar(30)
   manufactureDate            DateTime
   expirationDate             DateTime
   suppliedAt                 DateTime   @default(now())
   requiresDoctorPrescription Boolean
   price                      Int
-  remaining                  Int
-  supplier                   Staff      @relation(fields: [supplierId], references: [id]) 
-  supplierId                 String
-  supplierOrganization       String     @db.VarChar(30)
+  quantity                   Int
 }
 
 model Patient {

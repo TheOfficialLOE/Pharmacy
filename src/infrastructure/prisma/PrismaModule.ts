@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { PrismaAdapter } from "./PrismaAdapter";
 
 @Module({
-    imports: [PrismaAdapter],
+    imports: [],
     providers: [PrismaAdapter],
     exports: [PrismaAdapter]
 })

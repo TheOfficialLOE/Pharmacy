@@ -40,7 +40,7 @@ export const createCommandHandler = <S extends State, E extends Event, C extends
         jsonEvent({
             type: event.type,
             data: event.data,
-            metadata: event.metadata,
+            // metadata: event.metadata,
         }),
     )
     await client.appendToStream(streamName, newEvents, {

@@ -1,10 +1,10 @@
 
 export abstract class Event<
     EventType extends string = string,
-    EventData extends Record<string, unknown> = Record<string, unknown>,
-    EventMetadata extends Record<string, unknown> = Record<string, unknown>
+    EventData extends Record<string, unknown> = Record<string, unknown>
     > {
-    abstract type: EventType;
-    abstract data: EventData;
-    metadata?: EventMetadata;
+    public type: EventType;
+    constructor(
+        public data: EventData
+    ) {}
 }

@@ -2,10 +2,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { SignUpCommandHandler } from "#modules/identity-and-access/commands/sign-up/SignUpCommandHandler";
 import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
 import { identityAndAccess } from "#modules/identity-and-access/IdentityAndAccessModule";
-import { IdentityAndAccessDiToken } from "#libs/tokens/IdentityAndAccessDiToken";
+import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { nanoid } from "nanoid";
-import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
 
 describe("SignUp", () => {
     let signUpCommandHandler: SignUpCommandHandler;
@@ -23,7 +22,7 @@ describe("SignUp", () => {
         }).compile();
 
         signUpCommandHandler = module.get(SignUpCommandHandler);
-        staffRepository = module.get(IdentityAndAccessDiToken.staffRepository);
+        staffRepository = module.get(IdentityAndAccessDiTokens.staffRepository);
     });
 
     describe("sign up with given role", () => {

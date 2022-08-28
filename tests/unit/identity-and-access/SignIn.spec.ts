@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { identityAndAccess } from "#modules/identity-and-access/IdentityAndAccessModule";
 import { SignInQueryHandler } from "#modules/identity-and-access/queries/sign-in/SignInQueryHandler";
 import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
-import { IdentityAndAccessDiToken } from "#libs/tokens/IdentityAndAccessDiToken";
+import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { nanoid } from "nanoid";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
@@ -13,7 +13,7 @@ import { DateVO } from "#libs/ddd/value-objects/DateVO";
 import { ID } from "#libs/ddd/value-objects/IdVO";
 import { JwtService } from "@nestjs/jwt";
 
-describe("SingIn", () => {
+describe("SignIn", () => {
     let signInQueryHandler: SignInQueryHandler
     let staffRepository: StaffRepository;
     let jwtService: JwtService;
@@ -30,7 +30,7 @@ describe("SingIn", () => {
         }).compile();
 
         signInQueryHandler = module.get(SignInQueryHandler);
-        staffRepository = module.get(IdentityAndAccessDiToken.staffRepository);
+        staffRepository = module.get(IdentityAndAccessDiTokens.staffRepository);
         jwtService = module.get(JwtService);
     });
 
@@ -73,6 +73,8 @@ describe("SingIn", () => {
         });
 
         it("should signIn and return a token", async () => {
+            const mockId = nanoid();
+
             jest.spyOn(staffRepository, "count")
                 .mockResolvedValue(1);
 
@@ -85,7 +87,7 @@ describe("SingIn", () => {
                     joinedAt: DateVO.now(),
                     currentPatient: null,
                     suppliedDrugs: []
-                }, new ID(nanoid())));
+                }, new ID(mockId)));
 
             const signInToken = await signInQueryHandler.execute({
                 email: "JohnDoe@gmail.com",
@@ -95,7 +97,7 @@ describe("SingIn", () => {
 
             const decoded = jwtService.verify(signInToken);
 
-            expect(decoded.email).toBe("JohnDoe@gmail.com");
+            expect(decoded.id).toBe(mockId);
             expect(decoded.role).toBe(StaffRoles.PHARMACIST);
         });
     });

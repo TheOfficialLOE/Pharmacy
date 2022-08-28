@@ -16,4 +16,4 @@ const EventStore: Provider = {
     providers: [EventStore],
     exports: [EventStore]
 })
-export class zEventStoreModule {}
+export class EventStoreModule {}
