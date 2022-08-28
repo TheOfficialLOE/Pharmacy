@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { IdentityAndAccessModule } from "#modules/identity-and-access/IdentityAndAccessModule";
 import { InventoryModule } from "#modules/Inventory/InventoryModule";
-// import { EventStoreModule } from "#infrastructure/eventstore/EventStoreModule";
+import { InfrastructureModule } from "#infrastructure/InfrastructureModule";
 
 @Module({
     imports: [
-        // EventStoreModule,
+        InfrastructureModule,
         IdentityAndAccessModule,
         InventoryModule,
     ],

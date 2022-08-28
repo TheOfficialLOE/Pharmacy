@@ -19,7 +19,7 @@ export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
         private readonly jwtService: JwtService
     ) {}
 
-    public async execute(query: SignInQuery): Promise<any> {
+    public async execute(query: SignInQuery): Promise<string> {
         await this.checkIfEmailAlreadyExistsAndThrow(query.email);
         return await this.performLoginByQuery(query)
     }

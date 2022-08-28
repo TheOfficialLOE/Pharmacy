@@ -1,7 +1,7 @@
 import { Module, ModuleMetadata, Provider } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { SignUpController } from "#modules/identity-and-access/commands/sign-up/SignUpController";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
@@ -14,16 +14,6 @@ import { SignInController } from "#modules/identity-and-access/queries/sign-in/S
 import { SignInQueryHandler } from "#modules/identity-and-access/queries/sign-in/SignInQueryHandler";
 
 export const identityAndAccess = {
-    imports: [
-        PrismaModule,
-        CqrsModule,
-        JwtModule.register({
-            secret: ServerConfig.ACCESS_TOKEN_SECRET,
-            signOptions: {
-                expiresIn: ServerConfig.ACCESS_TOKEN_EXPIRATION_IN_HOURS
-            }
-        }),
-    ],
     signUp: {
         controller: SignUpController,
         provider: SignUpCommandHandler,
@@ -33,7 +23,8 @@ export const identityAndAccess = {
         provider: SignInQueryHandler,
     },
     shared: [
-        JwtStrategy,
+        JwtService,
+        PrismaAdapter,
         StaffMapper,
         {
             provide: IdentityAndAccessDiTokens.staffRepository,
@@ -48,9 +39,6 @@ export const identityAndAccess = {
 
 
 @Module({
-    imports: [
-        ...identityAndAccess.imports
-    ],
     controllers: [
         identityAndAccess.signUp.controller,
         identityAndAccess.signIn.controller,

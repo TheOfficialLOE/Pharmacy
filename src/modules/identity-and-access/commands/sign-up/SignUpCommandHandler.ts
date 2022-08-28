@@ -12,10 +12,10 @@ export class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {
         private readonly staffRepository: StaffRepositoryPort
     ) {}
 
-    public async execute(command: SignUpCommand): Promise<{ id: string }> {
+    public async execute(command: SignUpCommand): Promise<void> {
         await this.checkIfEmailExistsOrThrow(command.email);
         const staff = await this.createStaffEntityFromCommand(command);
-        return await this.staffRepository.create(staff);
+        await this.staffRepository.create(staff);
     }
 
     private async checkIfEmailExistsOrThrow(email: string): Promise<void> {

@@ -17,10 +17,6 @@ import { SearchController } from "#modules/Inventory/queries/search/SearchContro
 import { SearchQueryHandler } from "#modules/Inventory/queries/search/SearchQueryHandler";
 
 const inventory = {
-    imports: [
-        PrismaModule,
-        CqrsModule,
-    ],
     registerCargo: {
         controller: RegisterCargoController,
         provider: RegisterCargoCommandHandler,
@@ -34,6 +30,7 @@ const inventory = {
         provider: SearchQueryHandler,
     },
     shared: [
+        PrismaAdapter,
         DrugMapper,
         {
             provide: InventoryDiTokens.inventoryRepository,
@@ -44,9 +41,6 @@ const inventory = {
 }
 
 @Module({
-    imports: [
-        ...inventory.imports
-    ],
     controllers: [
         inventory.registerCargo.controller,
         inventory.updateDrugQuantity.controller,
