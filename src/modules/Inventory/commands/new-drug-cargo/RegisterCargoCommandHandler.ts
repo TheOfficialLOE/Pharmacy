@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { RegisterCargoCommand } from "#modules/Inventory/commands/register-cargo/RegisterCargoCommand";
+import { RegisterCargoCommand } from "#modules/Inventory/commands/new-drug-cargo/RegisterCargoCommand";
 import { Inject } from "@nestjs/common";
 import { InventoryRepositoryPort } from "#modules/Inventory/infrastructure/InventoryRepositoryPort";
 import { Drug } from "#modules/Inventory/domain/DrugDomainEntity";

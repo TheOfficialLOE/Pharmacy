@@ -2,8 +2,8 @@ import { Body, Controller, Post } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { AccessibleBy } from "#libs/decorators/AccessibleByDecorator";
 import { PharmacyRoles } from "#libs/enums/StaffRolesEnum";
-import { RegisterCargoCommand } from "#modules/Inventory/commands/register-cargo/RegisterCargoCommand";
-import { RegisterCargoRequestDto } from "#modules/Inventory/commands/register-cargo/RegisterCargoRequestDto";
+import { RegisterCargoCommand } from "#modules/Inventory/commands/new-drug-cargo/RegisterCargoCommand";
+import { RegisterCargoRequestDto } from "#modules/Inventory/commands/new-drug-cargo/RegisterCargoRequestDto";
 import { ExtractToken } from "#libs/decorators/ExtractTokenDecorator";
 
 @Controller("inventory")
