@@ -33,12 +33,6 @@ const providers: Provider[] = [
     imports: [
         PrismaModule,
         CqrsModule,
-        JwtModule.register({
-            secret: ServerConfig.ACCESS_TOKEN_SECRET,
-            signOptions: {
-                expiresIn: ServerConfig.ACCESS_TOKEN_EXPIRATION_IN_HOURS
-            }
-        }),
     ],
     providers: providers,
     exports: [

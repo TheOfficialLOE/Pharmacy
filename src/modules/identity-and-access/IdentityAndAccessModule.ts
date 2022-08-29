@@ -14,6 +14,14 @@ import { SignInController } from "#modules/identity-and-access/queries/sign-in/S
 import { SignInQueryHandler } from "#modules/identity-and-access/queries/sign-in/SignInQueryHandler";
 
 export const identityAndAccess = {
+    imports: [
+        JwtModule.register({
+            secret: ServerConfig.ACCESS_TOKEN_SECRET,
+            signOptions: {
+                expiresIn: ServerConfig.ACCESS_TOKEN_EXPIRATION_IN_HOURS
+            }
+        }),
+    ],
     signUp: {
         controller: SignUpController,
         provider: SignUpCommandHandler,
@@ -23,7 +31,7 @@ export const identityAndAccess = {
         provider: SignInQueryHandler,
     },
     shared: [
-        JwtService,
+        JwtStrategy,
         PrismaAdapter,
         StaffMapper,
         {
@@ -39,6 +47,9 @@ export const identityAndAccess = {
 
 
 @Module({
+    imports: [
+        ...identityAndAccess.imports
+    ],
     controllers: [
         identityAndAccess.signUp.controller,
         identityAndAccess.signIn.controller,

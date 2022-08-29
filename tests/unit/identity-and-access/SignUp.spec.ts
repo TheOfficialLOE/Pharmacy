@@ -47,13 +47,14 @@ describe("SignUp", () => {
             .mockResolvedValue(0);
         jest.spyOn(staffRepository, "create")
             .mockResolvedValue({ id: mockId });
-        const foo = await signUpCommandHandler.execute({
+
+        const signUp = signUpCommandHandler.execute({
             email: "JohnDoe@gmail.com",
             name: "John Doe",
             password: "12345678",
             role: StaffRoles.PHARMACIST
         });
 
-        expect(foo.id).toBe(mockId);
+        await expect(signUp).resolves;
     });
 });
