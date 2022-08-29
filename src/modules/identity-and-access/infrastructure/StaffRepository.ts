@@ -12,13 +12,12 @@ export class StaffRepository implements StaffRepositoryPort {
         private readonly mapper: StaffMapper
     ) {}
 
-    public async create(staff: Staff): Promise<{ id: string }> {
+    public async create(staff: Staff): Promise<void> {
         const persistedStaff = await this.prismaAdapter.staff.create({
             data: {
                 ...this.mapper.toOrm(staff)
             }
         });
-        return { id: persistedStaff.id };
     }
 
     public async count(email: string): Promise<number> {

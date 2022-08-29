@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { RegisterCargoController } from "#modules/inventory/commands/new-drug-cargo/RegisterCargoController";
+import { RegisterCargoController } from "#modules/inventory/commands/register-cargo/RegisterCargoController";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
-import { RegisterCargoCommandHandler } from "#modules/inventory/commands/new-drug-cargo/RegisterCargoCommandHandler";
+import { RegisterCargoCommandHandler } from "#modules/inventory/commands/register-cargo/RegisterCargoCommandHandler";
 import { InventoryDiTokens } from "#libs/tokens/InventoryDiTokens";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { InventoryRepository } from "#modules/inventory/infrastructure/InventoryRepository";
@@ -16,7 +16,7 @@ import {
 import { SearchController } from "#modules/inventory/queries/search/SearchController";
 import { SearchQueryHandler } from "#modules/inventory/queries/search/SearchQueryHandler";
 
-const inventory = {
+export const inventory = {
     registerCargo: {
         controller: RegisterCargoController,
         provider: RegisterCargoCommandHandler,

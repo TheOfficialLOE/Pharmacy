@@ -19,15 +19,12 @@ export class InventoryRepository implements InventoryRepositoryPort {
         });
     }
 
-    public async create(entity: Drug): Promise<{ id: string }> {
+    public async create(entity: Drug): Promise<void> {
         const drug = await this.prismaAdapter.drug.create({
             data: {
                 ...this.mapper.toOrm(entity)
             }
         });
-        return {
-            id: drug.id
-        };
     }
 
     public async update(drug: Drug): Promise<void> {
