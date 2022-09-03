@@ -10,51 +10,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Pharmacist - Assistant - Accountant
-
-// Inventory management
-// Insurance maybeeeeee
-
 model Staff {
-  id                         String     @id
-  email                      String     @unique @db.VarChar(30)
-  name                       String     @db.VarChar(30)
-  password                   String     @db.VarChar(200)
-  joinedAt                   DateTime   @default(now())
+  id                         String       @id
+  email                      String       @unique @db.VarChar(30)
+  name                       String       @db.VarChar(30)
+  password                   String       @db.VarChar(200)
+  joinedAt                   DateTime     @default(now())
   role                       Roles
   drugs                      Drug[]
-  patient                    Patient?
+  // patient                    Patient?
 }
 
 model Drug {
-  id                         String     @id
-  supplier                   Staff      @relation(fields: [supplierId], references: [id])
+  id                         String       @id
+  supplier                   Staff        @relation(fields: [supplierId], references: [id])
   supplierId                 String
-  supplierOrganization       String     @db.VarChar(30)
-  drugName                   String     @db.VarChar(30)
-  drugFamily                 String     @db.VarChar(30)
+  supplierOrganization       String       @db.VarChar(30)
+  drugName                   String       @db.VarChar(30)
+  drugFamily                 String       @db.VarChar(30)
   manufactureDate            DateTime
   expirationDate             DateTime
-  suppliedAt                 DateTime   @default(now())
+  suppliedAt                 DateTime     @default(now())
   requiresDoctorPrescription Boolean
   price                      Int
   quantity                   Int
+  // cart                       Cart[]
 }
 
 model Patient {
-  id                         String     @id
-  name                       String     @db.VarChar(30)
-  email                      String?    @unique
-  visitedAt                  DateTime   @default(now())
-  demandedDrugs              Json       @db.Json()
-  hasValidDoctorPrescription Boolean
-  pharmacist                 Staff?     @relation(fields: [pharmacistId], references: [id])
-  pharmacistId               String?    @unique
-  code                       Int        @unique
-  isOrderCompleted           Boolean    @default(false)
+  id                         String       @id
+  code                       String       @unique
+  state                      PatientState
+  visitedAt                  DateTime     @default(now())
 }
+
+// model Patient {
+//   id                         String       @id
+//   name                       String       @db.VarChar(30)
+//   email                      String       @unique
+//   visitedAt                  DateTime     @default(now())
+//   hasValidDoctorPrescription Boolean
+//   pharmacist                 Staff?       @relation(fields: [pharmacistId], references: [id])
+//   pharmacistId               String?      @unique
+//   code                       Int          @unique
+//   state                      PatientState @default(WAITING)
+//   cart                       Cart[]
+// }
+
+// model Cart {
+//   id                         String       @id
+//   patient                    Patient      @relation(fields: [patientId], references: [id])
+//   patientId                  String
+//   drug                       Drug         @relation(fields: [drugId], references: [id])
+//   drugId                     String
+//   quantity                   Int
+//   isDone                     Boolean
+// }
 
 enum Roles {
   PHARMACIST
   ACCOUNTANT
+}
+
+enum PatientState {
+  WAITING
+  COMPLETED
 }

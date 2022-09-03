@@ -63,6 +63,13 @@ export class Drug extends Entity<DrugEntityProps> {
         this.props.quantity += amount;
     }
 
+    public decreaseQuantity(amount: number): void {
+        if (this.props.quantity - amount <= 0) {
+            throw new Error("...")
+        }
+        this.props.quantity -= amount;
+    }
+
     public validate(): void {
         /// ...
     }
