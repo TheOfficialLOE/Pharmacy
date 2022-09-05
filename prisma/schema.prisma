@@ -18,7 +18,7 @@ model Staff {
   joinedAt                   DateTime     @default(now())
   role                       Roles
   drugs                      Drug[]
-  // patient                    Patient?
+  patient                    Patient[]
 }
 
 model Drug {
@@ -34,38 +34,16 @@ model Drug {
   requiresDoctorPrescription Boolean
   price                      Int
   quantity                   Int
-  // cart                       Cart[]
 }
 
 model Patient {
   id                         String       @id
   code                       String       @unique
-  state                      PatientState
+  state                      PatientState @default(WAITING)
+  pharmacist                 Staff?       @relation(fields: [pharmacistId], references: [id])       
+  pharmacistId               String?
   visitedAt                  DateTime     @default(now())
 }
-
-// model Patient {
-//   id                         String       @id
-//   name                       String       @db.VarChar(30)
-//   email                      String       @unique
-//   visitedAt                  DateTime     @default(now())
-//   hasValidDoctorPrescription Boolean
-//   pharmacist                 Staff?       @relation(fields: [pharmacistId], references: [id])
-//   pharmacistId               String?      @unique
-//   code                       Int          @unique
-//   state                      PatientState @default(WAITING)
-//   cart                       Cart[]
-// }
-
-// model Cart {
-//   id                         String       @id
-//   patient                    Patient      @relation(fields: [patientId], references: [id])
-//   patientId                  String
-//   drug                       Drug         @relation(fields: [drugId], references: [id])
-//   drugId                     String
-//   quantity                   Int
-//   isDone                     Boolean
-// }
 
 enum Roles {
   PHARMACIST
@@ -74,5 +52,6 @@ enum Roles {
 
 enum PatientState {
   WAITING
+  IN_PROCESS
   COMPLETED
 }

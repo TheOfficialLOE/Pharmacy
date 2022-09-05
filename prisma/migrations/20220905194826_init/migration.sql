@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `patient` MODIFY `state` ENUM('NEW', 'WAITING', 'COMPLETED') NOT NULL DEFAULT 'NEW';

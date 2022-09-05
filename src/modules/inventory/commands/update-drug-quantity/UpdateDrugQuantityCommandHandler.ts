@@ -16,7 +16,7 @@ export class UpdateDrugQuantityCommandHandler implements ICommandHandler<UpdateD
     public async execute(command: UpdateDrugQuantityCommand): Promise<void> {
         await this.throwIfDrugNotFound(command.drugId);
         const drug = await this.inventoryRepository.findById(command.drugId);
-        drug.increaseQuantity(command.quantity);
+        drug.charge(command.quantity);
         await this.inventoryRepository.update(drug);
     }
 

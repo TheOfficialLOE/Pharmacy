@@ -8,6 +8,7 @@ import { Injectable } from "@nestjs/common";
 export class PatientMapper implements Mapper<DomainPatient, OrmPatient> {
     public toDomain(ormEntity: OrmPatient): DomainPatient {
         return new DomainPatient({
+            pharmacistId: ormEntity.pharmacistId,
             code: ormEntity.code,
             state: ormEntity.state as PatientState,
             visitedAt: ormEntity.visitedAt
@@ -17,6 +18,7 @@ export class PatientMapper implements Mapper<DomainPatient, OrmPatient> {
     public toOrm(domainEntity: DomainPatient): OrmPatient {
         return {
             id: domainEntity.id.value,
+            pharmacistId: domainEntity.pharmacistId,
             code: domainEntity.code,
             state: domainEntity.state,
             visitedAt: domainEntity.visitedAt

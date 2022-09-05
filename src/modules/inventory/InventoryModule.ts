@@ -1,7 +1,5 @@
 import { Module } from "@nestjs/common";
-import { CqrsModule } from "@nestjs/cqrs";
 import { RegisterCargoController } from "#modules/inventory/commands/register-cargo/RegisterCargoController";
-import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { RegisterCargoCommandHandler } from "#modules/inventory/commands/register-cargo/RegisterCargoCommandHandler";
 import { InventoryDiTokens } from "#libs/tokens/InventoryDiTokens";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
@@ -51,6 +49,9 @@ export const inventory = {
         inventory.updateDrugQuantity.provider,
         inventory.search.provider,
         ...inventory.shared,
+    ],
+    exports: [
+        InventoryDiTokens.inventoryRepository
     ]
 })
 export class InventoryModule {

@@ -2,7 +2,6 @@ import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/P
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { Patient } from "#modules/patient-service/domain/PatientDomainEntity";
 import { PatientMapper } from "#modules/patient-service/domain/PatientMapper";
-import { DomainEvents } from "#libs/ddd/domain-events/DomainEvents";
 
 export class PatientRepository implements PatientRepositoryPort {
     constructor(
@@ -24,11 +23,32 @@ export class PatientRepository implements PatientRepositoryPort {
                 ...this.mapper.toOrm(patient)
             }
         });
-        await DomainEvents.publishEvents(patient.id);
     }
-
 
     public async findById(id: string): Promise<Patient> {
         return Promise.resolve(undefined);
+    }
+
+    public async findFirst(): Promise<Patient> {
+        const patient = await this.prismaAdapter.patient.findFirst({
+            where: {
+                state: "WAITING"
+            },
+            orderBy: {
+                visitedAt: "asc"
+            }
+        });
+        return this.mapper.toDomain(patient);
+    }
+
+    public async update(patient: Patient): Promise<void> {
+        await this.prismaAdapter.patient.update({
+            where: {
+                id: patient.id.value
+            },
+            data: {
+                ...this.mapper.toOrm(patient)
+            }
+        });
     }
 }
