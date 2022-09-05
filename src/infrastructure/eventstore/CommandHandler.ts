@@ -26,8 +26,8 @@ async function* handleEmpty(eventStream: AsyncIterable<ResolvedEvent>) {
 
 export const createCommandHandler = <S extends State, E extends Event, C extends Command>(
     client: EventStoreDBClient,
-    getStreamName: (command: C) => string,
     decider: Decider<S, E, C>,
+    getStreamName: (command: C) => string,
 ) => async (command: C) => {
     const streamName = getStreamName(command)
     let state = decider.initialState

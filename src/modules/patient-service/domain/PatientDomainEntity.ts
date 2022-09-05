@@ -1,5 +1,6 @@
-import { Entity } from "#libs/ddd/base-classes/BaseEntity";
 import { nanoid } from "nanoid";
+import { AggregateRoot } from "#libs/ddd/base-classes/BaseAggregateRoot";
+import { NewPatientEvent } from "#modules/patient-service/domain/events/NewPatientEvent";
 
 export enum PatientState {
     WAITING = "WAITING",
@@ -12,14 +13,21 @@ export interface PatientEntityProps {
     visitedAt: Date;
 }
 
-export class Patient extends Entity<PatientEntityProps> {
+export class Patient extends AggregateRoot<PatientEntityProps> {
     public static new(): Patient {
         const props: PatientEntityProps = {
             code: nanoid(4),
             state: PatientState.WAITING,
             visitedAt: new Date()
         };
-        return new Patient(props);
+        const patient = new Patient(props);
+        patient.addEvent(
+            new NewPatientEvent({
+                aggregateId: patient.id.value,
+                code: patient.code
+            })
+        );
+        return patient;
     }
 
     public get code(): string {

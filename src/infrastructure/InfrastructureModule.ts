@@ -9,15 +9,6 @@ import { NestCommandBusAdapter } from "#infrastructure/message/NestCommandBusAda
 import { NestQueryBusAdapter } from "#infrastructure/message/NestQueryBusAdapter";
 
 const providers: Provider[] = [
-    /// don't need it yet...
-    // {
-    //     provide: EventStoreDBClient,
-    //     useFactory: () => {
-    //         return EventStoreDBClient.connectionString(
-    //             ServerConfig.EVENTSTOREDB_CLIENT
-    //         );
-    //     }
-    // },
     {
         provide: InfrastructureDiTokens.commandBus,
         useClass: NestCommandBusAdapter,
@@ -25,7 +16,15 @@ const providers: Provider[] = [
     {
         provide: InfrastructureDiTokens.queryBus,
         useClass: NestQueryBusAdapter,
-    }
+    },
+    {
+        provide: EventStoreDBClient,
+        useFactory: () => {
+            return EventStoreDBClient.connectionString(
+                ServerConfig.EVENTSTOREDB_CLIENT
+            );
+        }
+    },
 ];
 
 @Global()
@@ -38,6 +37,7 @@ const providers: Provider[] = [
     exports: [
         InfrastructureDiTokens.commandBus,
         InfrastructureDiTokens.queryBus,
+        EventStoreDBClient
     ]
 })
 export class InfrastructureModule {

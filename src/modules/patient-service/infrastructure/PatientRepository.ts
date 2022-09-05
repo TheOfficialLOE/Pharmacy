@@ -2,6 +2,7 @@ import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/P
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { Patient } from "#modules/patient-service/domain/PatientDomainEntity";
 import { PatientMapper } from "#modules/patient-service/domain/PatientMapper";
+import { DomainEvents } from "#libs/ddd/domain-events/DomainEvents";
 
 export class PatientRepository implements PatientRepositoryPort {
     constructor(
@@ -23,6 +24,7 @@ export class PatientRepository implements PatientRepositoryPort {
                 ...this.mapper.toOrm(patient)
             }
         });
+        await DomainEvents.publishEvents(patient.id);
     }
 
 
