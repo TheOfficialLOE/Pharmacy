@@ -8,6 +8,8 @@ import { NewPatientCommandHandler } from "#modules/patient-service/commands/new-
 import { InventoryModule } from "#modules/inventory/InventoryModule";
 import { NextPatientController } from "#modules/patient-service/commands/next-patient/NextPatientController";
 import { NextPatientCommandHandler } from "#modules/patient-service/commands/next-patient/NextPatientCommandHandler";
+import { PatientCalledEventHandler } from "#modules/patient-service/commands/next-patient/PatientCalledEventHandler";
+import { EventStoreDBClient } from "@eventstore/db-client";
 
 @Module({
     imports: [
@@ -22,6 +24,15 @@ import { NextPatientCommandHandler } from "#modules/patient-service/commands/nex
         PatientMapper,
         NewPatientCommandHandler,
         NextPatientCommandHandler,
+        {
+            provide: PatientCalledEventHandler,
+            useFactory: (eventStore: EventStoreDBClient): PatientCalledEventHandler => {
+                const eventHandler = new PatientCalledEventHandler(eventStore);
+                eventHandler.listen();
+                return eventHandler;
+            },
+            inject: [EventStoreDBClient]
+        },
         {
             provide: PatientDiTokens.patientRepository,
             useFactory: (prismaAdapter: PrismaAdapter, mapper: PatientMapper) => new PatientRepository(prismaAdapter, mapper),

@@ -17,6 +17,6 @@ export class NextPatientController {
         /// todo: check for doctor's prescription
         await this.commandBus.sendCommand(
             new NextPatientCommand(". . .")
-        )
+        );
     }
 }

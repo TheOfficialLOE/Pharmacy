@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
-import { Entity } from "#libs/ddd/base-classes/BaseEntity";
+import { AggregateRoot } from "#libs/ddd/base-classes/BaseAggregateRoot";
+import { PatientCalledEvent } from "#modules/patient-service/commands/next-patient/PatientCalledEvent";
 
 export enum PatientState {
     WAITING = "WAITING",
@@ -14,7 +15,7 @@ export interface PatientEntityProps {
     visitedAt: Date;
 }
 
-export class Patient extends Entity<PatientEntityProps> {
+export class Patient extends AggregateRoot<PatientEntityProps> {
     public static new(): Patient {
         const props: PatientEntityProps = {
             code: nanoid(4),
@@ -43,6 +44,11 @@ export class Patient extends Entity<PatientEntityProps> {
     public call(pharmacistId: string): void {
         this.props.pharmacistId = pharmacistId;
         this.props.state = PatientState.IN_PROCESS;
+        this.addEvent(new PatientCalledEvent({
+            aggregateId: this.id.value,
+            code: this.code,
+            pharmacistId: this.pharmacistId
+        }));
     }
 
     public validate(): void {

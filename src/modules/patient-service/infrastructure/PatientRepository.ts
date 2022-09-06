@@ -2,6 +2,7 @@ import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/P
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { Patient } from "#modules/patient-service/domain/PatientDomainEntity";
 import { PatientMapper } from "#modules/patient-service/domain/PatientMapper";
+import { DomainEvents } from "#libs/ddd/domain-events/DomainEvents";
 
 export class PatientRepository implements PatientRepositoryPort {
     constructor(
@@ -12,7 +13,7 @@ export class PatientRepository implements PatientRepositoryPort {
     public async count(id: string): Promise<number> {
         return await this.prismaAdapter.patient.count({
             where: {
-                id
+                state: "WAITING"
             }
         });
     }
@@ -48,6 +49,15 @@ export class PatientRepository implements PatientRepositoryPort {
             },
             data: {
                 ...this.mapper.toOrm(patient)
+            }
+        });
+        await DomainEvents.publishEvents(patient.id);
+    }
+
+    public async countWaiting(): Promise<number> {
+        return await this.prismaAdapter.patient.count({
+            where: {
+                state: "WAITING"
             }
         });
     }
