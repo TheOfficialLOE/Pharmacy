@@ -1,5 +1,5 @@
 import { Mapper } from "#libs/ddd/base-classes/BaseMapper";
-import { Patient as DomainPatient, PatientState } from "#modules/patient-service/domain/PatientDomainEntity";
+import { Patient as DomainPatient, PatientStatus } from "#modules/patient-service/domain/PatientDomainEntity";
 import { OrmPatient } from "#modules/patient-service/domain/PatientOrmEntity";
 import { ID } from "#libs/ddd/value-objects/IdVO";
 import { Injectable } from "@nestjs/common";
@@ -10,7 +10,7 @@ export class PatientMapper implements Mapper<DomainPatient, OrmPatient> {
         return new DomainPatient({
             pharmacistId: ormEntity.pharmacistId,
             code: ormEntity.code,
-            state: ormEntity.state as PatientState,
+            status: ormEntity.status as PatientStatus,
             visitedAt: ormEntity.visitedAt
         }, new ID(ormEntity.id));
     }
@@ -20,7 +20,7 @@ export class PatientMapper implements Mapper<DomainPatient, OrmPatient> {
             id: domainEntity.id.value,
             pharmacistId: domainEntity.pharmacistId,
             code: domainEntity.code,
-            state: domainEntity.state,
+            status: domainEntity.status,
             visitedAt: domainEntity.visitedAt
         };
     }

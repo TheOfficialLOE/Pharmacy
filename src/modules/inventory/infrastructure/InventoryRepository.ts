@@ -11,7 +11,7 @@ export class InventoryRepository implements InventoryRepositoryPort {
         private readonly mapper: DrugMapper
     ) {}
 
-    public async countById(id: string): Promise<number> {
+    public async count(id: string): Promise<number> {
         return await this.prismaAdapter.drug.count({
             where: {
                 id

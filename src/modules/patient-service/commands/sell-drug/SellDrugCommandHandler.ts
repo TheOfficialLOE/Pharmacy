@@ -15,14 +15,22 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
         private readonly patientRepository: PatientRepositoryPort
     ) {}
 
-    public async execute(command: SellDrugCommand): Promise<any> {
-        for (const demandedDrug of command.demandedDrugs) {
+    public async execute(command: SellDrugCommand): Promise<void> {
+        await this.sellDrugs(command.demandedDrugs);
+        await this.completeOrder(command.patientCode, command.demandedDrugs);
+    }
+
+    private async sellDrugs(demandedDrugs: { drugId: string, quantity: number }[]) {
+        for (const demandedDrug of demandedDrugs) {
             const drug = await this.inventoryRepository.findById(demandedDrug.drugId);
             drug.sell(demandedDrug.quantity);
             await this.inventoryRepository.update(drug);
         }
-        const patient = await this.patientRepository.findByCode(command.patientCode);
-        patient.complete(command.demandedDrugs);
+    }
+
+    private async completeOrder(patientCode: string, demandedDrugs: { drugId: string, quantity: number }[]) {
+        const patient = await this.patientRepository.findByCode(patientCode);
+        patient.complete(demandedDrugs);
         await this.patientRepository.update(patient);
     }
 }

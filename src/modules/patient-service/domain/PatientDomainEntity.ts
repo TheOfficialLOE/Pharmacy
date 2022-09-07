@@ -3,7 +3,7 @@ import { AggregateRoot } from "#libs/ddd/base-classes/BaseAggregateRoot";
 import { PatientCalledEvent } from "#modules/patient-service/commands/next-patient/PatientCalledEvent";
 import { SoldDrugEvent } from "#modules/patient-service/commands/sell-drug/SoldDrugEvent";
 
-export enum PatientState {
+export enum PatientStatus {
     WAITING = "WAITING",
     IN_PROCESS = "IN_PROCESS",
     COMPLETED = "COMPLETED"
@@ -12,7 +12,7 @@ export enum PatientState {
 export interface PatientEntityProps {
     pharmacistId?: string;
     code: string;
-    state: PatientState;
+    status: PatientStatus;
     visitedAt: Date;
 }
 
@@ -20,7 +20,7 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
     public static new(): Patient {
         const props: PatientEntityProps = {
             code: nanoid(4),
-            state: PatientState.WAITING,
+            status: PatientStatus.WAITING,
             visitedAt: new Date()
         };
         return new Patient(props);
@@ -34,8 +34,8 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
         return this.props.code;
     }
 
-    public get state(): PatientState {
-        return this.props.state;
+    public get status(): PatientStatus {
+        return this.props.status;
     }
 
     public get visitedAt(): Date {
@@ -44,7 +44,7 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
 
     public call(pharmacistId: string): void {
         this.props.pharmacistId = pharmacistId;
-        this.props.state = PatientState.IN_PROCESS;
+        this.props.status = PatientStatus.IN_PROCESS;
         this.addEvent(new PatientCalledEvent({
             aggregateId: this.id.value,
             pharmacistId: this.pharmacistId,
@@ -52,14 +52,14 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
         }));
     }
 
-    public complete(drugs: any): void {
-        this.props.state = PatientState.COMPLETED;
+    public complete(drugs: { drugId: string, quantity: number }[]): void {
+        this.props.status = PatientStatus.COMPLETED;
         this.addEvent(new SoldDrugEvent({
             aggregateId: this.id.value,
             pharmacistId: this.pharmacistId,
             code: this.code,
             demandedDrugs: drugs
-        }))
+        }));
     }
 
     public validate(): void {

@@ -27,7 +27,7 @@ describe("SignUp", () => {
 
     describe("sign up with given role", () => {
         it("should throw if email is already taken", async () => {
-            jest.spyOn(staffRepository, "countById")
+            jest.spyOn(staffRepository, "count")
                 .mockResolvedValue(1);
 
             await expect(signUpCommandHandler.execute({
@@ -43,7 +43,7 @@ describe("SignUp", () => {
 
     it("should return an id after signup", async () => {
         const mockId = nanoid();
-        jest.spyOn(staffRepository, "countById")
+        jest.spyOn(staffRepository, "count")
             .mockResolvedValue(0);
         jest.spyOn(staffRepository, "create")
             .mockResolvedValue({ id: mockId });

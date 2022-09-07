@@ -11,38 +11,38 @@ datasource db {
 }
 
 model Staff {
-  id                         String       @id
-  email                      String       @unique @db.VarChar(30)
-  name                       String       @db.VarChar(30)
-  password                   String       @db.VarChar(200)
-  joinedAt                   DateTime     @default(now())
+  id                         String        @id
+  email                      String        @unique @db.VarChar(30)
+  name                       String        @db.VarChar(30)
+  password                   String        @db.VarChar(200)
+  joinedAt                   DateTime      @default(now())
   role                       Roles
   drugs                      Drug[]
   patient                    Patient[]
 }
 
 model Drug {
-  id                         String       @id
-  supplier                   Staff        @relation(fields: [supplierId], references: [id])
+  id                         String        @id
+  supplier                   Staff         @relation(fields: [supplierId], references: [id])
   supplierId                 String
-  supplierOrganization       String       @db.VarChar(30)
-  drugName                   String       @db.VarChar(30)
-  drugFamily                 String       @db.VarChar(30)
+  supplierOrganization       String        @db.VarChar(30)
+  drugName                   String        @db.VarChar(30)
+  drugFamily                 String        @db.VarChar(30)
   manufactureDate            DateTime
   expirationDate             DateTime
-  suppliedAt                 DateTime     @default(now())
+  suppliedAt                 DateTime      @default(now())
   requiresDoctorPrescription Boolean
   price                      Int
   quantity                   Int
 }
 
 model Patient {
-  id                         String       @id
-  code                       String       @unique
-  state                      PatientState @default(WAITING)
-  pharmacist                 Staff?       @relation(fields: [pharmacistId], references: [id])       
+  id                         String        @id
+  code                       String        @unique
+  status                     PatientStatus @default(WAITING)
+  pharmacist                 Staff?        @relation(fields: [pharmacistId], references: [id])
   pharmacistId               String?
-  visitedAt                  DateTime     @default(now())
+  visitedAt                  DateTime      @default(now())
 }
 
 enum Roles {
@@ -50,7 +50,7 @@ enum Roles {
   ACCOUNTANT
 }
 
-enum PatientState {
+enum PatientStatus {
   WAITING
   IN_PROCESS
   COMPLETED

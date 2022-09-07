@@ -25,7 +25,7 @@ describe("UpdateDrug", () => {
     });
 
     it('should throw if drug not found', async () => {
-        jest.spyOn(inventoryRepository, "countById")
+        jest.spyOn(inventoryRepository, "count")
             .mockResolvedValue(0);
 
         await expect(() => updateDrugQuantityCommandHandler.execute({
@@ -37,7 +37,7 @@ describe("UpdateDrug", () => {
     });
 
     it('should update the quantity', async () => {
-        jest.spyOn(inventoryRepository, "countById")
+        jest.spyOn(inventoryRepository, "count")
             .mockResolvedValue(1);
         jest.spyOn(inventoryRepository, "findById")
             .mockResolvedValue(Drug.register({
