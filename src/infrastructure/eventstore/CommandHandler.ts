@@ -7,10 +7,10 @@ import {
     ResolvedEvent,
     AppendResult
 } from "@eventstore/db-client";
-import { Command } from "./base-classes/Command";
-import { Event } from "./base-classes/Event";
-import { State } from "./base-classes/State";
-import { Decider } from "./base-classes/Decider";
+import { Command } from "./base-types/Command";
+import { Event } from "./base-types/Event";
+import { State } from "./base-types/State";
+import { Decider } from "./base-types/Decider";
 
 async function* handleEmpty(eventStream: AsyncIterable<ResolvedEvent>) {
     try {
@@ -36,6 +36,7 @@ export const createCommandHandler = <S extends State, E extends Event, C extends
         state = decider.evolve(state, (event as any) as E)
         revision = event.revision
     }
+    console.log(state);
     const newEvents = decider.decide(state, command).map(event =>
         jsonEvent({
             type: event.type,

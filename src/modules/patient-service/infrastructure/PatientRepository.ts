@@ -61,4 +61,13 @@ export class PatientRepository implements PatientRepositoryPort {
             }
         });
     }
+
+    public async findByCode(code: string): Promise<Patient> {
+        const patient = await this.prismaAdapter.patient.findUnique({
+            where: {
+                code
+            }
+        });
+        return this.mapper.toDomain(patient);
+    }
 }

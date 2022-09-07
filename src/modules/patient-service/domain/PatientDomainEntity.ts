@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { AggregateRoot } from "#libs/ddd/base-classes/BaseAggregateRoot";
 import { PatientCalledEvent } from "#modules/patient-service/commands/next-patient/PatientCalledEvent";
+import { HandlePatientEvent } from "#modules/patient-service/commands/handle-patient/HandlePatientEvent";
 
 export enum PatientState {
     WAITING = "WAITING",
@@ -46,9 +47,19 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
         this.props.state = PatientState.IN_PROCESS;
         this.addEvent(new PatientCalledEvent({
             aggregateId: this.id.value,
+            pharmacistId: this.pharmacistId,
             code: this.code,
-            pharmacistId: this.pharmacistId
         }));
+    }
+
+    public complete(drugs: any): void {
+        this.props.state = PatientState.COMPLETED;
+        this.addEvent(new HandlePatientEvent({
+            aggregateId: this.id.value,
+            pharmacistId: this.pharmacistId,
+            code: this.code,
+            demandedDrugs: drugs
+        }))
     }
 
     public validate(): void {

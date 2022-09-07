@@ -1,15 +1,15 @@
 import { DomainEventHandler } from "#libs/ddd/domain-events/BaseDomainEventHandler";
-import { PatientCalledEvent } from "#modules/patient-service/commands/next-patient/PatientCalledEvent";
+import { HandlePatientEvent } from "#modules/patient-service/commands/handle-patient/HandlePatientEvent";
 import { AppendResult, EventStoreDBClient } from "@eventstore/db-client";
 import { createCommandHandler } from "#infrastructure/eventstore/CommandHandler";
 import { PatientCommands, PatientDecider } from "#modules/patient-service/Experimental";
 
-export class PatientCalledEventHandler extends DomainEventHandler {
+export class HandlePatientEventHandler extends DomainEventHandler {
     private readonly handle1: (command: PatientCommands) => Promise<AppendResult>
     constructor(
         private readonly eventStore: EventStoreDBClient
     ) {
-        super(PatientCalledEvent);
+        super(HandlePatientEvent);
         this.handle1 = createCommandHandler(
             eventStore,
             new PatientDecider(),
@@ -17,12 +17,13 @@ export class PatientCalledEventHandler extends DomainEventHandler {
         )
     }
 
-    public async handle(event: PatientCalledEvent): Promise<void> {
+    public async handle(event: HandlePatientEvent): Promise<void> {
         await this.handle1({
-            type: "CALL_PATIENT",
+            type: "HANDLE_PATIENT",
             data: {
                 pharmacistId: event.pharmacistId,
-                code: event.code
+                code: event.code,
+                demandedDrugs: event.demandedDrugs
             }
         });
     }

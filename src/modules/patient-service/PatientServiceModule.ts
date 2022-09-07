@@ -10,6 +10,11 @@ import { NextPatientController } from "#modules/patient-service/commands/next-pa
 import { NextPatientCommandHandler } from "#modules/patient-service/commands/next-patient/NextPatientCommandHandler";
 import { PatientCalledEventHandler } from "#modules/patient-service/commands/next-patient/PatientCalledEventHandler";
 import { EventStoreDBClient } from "@eventstore/db-client";
+import {
+    HandlePatientCommandHandler
+} from "#modules/patient-service/commands/handle-patient/HandlePatientCommandHandler";
+import { HandlePatientEventHandler } from "#modules/patient-service/commands/handle-patient/HandlePatientEventHandler";
+import { HandlePatientController } from "#modules/patient-service/commands/handle-patient/HandlePatientController";
 
 @Module({
     imports: [
@@ -18,16 +23,27 @@ import { EventStoreDBClient } from "@eventstore/db-client";
     controllers: [
         NewPatientController,
         NextPatientController,
+        HandlePatientController,
     ],
     providers: [
         PrismaAdapter,
         PatientMapper,
         NewPatientCommandHandler,
         NextPatientCommandHandler,
+        HandlePatientCommandHandler,
         {
             provide: PatientCalledEventHandler,
             useFactory: (eventStore: EventStoreDBClient): PatientCalledEventHandler => {
                 const eventHandler = new PatientCalledEventHandler(eventStore);
+                eventHandler.listen();
+                return eventHandler;
+            },
+            inject: [EventStoreDBClient]
+        },
+        {
+            provide: HandlePatientEventHandler,
+            useFactory: (eventStore: EventStoreDBClient): HandlePatientEventHandler => {
+                const eventHandler = new HandlePatientEventHandler(eventStore);
                 eventHandler.listen();
                 return eventHandler;
             },

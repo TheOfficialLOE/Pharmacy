@@ -65,7 +65,7 @@ export class Drug extends Entity<DrugEntityProps> {
 
     public sell(amount: number): void {
         if (this.props.quantity - amount <= 0) {
-            throw new Error("...")
+            throw new Error("Not enough drug in inventory")
         }
         this.props.quantity -= amount;
     }

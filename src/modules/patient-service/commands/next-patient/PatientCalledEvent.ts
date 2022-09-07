@@ -3,7 +3,7 @@ import { DomainEvent, DomainEventProps } from "#libs/ddd/domain-events/BaseDomai
 export class PatientCalledEvent extends DomainEvent {
     constructor(
         props: DomainEventProps<{
-            pharmacistId: string;
+            pharmacistId: string,
             code: string;
         }>
     ) {
