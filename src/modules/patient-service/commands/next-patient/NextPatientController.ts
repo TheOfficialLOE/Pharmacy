@@ -16,8 +16,6 @@ export class NextPatientController {
     @Post("next")
     @AccessibleBy(PharmacyRoles.PHARMACIST)
     public async nextPatient(@ExtractToken("id") pharmacistId: string) {
-        /// todo: error if no patient is available
-        /// todo: check for doctor's prescription
         await this.commandBus.sendCommand(
             new NextPatientCommand(pharmacistId)
         );
