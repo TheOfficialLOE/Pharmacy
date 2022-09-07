@@ -19,7 +19,7 @@ export class SoldDrugEventHandler extends DomainEventHandler {
 
     public async handle(event: SoldDrugEvent): Promise<void> {
         await this.createEvent({
-            type: "HANDLE_PATIENT",
+            type: "SELL_DRUG",
             data: {
                 pharmacistId: event.pharmacistId,
                 code: event.code,

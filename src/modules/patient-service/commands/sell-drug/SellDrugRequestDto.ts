@@ -16,6 +16,7 @@ export class SellDrugRequestDto {
     @Length(4)
     public readonly patientCode: string;
 
+    @IsDefined()
     @ValidateNested({ each: true })
     @Type(() => DemandedDrug)
     public readonly demandedDrugs: DemandedDrug[];

@@ -5,7 +5,7 @@ import { Decider } from "#infrastructure/eventstore/base-types/Decider";
 export type PatientCommands = Command<"CALL_PATIENT", {
     pharmacistId: string;
     code: string;
-}> | Command<"HANDLE_PATIENT", {
+}> | Command<"SELL_DRUG", {
     pharmacistId: string;
     code: string;
     demandedDrugs: { drugId: string, quantity: number }[];
@@ -13,7 +13,7 @@ export type PatientCommands = Command<"CALL_PATIENT", {
 
 export type PatientEvents = Event<"PATIENT_CALLED", {
     code: string;
-}> | Event<"PATIENT_HANDLED", {
+}> | Event<"SOLD_DRUG", {
     code: string;
     demandedDrugs: { drugId: string, quantity: number }[];
 }>;
@@ -38,7 +38,7 @@ export class PatientDecider implements Decider<PatientState, PatientEvents, Pati
                     type: "in_progress",
                     code: event.data.code
                 };
-            case "PATIENT_HANDLED":
+            case "SOLD_DRUG":
                 return {
                     type: "completed",
                     code: event.data.code
@@ -59,10 +59,10 @@ export class PatientDecider implements Decider<PatientState, PatientEvents, Pati
                     }
                 }];
             }
-            case "HANDLE_PATIENT": {
+            case "SELL_DRUG": {
                 if (state.type === "in_progress" && state.code === command.data.code) {
                     return [{
-                        type: "PATIENT_HANDLED",
+                        type: "SOLD_DRUG",
                         data: {
                             code: command.data.code,
                             demandedDrugs: command.data.demandedDrugs
