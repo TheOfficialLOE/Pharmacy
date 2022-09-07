@@ -1,9 +1,7 @@
-import { Module, ModuleMetadata, Provider } from "@nestjs/common";
-import { CqrsModule } from "@nestjs/cqrs";
+import { Module } from "@nestjs/common";
 import { SignUpController } from "#modules/identity-and-access/commands/sign-up/SignUpController";
-import { JwtModule, JwtService } from "@nestjs/jwt";
+import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
-import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
