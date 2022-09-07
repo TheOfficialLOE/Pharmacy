@@ -1,7 +1,10 @@
-import { Controller, Inject, Post } from "@nestjs/common";
+import { Body, Controller, Inject, Post } from "@nestjs/common";
 import { InfrastructureDiTokens } from "#libs/tokens/InfrastructureDiTokens";
 import { CommandBusPort } from "#libs/message/CommandBusPort";
 import { SellDrugCommand } from "#modules/patient-service/commands/sell-drug/SellDrugCommand";
+import { AccessibleBy } from "#libs/decorators/AccessibleByDecorator";
+import { PharmacyRoles } from "#libs/enums/StaffRolesEnum";
+import { ExtractToken } from "#libs/decorators/ExtractTokenDecorator";
 
 @Controller("patient-service")
 export class SellDrugController {
@@ -11,12 +14,13 @@ export class SellDrugController {
     ) {}
 
     @Post("handle")
-    public async handlePatient() {
+    @AccessibleBy(PharmacyRoles.PHARMACIST)
+    public async handlePatient(@ExtractToken("id") pharmacistId: string, @Body() body: {
+        patientCode: string,
+        demandedDrugs: { drugId: string, quantity: number }[]
+    }) {
         await this.commandBus.sendCommand(
-            new SellDrugCommand("f6nUpAHxqU4jEWjKAfZ_7", "6q2X", [{
-                drugId: "HItxhoF7IDhKfccAF48zT",
-                quantity: 3
-            }])
+            new SellDrugCommand(pharmacistId, body.patientCode, body.demandedDrugs)
         );
     }
 }
