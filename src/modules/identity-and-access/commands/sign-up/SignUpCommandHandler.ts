@@ -4,6 +4,7 @@ import { Inject } from "@nestjs/common";
 import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 
 @CommandHandler(SignUpCommand)
 export class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {
@@ -13,13 +14,13 @@ export class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {
     ) {}
 
     public async execute(command: SignUpCommand): Promise<void> {
-        await this.checkIfEmailExistsOrThrow(command.email);
+        await this.checkIfStaffExistsAndThrow(command.email, command.role);
         const staff = await this.createStaffEntityFromCommand(command);
         await this.staffRepository.create(staff);
     }
 
-    private async checkIfEmailExistsOrThrow(email: string): Promise<void> {
-        const count = await this.staffRepository.count(email);
+    private async checkIfStaffExistsAndThrow(email: string, role: StaffRoles): Promise<void> {
+        const count = await this.staffRepository.countByEmailAndRole(email, role);
         if (count > 0)
             throw new Error("Email already submitted");
     }

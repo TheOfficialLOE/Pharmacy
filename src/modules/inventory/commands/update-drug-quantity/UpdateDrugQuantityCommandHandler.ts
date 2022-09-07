@@ -21,7 +21,7 @@ export class UpdateDrugQuantityCommandHandler implements ICommandHandler<UpdateD
     }
 
     private async throwIfDrugNotFound(id: string) {
-        const count = await this.inventoryRepository.count(id);
+        const count = await this.inventoryRepository.countById(id);
         if (count === 0)
             throw new Error("Drug not found");
     }

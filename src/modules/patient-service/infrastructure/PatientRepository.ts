@@ -10,7 +10,7 @@ export class PatientRepository implements PatientRepositoryPort {
         private readonly mapper: PatientMapper
     ) {}
 
-    public async count(id: string): Promise<number> {
+    public async countById(id: string): Promise<number> {
         return await this.prismaAdapter.patient.count({
             where: {
                 state: "WAITING"

@@ -2,11 +2,7 @@ import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { SignInQuery } from "#modules/identity-and-access/queries/sign-in/SignInQuery";
 import { Inject } from "@nestjs/common";
 import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
-import { StaffRepository } from "#modules/identity-and-access/infrastructure/StaffRepository";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
-import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
-import { Password } from "#libs/ddd/value-objects/PasswordVO";
-import { Email } from "#libs/ddd/value-objects/EmailVO";
 import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { JwtService } from "@nestjs/jwt";
 import { ID } from "#libs/ddd/value-objects/IdVO";
@@ -20,12 +16,12 @@ export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
     ) {}
 
     public async execute(query: SignInQuery): Promise<string> {
-        await this.checkIfEmailAlreadyExistsAndThrow(query.email);
-        return await this.performLoginByQuery(query)
+        await this.checkIfStaffExistsAndThrow(query.email, query.role);
+        return await this.performLoginByQuery(query);
     }
 
-    private async checkIfEmailAlreadyExistsAndThrow(email: string): Promise<void> {
-        const count = await this.staffRepository.count(email);
+    private async checkIfStaffExistsAndThrow(email: string, role: StaffRoles): Promise<void> {
+        const count = await this.staffRepository.countByEmailAndRole(email, role);
         if (!count)
             throw new Error("Email not found");
     }
@@ -40,6 +36,6 @@ export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
         return this.jwtService.sign({
             id: id.value,
             role
-        })
+        });
     }
 }
