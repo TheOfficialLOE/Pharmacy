@@ -40,8 +40,7 @@ export const createCommandHandler = <S extends State, E extends Event, C extends
     const newEvents = decider.decide(state, command).map(event =>
         jsonEvent({
             type: event.type,
-            data: event.data,
-            // metadata: event.metadata,
+            data: event.data
         }),
     )
     await client.appendToStream(streamName, newEvents, {

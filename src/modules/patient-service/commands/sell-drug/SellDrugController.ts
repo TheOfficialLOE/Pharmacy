@@ -1,10 +1,10 @@
 import { Controller, Inject, Post } from "@nestjs/common";
 import { InfrastructureDiTokens } from "#libs/tokens/InfrastructureDiTokens";
 import { CommandBusPort } from "#libs/message/CommandBusPort";
-import { HandlePatientCommand } from "#modules/patient-service/commands/handle-patient/HandlePatientCommand";
+import { SellDrugCommand } from "#modules/patient-service/commands/sell-drug/SellDrugCommand";
 
 @Controller("patient-service")
-export class HandlePatientController {
+export class SellDrugController {
     constructor(
         @Inject(InfrastructureDiTokens.commandBus)
         private readonly commandBus: CommandBusPort
@@ -13,7 +13,7 @@ export class HandlePatientController {
     @Post("handle")
     public async handlePatient() {
         await this.commandBus.sendCommand(
-            new HandlePatientCommand("f6nUpAHxqU4jEWjKAfZ_7", "6q2X", [{
+            new SellDrugCommand("f6nUpAHxqU4jEWjKAfZ_7", "6q2X", [{
                 drugId: "HItxhoF7IDhKfccAF48zT",
                 quantity: 3
             }])

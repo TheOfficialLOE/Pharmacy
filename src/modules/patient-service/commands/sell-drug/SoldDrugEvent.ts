@@ -1,6 +1,6 @@
 import { DomainEvent, DomainEventProps } from "#libs/ddd/domain-events/BaseDomainEvent";
 
-export class HandlePatientEvent extends DomainEvent {
+export class SoldDrugEvent extends DomainEvent {
     constructor(props: DomainEventProps<{
         pharmacistId: string,
         code: string,

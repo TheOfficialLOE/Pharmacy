@@ -1,6 +1,6 @@
 import { ICommand } from "@nestjs/cqrs";
 
-export class HandlePatientCommand implements ICommand {
+export class SellDrugCommand implements ICommand {
     constructor(
         public pharmacistId: string,
         public patientCode: string,

@@ -11,10 +11,10 @@ import { NextPatientCommandHandler } from "#modules/patient-service/commands/nex
 import { PatientCalledEventHandler } from "#modules/patient-service/commands/next-patient/PatientCalledEventHandler";
 import { EventStoreDBClient } from "@eventstore/db-client";
 import {
-    HandlePatientCommandHandler
-} from "#modules/patient-service/commands/handle-patient/HandlePatientCommandHandler";
-import { HandlePatientEventHandler } from "#modules/patient-service/commands/handle-patient/HandlePatientEventHandler";
-import { HandlePatientController } from "#modules/patient-service/commands/handle-patient/HandlePatientController";
+    SellDrugCommandHandler
+} from "#modules/patient-service/commands/sell-drug/SellDrugCommandHandler";
+import { SoldDrugEventHandler } from "#modules/patient-service/commands/sell-drug/SoldDrugEventHandler";
+import { SellDrugController } from "#modules/patient-service/commands/sell-drug/SellDrugController";
 
 @Module({
     imports: [
@@ -23,14 +23,14 @@ import { HandlePatientController } from "#modules/patient-service/commands/handl
     controllers: [
         NewPatientController,
         NextPatientController,
-        HandlePatientController,
+        SellDrugController,
     ],
     providers: [
         PrismaAdapter,
         PatientMapper,
         NewPatientCommandHandler,
         NextPatientCommandHandler,
-        HandlePatientCommandHandler,
+        SellDrugCommandHandler,
         {
             provide: PatientCalledEventHandler,
             useFactory: (eventStore: EventStoreDBClient): PatientCalledEventHandler => {
@@ -41,9 +41,9 @@ import { HandlePatientController } from "#modules/patient-service/commands/handl
             inject: [EventStoreDBClient]
         },
         {
-            provide: HandlePatientEventHandler,
-            useFactory: (eventStore: EventStoreDBClient): HandlePatientEventHandler => {
-                const eventHandler = new HandlePatientEventHandler(eventStore);
+            provide: SoldDrugEventHandler,
+            useFactory: (eventStore: EventStoreDBClient): SoldDrugEventHandler => {
+                const eventHandler = new SoldDrugEventHandler(eventStore);
                 eventHandler.listen();
                 return eventHandler;
             },
