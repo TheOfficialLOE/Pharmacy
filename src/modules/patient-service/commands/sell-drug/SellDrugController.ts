@@ -5,6 +5,7 @@ import { SellDrugCommand } from "#modules/patient-service/commands/sell-drug/Sel
 import { AccessibleBy } from "#libs/decorators/AccessibleByDecorator";
 import { PharmacyRoles } from "#libs/enums/StaffRolesEnum";
 import { ExtractToken } from "#libs/decorators/ExtractTokenDecorator";
+import { SellDrugRequestDto } from "#modules/patient-service/commands/sell-drug/SellDrugRequestDto";
 
 @Controller("patient-service")
 export class SellDrugController {
@@ -15,10 +16,7 @@ export class SellDrugController {
 
     @Post("handle")
     @AccessibleBy(PharmacyRoles.PHARMACIST)
-    public async handlePatient(@ExtractToken("id") pharmacistId: string, @Body() body: {
-        patientCode: string,
-        demandedDrugs: { drugId: string, quantity: number }[]
-    }) {
+    public async handlePatient(@ExtractToken("id") pharmacistId: string, @Body() body: SellDrugRequestDto) {
         await this.commandBus.sendCommand(
             new SellDrugCommand(pharmacistId, body.patientCode, body.demandedDrugs)
         );
