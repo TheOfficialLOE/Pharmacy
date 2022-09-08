@@ -16,8 +16,15 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
     ) {}
 
     public async execute(command: SellDrugCommand): Promise<void> {
+        await this.checkCountOfPharmacistInProgressPatientsAndThrow(command.pharmacistId);
         await this.sellDrugs(command.demandedDrugs);
         await this.completeOrder(command.patientCode, command.demandedDrugs);
+    }
+
+    private async checkCountOfPharmacistInProgressPatientsAndThrow(pharmacistId: string) {
+        const count = await this.patientRepository.countPharmacistInProgressPatients(pharmacistId);
+        if (count !== 1)
+            throw new Error("Patient not found");
     }
 
     private async sellDrugs(demandedDrugs: { drugId: string, quantity: number }[]) {
