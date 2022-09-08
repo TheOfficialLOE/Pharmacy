@@ -53,13 +53,14 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
         }));
     }
 
-    public complete(drugs: DemandedDrug[]): void {
+    public complete(drugs: DemandedDrug[], hasValidDoctorPrescription: boolean): void {
         this.props.status = PatientStatus.COMPLETED;
         this.addEvent(new SoldDrugEvent({
             aggregateId: this.id.value,
             pharmacistId: this.pharmacistId,
             code: this.code,
-            demandedDrugs: drugs
+            demandedDrugs: drugs,
+            hasValidDoctorPrescription
         }));
     }
 

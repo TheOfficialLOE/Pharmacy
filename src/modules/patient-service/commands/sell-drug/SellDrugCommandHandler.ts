@@ -18,9 +18,10 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
     ) {}
 
     public async execute(command: SellDrugCommand): Promise<void> {
-        await this.checkCountOfPharmacistInProgressPatientsAndThrow(command.pharmacistId);
-        await this.sellDrugs(command.demandedDrugs);
-        await this.completeOrder(command.patientCode, command.demandedDrugs);
+        const { pharmacistId, patientCode, demandedDrugs, hasValidDoctorPrescription } = command;
+        await this.checkCountOfPharmacistInProgressPatientsAndThrow(pharmacistId);
+        await this.sellDrugs(demandedDrugs, hasValidDoctorPrescription);
+        await this.completeOrder(patientCode, demandedDrugs, hasValidDoctorPrescription);
     }
 
     private async checkCountOfPharmacistInProgressPatientsAndThrow(pharmacistId: string) {
@@ -29,17 +30,19 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
             throw new Error("Patient not found");
     }
 
-    private async sellDrugs(demandedDrugs: DemandedDrug[]) {
+    private async sellDrugs(demandedDrugs: DemandedDrug[], hasValidDoctorPrescription: boolean) {
         for (const demandedDrug of demandedDrugs) {
             const drug = await this.inventoryRepository.findById(demandedDrug.drugId);
+            if (drug.requiresDoctorPrescription && !hasValidDoctorPrescription)
+                throw new Error("This drug requires a valid doctor prescription");
             drug.sell(demandedDrug.quantity);
             await this.inventoryRepository.update(drug);
         }
     }
 
-    private async completeOrder(patientCode: string, demandedDrugs: DemandedDrug[]) {
+    private async completeOrder(patientCode: string, demandedDrugs: DemandedDrug[], hasValidDoctorPrescription: boolean) {
         const patient = await this.patientRepository.findByCode(patientCode);
-        patient.complete(demandedDrugs);
+        patient.complete(demandedDrugs, hasValidDoctorPrescription);
         await this.patientRepository.update(patient);
     }
 }

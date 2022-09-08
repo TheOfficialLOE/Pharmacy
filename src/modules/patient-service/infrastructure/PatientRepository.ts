@@ -75,7 +75,7 @@ export class PatientRepository implements PatientRepositoryPort {
         return await this.prismaAdapter.patient.count({
             where: {
                 pharmacistId,
-                status: "WAITING"
+                status: "IN_PROCESS"
             }
         })
     }

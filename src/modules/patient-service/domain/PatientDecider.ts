@@ -1,6 +1,7 @@
 import { Command } from "#infrastructure/eventstore/base-types/Command";
 import { Event } from "#infrastructure/eventstore/base-types/Event";
 import { Decider } from "#infrastructure/eventstore/base-types/Decider";
+import { DemandedDrug } from "#modules/patient-service/domain/DemandedDrug";
 
 export type PatientCommands = Command<"CALL_PATIENT", {
     pharmacistId: string;
@@ -8,14 +9,16 @@ export type PatientCommands = Command<"CALL_PATIENT", {
 }> | Command<"SELL_DRUG", {
     pharmacistId: string;
     code: string;
-    demandedDrugs: { drugId: string, quantity: number }[];
+    demandedDrugs: DemandedDrug[];
+    hasValidDoctorPrescription: boolean ;
 }>;
 
 export type PatientEvents = Event<"PATIENT_CALLED", {
     code: string;
 }> | Event<"SOLD_DRUG", {
     code: string;
-    demandedDrugs: { drugId: string, quantity: number }[];
+    demandedDrugs: DemandedDrug[];
+    hasValidDoctorPrescription: boolean
 }>;
 
 export type PatientState =  {
@@ -66,7 +69,8 @@ export class PatientDecider implements Decider<PatientState, PatientEvents, Pati
                         type: "SOLD_DRUG",
                         data: {
                             code: command.data.code,
-                            demandedDrugs: command.data.demandedDrugs
+                            demandedDrugs: command.data.demandedDrugs,
+                            hasValidDoctorPrescription: command.data.hasValidDoctorPrescription
                         }
                     }];
                 }

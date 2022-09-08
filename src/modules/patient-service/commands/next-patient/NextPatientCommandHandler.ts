@@ -27,7 +27,8 @@ export class NextPatientCommandHandler implements ICommandHandler<NextPatientCom
     }
 
     private async checkCountOfPharmacistInProgressPatients(pharmacistId: string) {
-        if (await this.patientRepository.countPharmacistInProgressPatients(pharmacistId) === 0)
+        console.log(await this.patientRepository.countPharmacistInProgressPatients(pharmacistId))
+        if (await this.patientRepository.countPharmacistInProgressPatients(pharmacistId) !== 0)
             throw new Error("You already have one patient called");
     }
 }

@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, IsString, Length, Min, ValidateNested } from "class-validator";
+import { IsBoolean, IsDefined, IsNumber, IsString, Length, Min, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 class DemandedDrugDto {
@@ -20,4 +20,7 @@ export class SellDrugRequestDto {
     @ValidateNested({ each: true })
     @Type(() => DemandedDrugDto)
     public readonly demandedDrugs: DemandedDrugDto[];
+
+    @IsBoolean()
+    public readonly hasValidDoctorPrescription: boolean;
 }

@@ -5,6 +5,7 @@ export class SellDrugCommand implements ICommand {
     constructor(
         public pharmacistId: string,
         public patientCode: string,
-        public demandedDrugs: DemandedDrug[]
+        public demandedDrugs: DemandedDrug[],
+        public hasValidDoctorPrescription
     ) {}
 }

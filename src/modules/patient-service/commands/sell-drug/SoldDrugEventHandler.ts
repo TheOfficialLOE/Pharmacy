@@ -23,7 +23,8 @@ export class SoldDrugEventHandler extends DomainEventHandler {
             data: {
                 pharmacistId: event.pharmacistId,
                 code: event.code,
-                demandedDrugs: event.demandedDrugs
+                demandedDrugs: event.demandedDrugs,
+                hasValidDoctorPrescription: event.hasValidDoctorPrescription
             }
         });
     }
