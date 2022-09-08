@@ -1,10 +1,11 @@
 import { DomainEvent, DomainEventProps } from "#libs/ddd/domain-events/BaseDomainEvent";
+import { DemandedDrug } from "#modules/patient-service/domain/DemandedDrug";
 
 export class SoldDrugEvent extends DomainEvent {
     constructor(props: DomainEventProps<{
         pharmacistId: string,
         code: string,
-        demandedDrugs: { drugId: string, quantity: number }[]
+        demandedDrugs: DemandedDrug[]
     }>) {
         super(props);
         this.pharmacistId = props.pharmacistId;
@@ -14,5 +15,5 @@ export class SoldDrugEvent extends DomainEvent {
 
     public readonly pharmacistId: string;
     public readonly code: string;
-    public readonly demandedDrugs: { drugId: string, quantity: number }[];
+    public readonly demandedDrugs: DemandedDrug[];
 }
