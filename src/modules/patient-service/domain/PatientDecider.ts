@@ -26,10 +26,10 @@ export type PatientState =  {
 } | {
     type: "completed",
     code: string,
-}
+};
 
 export class PatientDecider implements Decider<PatientState, PatientEvents, PatientCommands> {
-    public readonly initialState: PatientState = {type: "waiting"};
+    public readonly initialState: PatientState = { type: "waiting" };
 
     public evolve(state: PatientState, event: PatientEvents): PatientState {
         switch (event.type) {
@@ -44,13 +44,14 @@ export class PatientDecider implements Decider<PatientState, PatientEvents, Pati
                     code: event.data.code
                 };
         }
+        return this.initialState;
     }
 
     public decide(state: PatientState, command: PatientCommands): PatientEvents[] {
         switch (command.type) {
             case "CALL_PATIENT": {
-                if (state.type !== "waiting" && state.code === command.data.code) {
-                    throw new Error("Patient must be waiting");
+                if (state.type === "in_progress") {
+                    throw new Error("You already have one patient");
                 }
                 return [{
                     type: "PATIENT_CALLED",
@@ -72,5 +73,6 @@ export class PatientDecider implements Decider<PatientState, PatientEvents, Pati
                 throw new Error("Patient must be in progress");
             }
         }
+        return [];
     }
 }

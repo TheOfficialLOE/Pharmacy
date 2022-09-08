@@ -20,10 +20,10 @@ export class StaffRepository implements StaffRepositoryPort {
         });
     }
 
-    public async count(id: string): Promise<number> {
+    public async count(email: string): Promise<number> {
         return await this.prismaAdapter.staff.count({
             where: {
-                id
+                email
             }
         });
     }

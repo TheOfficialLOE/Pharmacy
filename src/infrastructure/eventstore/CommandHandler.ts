@@ -29,9 +29,9 @@ export const createCommandHandler = <S extends State, E extends Event, C extends
     decider: Decider<S, E, C>,
     getStreamName: (command: C) => string,
 ) => async (command: C) => {
-    const streamName = getStreamName(command)
-    let state = decider.initialState
-    let revision: ExpectedRevision = NO_STREAM
+    const streamName = getStreamName(command);
+    let state = decider.initialState;
+    let revision: ExpectedRevision = NO_STREAM;
     for await (const event of handleEmpty(client.readStream(streamName))) {
         state = decider.evolve(state, (event as any) as E)
         revision = event.revision
@@ -44,7 +44,7 @@ export const createCommandHandler = <S extends State, E extends Event, C extends
     )
     await client.appendToStream(streamName, newEvents, {
         expectedRevision: revision,
-    })
+    });
 
-    return { success: true } as AppendResult
+    return { success: true } as AppendResult;
 }

@@ -14,13 +14,13 @@ export class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {
     ) {}
 
     public async execute(command: SignUpCommand): Promise<void> {
-        await this.checkIfStaffExistsAndThrow(command.email, command.role);
+        await this.checkIfEmailAlreadyExistsAndThrow(command.email);
         const staff = await this.createStaffEntityFromCommand(command);
         await this.staffRepository.create(staff);
     }
 
-    private async checkIfStaffExistsAndThrow(email: string, role: StaffRoles): Promise<void> {
-        const count = await this.staffRepository.countByEmailAndRole(email, role);
+    private async checkIfEmailAlreadyExistsAndThrow(email: string): Promise<void> {
+        const count = await this.staffRepository.count(email);
         if (count > 0)
             throw new Error("Email already submitted");
     }

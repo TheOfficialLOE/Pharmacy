@@ -70,4 +70,13 @@ export class PatientRepository implements PatientRepositoryPort {
         });
         return this.mapper.toDomain(patient);
     }
+
+    public async countPharmacistInProgressPatients(pharmacistId: string): Promise<number> {
+        return await this.prismaAdapter.patient.count({
+            where: {
+                pharmacistId,
+                status: "WAITING"
+            }
+        })
+    }
 }

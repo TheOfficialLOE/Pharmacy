@@ -14,6 +14,8 @@ export class NextPatientCommandHandler implements ICommandHandler<NextPatientCom
 
     public async execute(command: NextPatientCommand): Promise<void> {
         await this.checkCountOfWaitingPatientsAndThrow();
+        await this.checkCountOfPharmacistInProgressPatients(command.pharmacistId);
+        await this.patientRepository.countPharmacistInProgressPatients(command.pharmacistId);
         const patient = await this.patientRepository.findFirst();
         patient.call(command.pharmacistId);
         await this.patientRepository.update(patient);
@@ -22,5 +24,10 @@ export class NextPatientCommandHandler implements ICommandHandler<NextPatientCom
     private async checkCountOfWaitingPatientsAndThrow() {
         if (await this.patientRepository.countByStatus(PatientStatus.WAITING) === 0)
             throw new Error("None of the patients is waiting");
+    }
+
+    private async checkCountOfPharmacistInProgressPatients(pharmacistId: string) {
+        if (await this.patientRepository.countPharmacistInProgressPatients(pharmacistId) === 0)
+            throw new Error("You already have one patient called");
     }
 }
