@@ -16,9 +16,17 @@ export class SellDrugController {
 
     @Post("sell")
     @AccessibleBy(PharmacyRoles.PHARMACIST)
-    public async handlePatient(@ExtractToken("id") pharmacistId: string, @Body() body: SellDrugRequestDto) {
+    public async handlePatient(
+        @ExtractToken("id") pharmacistId: string,
+        @Body() body: SellDrugRequestDto
+    ) {
         await this.commandBus.sendCommand(
-            new SellDrugCommand(pharmacistId, body.patientCode, body.demandedDrugs, body.hasValidDoctorPrescription)
+            new SellDrugCommand(
+                pharmacistId,
+                body.patientCode,
+                body.demandedDrugs,
+                body.hasValidDoctorPrescription
+            )
         );
     }
 }
