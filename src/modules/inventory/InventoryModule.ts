@@ -11,8 +11,6 @@ import {
 import {
     UpdateDrugQuantityController
 } from "#modules/inventory/commands/update-drug-quantity/UpdateDrugQuantityController";
-import { SearchController } from "#modules/inventory/queries/search/SearchController";
-import { SearchQueryHandler } from "#modules/inventory/queries/search/SearchQueryHandler";
 
 export const inventory = {
     registerCargo: {
@@ -22,10 +20,6 @@ export const inventory = {
     updateDrugQuantity: {
         controller: UpdateDrugQuantityController,
         provider: UpdateDrugQuantityCommandHandler,
-    },
-    search: {
-        controller: SearchController,
-        provider: SearchQueryHandler,
     },
     shared: [
         PrismaAdapter,
@@ -42,12 +36,10 @@ export const inventory = {
     controllers: [
         inventory.registerCargo.controller,
         inventory.updateDrugQuantity.controller,
-        inventory.search.controller,
     ],
     providers: [
         inventory.registerCargo.provider,
         inventory.updateDrugQuantity.provider,
-        inventory.search.provider,
         ...inventory.shared,
     ],
     exports: [
