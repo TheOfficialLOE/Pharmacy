@@ -36,7 +36,7 @@ describe("SignIn", () => {
 
     describe("signIn with given role", () => {
         it("should throw if email doesn't exist ", async () => {
-            jest.spyOn(staffRepository, "count")
+            jest.spyOn(staffRepository, "countById")
                 .mockResolvedValue(0);
 
             await expect(signInQueryHandler.execute({
@@ -49,7 +49,7 @@ describe("SignIn", () => {
         });
 
         it("should throw if password doesn't match", async () => {
-            jest.spyOn(staffRepository, "count")
+            jest.spyOn(staffRepository, "countById")
                 .mockResolvedValue(1);
 
             jest.spyOn(staffRepository, "findByEmail")
@@ -75,7 +75,7 @@ describe("SignIn", () => {
         it("should signIn and return a token", async () => {
             const mockId = nanoid();
 
-            jest.spyOn(staffRepository, "count")
+            jest.spyOn(staffRepository, "countById")
                 .mockResolvedValue(1);
 
             jest.spyOn(staffRepository, "findByEmail")

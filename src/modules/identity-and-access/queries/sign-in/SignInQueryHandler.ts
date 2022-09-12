@@ -3,9 +3,8 @@ import { SignInQuery } from "#modules/identity-and-access/queries/sign-in/SignIn
 import { Inject } from "@nestjs/common";
 import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
-import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { JwtService } from "@nestjs/jwt";
-import { ID } from "#libs/ddd/value-objects/IdVO";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 
 @QueryHandler(SignInQuery)
 export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
@@ -16,25 +15,17 @@ export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
     ) {}
 
     public async execute(query: SignInQuery): Promise<string> {
-        await this.checkIfStaffExistsAndThrow(query.email, query.role);
-        return await this.performLoginByQuery(query);
-    }
-
-    private async checkIfStaffExistsAndThrow(email: string, role: StaffRoles): Promise<void> {
-        const count = await this.staffRepository.countByEmailAndRole(email, role);
-        if (!count)
-            throw new Error("Email not found");
-    }
-
-    private async performLoginByQuery(query: SignInQuery): Promise<string> {
-        const staff = await this.staffRepository.findByEmail(query.email, query.role);
+        const staff = await this.staffRepository.findByEmail(query.email);
+        if (!staff || staff.role !== query.role) {
+            throw new Error("Staff not found");
+        }
         await staff.password.compare(query.password);
-        return this.generateToken(staff.id, staff.role);
+        return this.generateToken(staff.id.value, staff.role)
     }
 
-    private generateToken(id: ID, role: StaffRoles): string {
+    private generateToken(id: string, role: StaffRoles): string {
         return this.jwtService.sign({
-            id: id.value,
+            id: id,
             role
         });
     }

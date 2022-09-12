@@ -1,4 +1,4 @@
 
 export interface EventBusPort {
-    sendEvent<TEvent extends object>(event: TEvent): Promise<void>;
+    sendEvent<Event extends object>(event: Event): Promise<void>;
 }

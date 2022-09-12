@@ -1,5 +1,5 @@
 
 
 export interface CommandBusPort {
-    sendCommand<TCommand extends object>(command: TCommand): Promise<void>;
+    sendCommand<Command extends object>(command: Command): Promise<void>;
 }

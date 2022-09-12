@@ -15,6 +15,8 @@ import {
 } from "#modules/patient-service/commands/sell-drug/SellDrugCommandHandler";
 import { SoldDrugEventHandler } from "#modules/patient-service/commands/sell-drug/SoldDrugEventHandler";
 import { SellDrugController } from "#modules/patient-service/commands/sell-drug/SellDrugController";
+import { GetPatientInfoController } from "#modules/patient-service/queries/patient-info/GetPatientInfoController";
+import { GetPatientInfoQueryHandler } from "#modules/patient-service/queries/patient-info/GetPatientInfoQueryHandler";
 
 @Module({
     imports: [
@@ -24,6 +26,7 @@ import { SellDrugController } from "#modules/patient-service/commands/sell-drug/
         NewPatientController,
         NextPatientController,
         SellDrugController,
+        GetPatientInfoController
     ],
     providers: [
         PrismaAdapter,
@@ -31,6 +34,7 @@ import { SellDrugController } from "#modules/patient-service/commands/sell-drug/
         NewPatientCommandHandler,
         NextPatientCommandHandler,
         SellDrugCommandHandler,
+        GetPatientInfoQueryHandler,
         {
             provide: PatientCalledEventHandler,
             useFactory: (eventStore: EventStoreDBClient): PatientCalledEventHandler => {

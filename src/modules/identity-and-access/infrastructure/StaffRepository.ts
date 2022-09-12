@@ -3,7 +3,6 @@ import { StaffMapper } from "#modules/identity-and-access/domain/StaffMapper";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
-import { PharmacyRoles, StaffRoles } from "#libs/enums/StaffRolesEnum";
 
 @Injectable()
 export class StaffRepository implements StaffRepositoryPort {
@@ -13,26 +12,17 @@ export class StaffRepository implements StaffRepositoryPort {
     ) {}
 
     public async create(staff: Staff): Promise<void> {
-        const persistedStaff = await this.prismaAdapter.staff.create({
+        await this.prismaAdapter.staff.create({
             data: {
                 ...this.mapper.toOrm(staff)
             }
         });
     }
 
-    public async count(email: string): Promise<number> {
+    public async countById(id: string): Promise<number> {
         return await this.prismaAdapter.staff.count({
             where: {
-                email
-            }
-        });
-    }
-
-    public async countByEmailAndRole(email: string, role: StaffRoles): Promise<number> {
-        return await this.prismaAdapter.staff.count({
-            where: {
-                email,
-                role
+                id
             }
         });
     }
@@ -46,13 +36,14 @@ export class StaffRepository implements StaffRepositoryPort {
         return this.mapper.toDomain(staff);
     }
 
-    public async findByEmail(email: string, role: StaffRoles): Promise<Staff> {
+    public async findByEmail(email: string): Promise<Staff> {
         const staff = await this.prismaAdapter.staff.findFirst({
            where: {
-               email,
-               role
+               email
            }
         });
-        return this.mapper.toDomain(staff);
+        if (staff !== null) {
+            return this.mapper.toDomain(staff);
+        }
     }
 }

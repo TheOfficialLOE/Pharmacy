@@ -12,15 +12,16 @@ import { Event } from "./base-types/Event";
 import { State } from "./base-types/State";
 import { Decider } from "./base-types/Decider";
 
-async function* handleEmpty(eventStream: AsyncIterable<ResolvedEvent>) {
+export async function* handleEmpty(eventStream: AsyncIterable<ResolvedEvent>) {
     try {
         for await (const resolved of eventStream) {
-            if (!resolved.event) continue
-            yield resolved.event
+            if (!resolved.event) continue;
+            yield resolved.event;
         }
     } catch (err) {
-        if (err.type === ErrorType.STREAM_NOT_FOUND) return
-        throw err
+        if (err.type === ErrorType.STREAM_NOT_FOUND)
+            return;
+        throw err;
     }
 }
 
@@ -33,15 +34,15 @@ export const createCommandHandler = <S extends State, E extends Event, C extends
     let state = decider.initialState;
     let revision: ExpectedRevision = NO_STREAM;
     for await (const event of handleEmpty(client.readStream(streamName))) {
-        state = decider.evolve(state, (event as any) as E)
-        revision = event.revision
+        state = decider.evolve(state, (event as any) as E);
+        revision = event.revision;
     }
     const newEvents = decider.decide(state, command).map(event =>
         jsonEvent({
             type: event.type,
             data: event.data
         }),
-    )
+    );
     await client.appendToStream(streamName, newEvents, {
         expectedRevision: revision,
     });

@@ -11,16 +11,8 @@ export class InventoryRepository implements InventoryRepositoryPort {
         private readonly mapper: DrugMapper
     ) {}
 
-    public async count(id: string): Promise<number> {
-        return await this.prismaAdapter.drug.count({
-            where: {
-                id
-            }
-        });
-    }
-
     public async create(entity: Drug): Promise<void> {
-        const drug = await this.prismaAdapter.drug.create({
+        await this.prismaAdapter.drug.create({
             data: {
                 ...this.mapper.toOrm(entity)
             }
@@ -35,7 +27,15 @@ export class InventoryRepository implements InventoryRepositoryPort {
             data: {
                 ...this.mapper.toOrm(drug)
             }
-        })
+        });
+    }
+
+    public async countById(id: string): Promise<number> {
+        return await this.prismaAdapter.drug.count({
+            where: {
+                id
+            }
+        });
     }
 
     public async findById(id: string): Promise<Drug> {
@@ -44,12 +44,15 @@ export class InventoryRepository implements InventoryRepositoryPort {
                 id
             }
         });
-        return this.mapper.toDomain(drug);
+        if (drug !== null)
+            return this.mapper.toDomain(drug);
+        throw new Error("Drug not found");    
     }
 
     public async search(query: {
         drugName?: string, drugFamily?: string
-    }): Promise<Drug[]> {
+    }
+    ): Promise<Drug[]> {
         const result = await this.prismaAdapter.drug.findMany({
             where: {
                 drugName: query.drugName,

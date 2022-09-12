@@ -10,7 +10,7 @@ export class NewPatientController {
         private readonly commandBus: CommandBusPort
     ) {}
 
-    @Post()
+    @Post("new")
     public async newPatient(): Promise<void> {
         await this.commandBus.sendCommand(new NewPatientCommand());
     }

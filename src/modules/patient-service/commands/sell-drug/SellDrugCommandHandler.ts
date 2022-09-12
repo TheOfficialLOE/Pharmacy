@@ -6,6 +6,7 @@ import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/Inven
 import { PatientDiTokens } from "#libs/tokens/PatientDiTokens";
 import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/PatientRepositoryPort";
 import { DemandedDrug } from "#modules/patient-service/domain/DemandedDrug";
+import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 
 @CommandHandler(SellDrugCommand)
 export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> {
@@ -19,30 +20,47 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
 
     public async execute(command: SellDrugCommand): Promise<void> {
         const { pharmacistId, patientCode, demandedDrugs, hasValidDoctorPrescription } = command;
-        await this.checkCountOfPharmacistInProgressPatientsAndThrow(pharmacistId);
+        await this.checkIfPharmacistHasAnInProgressPatientOrThrow(pharmacistId);
         await this.sellDrugs(demandedDrugs, hasValidDoctorPrescription);
-        await this.completeOrder(patientCode, demandedDrugs, hasValidDoctorPrescription);
+        await this.completePatient(patientCode, demandedDrugs, hasValidDoctorPrescription);
     }
 
-    private async checkCountOfPharmacistInProgressPatientsAndThrow(pharmacistId: string) {
+    private async checkIfPharmacistHasAnInProgressPatientOrThrow(pharmacistId: string) {
         const count = await this.patientRepository.countPharmacistInProgressPatients(pharmacistId);
         if (count !== 1)
             throw new Error("Patient not found");
     }
 
     private async sellDrugs(demandedDrugs: DemandedDrug[], hasValidDoctorPrescription: boolean) {
-        for (const demandedDrug of demandedDrugs) {
+        const drugs = await Promise.all(demandedDrugs.map(async demandedDrug => {
             const drug = await this.inventoryRepository.findById(demandedDrug.drugId);
-            if (drug.requiresDoctorPrescription && !hasValidDoctorPrescription)
-                throw new Error("This drug requires a valid doctor prescription");
-            drug.sell(demandedDrug.quantity);
-            await this.inventoryRepository.update(drug);
+            this.checkIfDrugRequiresDoctorPrescription(drug, hasValidDoctorPrescription);
+            return {
+                drug,
+                quantity: demandedDrug.quantity
+            }
+        }));
+        for await (const drug of drugs) {
+            drug.drug.sell(drug.quantity);
+            await this.inventoryRepository.update(drug.drug);
         }
     }
 
-    private async completeOrder(patientCode: string, demandedDrugs: DemandedDrug[], hasValidDoctorPrescription: boolean) {
+    private checkIfDrugRequiresDoctorPrescription(
+        drug: Drug,
+        hasValidDoctorPrescription: boolean
+    ) {
+        if (drug.requiresDoctorPrescription && !hasValidDoctorPrescription)
+            throw new Error("This drug requires a valid doctor prescription"); 
+    }
+
+    private async completePatient(
+        patientCode: string, 
+        demandedDrugs: DemandedDrug[], 
+        hasValidDoctorPrescription: boolean
+    ) {
         const patient = await this.patientRepository.findByCode(patientCode);
         patient.complete(demandedDrugs, hasValidDoctorPrescription);
-        await this.patientRepository.update(patient);
+        await this.patientRepository.update(patient);    
     }
 }

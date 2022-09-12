@@ -1,4 +1,4 @@
-import { RepositoryPort } from "#libs/ddd/base-classes/RepositoryPort";
+import { RepositoryPort } from "#libs/ddd/base-classes/BaseRepositoryPort";
 import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 
 export interface InventoryRepositoryPort extends RepositoryPort<Drug> {

@@ -43,7 +43,14 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
         return this.props.visitedAt;
     }
 
+    public checkPermission(pharmacistId: string): void {
+        if (this.status !== "WAITING" && this.pharmacistId !== pharmacistId)
+            throw new Error("You don't have access to this patient");
+    }
+
     public call(pharmacistId: string): void {
+        if (this.status !== PatientStatus.WAITING)
+            throw new Error("Patient isn't waiting");
         this.props.pharmacistId = pharmacistId;
         this.props.status = PatientStatus.IN_PROCESS;
         this.addEvent(new PatientCalledEvent({
@@ -54,6 +61,8 @@ export class Patient extends AggregateRoot<PatientEntityProps> {
     }
 
     public complete(drugs: DemandedDrug[], hasValidDoctorPrescription: boolean): void {
+        if (this.status !== PatientStatus.IN_PROCESS)
+            throw new Error("Patient isn't in progress");
         this.props.status = PatientStatus.COMPLETED;
         this.addEvent(new SoldDrugEvent({
             aggregateId: this.id.value,

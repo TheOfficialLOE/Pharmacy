@@ -3,23 +3,31 @@ import { Event } from "#infrastructure/eventstore/base-types/Event";
 import { Decider } from "#infrastructure/eventstore/base-types/Decider";
 import { DemandedDrug } from "#modules/patient-service/domain/DemandedDrug";
 
-export type PatientCommands = Command<"CALL_PATIENT", {
+export type CallPatientCommand = Command<"CALL_PATIENT", {
     pharmacistId: string;
     code: string;
-}> | Command<"SELL_DRUG", {
+}>;
+
+export type SellDrugCommand = Command<"SELL_DRUG", {
     pharmacistId: string;
     code: string;
     demandedDrugs: DemandedDrug[];
     hasValidDoctorPrescription: boolean ;
 }>;
 
-export type PatientEvents = Event<"PATIENT_CALLED", {
+export type PatientCommands = CallPatientCommand | SellDrugCommand;
+
+export type PatientCalledEvent = Event<"PATIENT_CALLED", {
     code: string;
-}> | Event<"SOLD_DRUG", {
+}>;
+
+export type SoldDrugEvent = Event<"SOLD_DRUG", {
     code: string;
     demandedDrugs: DemandedDrug[];
     hasValidDoctorPrescription: boolean
 }>;
+
+export type PatientEvents = PatientCalledEvent | SoldDrugEvent;
 
 export type PatientState =  {
     type: "waiting"

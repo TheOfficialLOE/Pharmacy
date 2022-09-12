@@ -59,15 +59,18 @@ export class Drug extends Entity<DrugEntityProps> {
         return this.props.quantity;
     }
 
-    public charge(amount: number): void {
-        this.props.quantity += amount;
+    public charge(quantity: number): void {
+        if (quantity < 1)
+            throw new Error("Quantity should be 1 or greater") ;
+        this.props.quantity += quantity;
     }
 
-    public sell(amount: number): void {
-        if (this.props.quantity - amount <= 0) {
-            throw new Error("Not enough drug in inventory")
-        }
-        this.props.quantity -= amount;
+    public sell(quantity: number): void {
+        if (quantity < 1)
+            throw new Error("Quantity should be 1 or greater") ;
+        if (this.quantity - quantity <= 0)
+            throw new Error("Not enough drug in inventory");
+        this.props.quantity -= quantity;
     }
 
     public validate(): void {
