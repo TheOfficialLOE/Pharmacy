@@ -18,46 +18,72 @@ import { SellDrugController } from "#modules/patient-service/commands/sell-drug/
 import { GetPatientInfoController } from "#modules/patient-service/queries/patient-info/GetPatientInfoController";
 import { GetPatientInfoQueryHandler } from "#modules/patient-service/queries/patient-info/GetPatientInfoQueryHandler";
 
-@Module({
-    imports: [
-        InventoryModule
-    ],
-    controllers: [
-        NewPatientController,
-        NextPatientController,
-        SellDrugController,
-        GetPatientInfoController
-    ],
-    providers: [
+const patient = {
+    newPatient: {
+        controller: NewPatientController,
+        provider: NewPatientCommandHandler,
+    },
+    nextPatient: {
+        controller: NextPatientController,
+        providers: [
+            NextPatientCommandHandler,
+            {
+                provide: PatientCalledEventHandler,
+                useFactory: (eventStore: EventStoreDBClient): PatientCalledEventHandler => {
+                    const eventHandler = new PatientCalledEventHandler(eventStore);
+                    eventHandler.listen();
+                    return eventHandler;
+                },
+                inject: [EventStoreDBClient]
+            },
+        ],
+    },
+    sellDrug: {
+        controller: SellDrugController,
+        providers: [
+            SellDrugCommandHandler,
+            {
+                provide: SoldDrugEventHandler,
+                useFactory: (eventStore: EventStoreDBClient): SoldDrugEventHandler => {
+                    const eventHandler = new SoldDrugEventHandler(eventStore);
+                    eventHandler.listen();
+                    return eventHandler;
+                },
+                inject: [EventStoreDBClient]
+            },
+        ]
+    },
+    getPatientInfo: {
+        controller: GetPatientInfoController,
+        provider: GetPatientInfoQueryHandler,
+    },
+    shared: [
         PrismaAdapter,
         PatientMapper,
-        NewPatientCommandHandler,
-        NextPatientCommandHandler,
-        SellDrugCommandHandler,
-        GetPatientInfoQueryHandler,
-        {
-            provide: PatientCalledEventHandler,
-            useFactory: (eventStore: EventStoreDBClient): PatientCalledEventHandler => {
-                const eventHandler = new PatientCalledEventHandler(eventStore);
-                eventHandler.listen();
-                return eventHandler;
-            },
-            inject: [EventStoreDBClient]
-        },
-        {
-            provide: SoldDrugEventHandler,
-            useFactory: (eventStore: EventStoreDBClient): SoldDrugEventHandler => {
-                const eventHandler = new SoldDrugEventHandler(eventStore);
-                eventHandler.listen();
-                return eventHandler;
-            },
-            inject: [EventStoreDBClient]
-        },
         {
             provide: PatientDiTokens.patientRepository,
             useFactory: (prismaAdapter: PrismaAdapter, mapper: PatientMapper) => new PatientRepository(prismaAdapter, mapper),
             inject: [PrismaAdapter, PatientMapper]
         },
+    ]
+}
+
+@Module({
+    imports: [
+        InventoryModule
+    ],
+    controllers: [
+        patient.newPatient.controller,
+        patient.nextPatient.controller,
+        patient.sellDrug.controller,
+        patient.getPatientInfo.controller,
+    ],
+    providers: [
+        patient.newPatient.provider,
+        ...patient.nextPatient.providers,
+        ...patient.sellDrug.providers,
+        patient.newPatient.provider,
+        ...patient.shared,
     ]
 })
 export class PatientServiceModule {
