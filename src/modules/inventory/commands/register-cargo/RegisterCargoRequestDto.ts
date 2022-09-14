@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsDateString, IsNumber, IsString, MaxLength, Min, MinLength } from "class-validator";
+import { IsBoolean, IsDateString, IsNumber, IsString, MaxLength, Min, MinLength } from "class-validator";
 
 export class RegisterCargoRequestDto {
     @IsString()

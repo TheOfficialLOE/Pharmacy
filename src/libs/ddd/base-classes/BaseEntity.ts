@@ -1,5 +1,4 @@
 import { ID } from "#libs/ddd/value-objects/IdVO";
-import { DateVO } from "#libs/ddd/value-objects/DateVO";
 import { Guard } from "#libs/ddd/Guard";
 
 export abstract class Entity<EntityProps> {

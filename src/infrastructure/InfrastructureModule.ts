@@ -1,7 +1,6 @@
 import { Global, Module, Provider } from "@nestjs/common";
 import { PrismaModule } from "#infrastructure/prisma/PrismaModule";
 import { CqrsModule } from "@nestjs/cqrs";
-import { JwtModule } from "@nestjs/jwt";
 import { ServerConfig } from "#infrastructure/config/ServerConfig";
 import { EventStoreDBClient } from "@eventstore/db-client";
 import { InfrastructureDiTokens } from "#libs/tokens/InfrastructureDiTokens";
