@@ -70,7 +70,7 @@ const patient = {
 
 @Module({
     imports: [
-        InventoryModule
+        InventoryModule,
     ],
     controllers: [
         patient.newPatient.controller,

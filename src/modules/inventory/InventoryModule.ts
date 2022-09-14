@@ -30,7 +30,7 @@ export const inventory = {
             inject: [PrismaAdapter, DrugMapper]
         },
     ]
-}
+};
 
 @Module({
     controllers: [

@@ -3,6 +3,8 @@ import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { Patient } from "#modules/patient-service/domain/PatientDomainEntity";
 import { PatientMapper } from "#modules/patient-service/domain/PatientMapper";
 import { DomainEvents } from "#libs/ddd/domain-events/DomainEvents";
+import { Exception } from "#modules/experimental/BaseException";
+import { Code } from "#modules/experimental/Code";
 
 export class PatientRepository implements PatientRepositoryPort {
     constructor(
@@ -64,7 +66,10 @@ export class PatientRepository implements PatientRepositoryPort {
         });
         if (patient !== null)
             return this.mapper.toDomain(patient);
-        throw new Error("Patient not found");    
+        throw Exception.new({
+            code: Code.NOT_FOUND_ERROR,
+            overrideMessage: "Patient not found"
+        });
     }
 
     public async findFirstWaiting(): Promise<Patient> {
@@ -78,6 +83,9 @@ export class PatientRepository implements PatientRepositoryPort {
         });
         if (patient !== null)
             return this.mapper.toDomain(patient);
-        throw new Error("None of the patients is waiting");
+        throw Exception.new({
+            code: Code.NOT_FOUND_ERROR,
+            overrideMessage: "Patient not found"
+        });
     }
 }

@@ -5,6 +5,9 @@ import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiToken
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { JwtService } from "@nestjs/jwt";
 import { StaffRoles } from "#libs/enums/StaffRolesEnum";
+import { Exception } from "#modules/experimental/BaseException";
+import { Code } from "#modules/experimental/Code";
+import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
 
 @QueryHandler(SignInQuery)
 export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
@@ -16,11 +19,18 @@ export class SignInQueryHandler implements IQueryHandler<SignInQuery> {
 
     public async execute(query: SignInQuery): Promise<string> {
         const staff = await this.staffRepository.findByEmail(query.email);
-        if (!staff || staff.role !== query.role) {
-            throw new Error("Staff not found");
-        }
+        await this.checkIfStaffIsEmptyOrThrow(staff, query.role);
         await staff.password.compare(query.password);
         return this.generateToken(staff.id.value, staff.role)
+    }
+
+    private async checkIfStaffIsEmptyOrThrow(staff: Staff, role: StaffRoles) {
+        if (!staff || staff.role !== role) {
+            throw Exception.new({
+                code: Code.NOT_FOUND_ERROR,
+                overrideMessage: "Staff not found"
+            });
+        }
     }
 
     private generateToken(id: string, role: StaffRoles): string {

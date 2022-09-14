@@ -1,18 +1,14 @@
 import { Entity } from "#libs/ddd/base-classes/BaseEntity";
-import { Name } from "#libs/ddd/value-objects/NameVO";
-import { Email } from "#libs/ddd/value-objects/EmailVO";
 import { Password } from "#libs/ddd/value-objects/PasswordVO";
-import { StaffRoles, PharmacyRoles } from "#libs/enums/StaffRolesEnum";
+import { StaffRoles } from "#libs/enums/StaffRolesEnum";
 import { DateVO } from "#libs/ddd/value-objects/DateVO";
 
 interface StaffEntityProps {
-    name: Name;
-    email: Email;
+    name: string;
+    email: string;
     password: Password;
     joinedAt: DateVO;
     role: StaffRoles;
-    currentPatient: any;
-    suppliedDrugs: any[];
 }
 
 interface CreateStaffEntityProps {
@@ -25,22 +21,20 @@ interface CreateStaffEntityProps {
 export class Staff extends Entity<StaffEntityProps> {
     public static async registerNew(props: CreateStaffEntityProps): Promise<Staff> {
         const newProps: StaffEntityProps = {
-            name: new Name(props.name),
-            email: new Email(props.email),
+            name: props.name,
+            email: props.email,
             password: await Password.hash(props.password),
             joinedAt: DateVO.now(),
-            role: props.role,
-            currentPatient: null,
-            suppliedDrugs: []
+            role: props.role
         };
         return new Staff(newProps);
     }
 
-    public get email(): Email {
+    public get email(): string {
         return this.props.email;
     }
 
-    public get name(): Name {
+    public get name(): string {
         return this.props.name;
     }
 
@@ -57,6 +51,17 @@ export class Staff extends Entity<StaffEntityProps> {
     }
 
     public validate(): void {
-        /// ...
+        if (this.name.length < 5) {
+            throw "short name";
+        }
+        if (this.name.length > 30) {
+            throw "long name";
+        }
+        if (this.email.length < 5) {
+            throw "short email"
+        }
+        if (this.email.length > 30) {
+            throw "long email";
+        }
     }
 }

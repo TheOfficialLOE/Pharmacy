@@ -7,6 +7,8 @@ import { PatientDiTokens } from "#libs/tokens/PatientDiTokens";
 import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/PatientRepositoryPort";
 import { DemandedDrug } from "#modules/patient-service/domain/DemandedDrug";
 import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
+import { Exception } from "#modules/experimental/BaseException";
+import { Code } from "#modules/experimental/Code";
 
 @CommandHandler(SellDrugCommand)
 export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> {
@@ -28,7 +30,10 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
     private async checkIfPharmacistHasAnInProgressPatientOrThrow(pharmacistId: string) {
         const count = await this.patientRepository.countPharmacistInProgressPatients(pharmacistId);
         if (count !== 1)
-            throw new Error("Patient not found");
+            throw Exception.new({
+                code: Code.NOT_FOUND_ERROR,
+                overrideMessage: "Patient not found"
+            });
     }
 
     private async sellDrugs(demandedDrugs: DemandedDrug[], hasValidDoctorPrescription: boolean) {
@@ -51,7 +56,10 @@ export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> 
         hasValidDoctorPrescription: boolean
     ) {
         if (drug.requiresDoctorPrescription && !hasValidDoctorPrescription)
-            throw new Error("This drug requires a valid doctor prescription"); 
+            throw Exception.new({
+                code: Code.BAD_REQUEST_ERROR,
+                overrideMessage: "This drug requires a valid doctor prescription"
+            });
     }
 
     private async completePatient(

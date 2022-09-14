@@ -3,6 +3,8 @@ import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/Inven
 import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { DrugMapper } from "#modules/inventory/domain/DrugMapper";
+import { Exception } from "#modules/experimental/BaseException";
+import { Code } from "#modules/experimental/Code";
 
 @Injectable()
 export class InventoryRepository implements InventoryRepositoryPort {
@@ -46,19 +48,9 @@ export class InventoryRepository implements InventoryRepositoryPort {
         });
         if (drug !== null)
             return this.mapper.toDomain(drug);
-        throw new Error("Drug not found");    
-    }
-
-    public async search(query: {
-        drugName?: string, drugFamily?: string
-    }
-    ): Promise<Drug[]> {
-        const result = await this.prismaAdapter.drug.findMany({
-            where: {
-                drugName: query.drugName,
-                drugFamily: query.drugFamily
-            }
+        throw Exception.new({
+            code: Code.NOT_FOUND_ERROR,
+            overrideMessage: "Drug not found"
         });
-        return result.map(drug => this.mapper.toDomain(drug));
     }
 }
