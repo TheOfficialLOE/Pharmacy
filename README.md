@@ -1,9 +1,12 @@
 # This is not what you think, this is not designed to be a website, this is a real pharmacy!
 After reading some books about DDD, I decided to implement it in a real world project, and this is how real it is. This system it designed for a local pharmacy store.
 <br />
+<br />
 I also gave it a little taste of EventSourcing for storing all events about patients.
 <br />
+<br />
 It used MySQL as the primary database and EventStoreDB as the EventStore.
+<br />
 <br />
 Notice: I used to simple `Error` class for domain errors.
 <br />
