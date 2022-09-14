@@ -8,6 +8,6 @@ I also gave it a little taste of EventSourcing for storing all events about pati
 It used MySQL as the primary database and EventStoreDB as the EventStore.
 <br />
 <br />
-Notice: I used to simple `Error` class for domain errors.
+Notice: I used simple `Error` class for domain errors.
 <br />
 There's nor unit tests nor e2e tests as of now, but I'm going to write them in the near future, I hope at leat. 
