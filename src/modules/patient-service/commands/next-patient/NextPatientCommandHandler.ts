@@ -3,8 +3,8 @@ import { NextPatientCommand } from "#modules/patient-service/commands/next-patie
 import { Inject } from "@nestjs/common";
 import { PatientDiTokens } from "#libs/tokens/PatientDiTokens";
 import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/PatientRepositoryPort";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 @CommandHandler(NextPatientCommand)
 export class NextPatientCommandHandler implements ICommandHandler<NextPatientCommand> {

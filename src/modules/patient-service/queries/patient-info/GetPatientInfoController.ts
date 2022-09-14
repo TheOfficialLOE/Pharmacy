@@ -6,7 +6,7 @@ import { AccessibleBy } from "#libs/decorators/AccessibleByDecorator";
 import { PharmacyRoles } from "#libs/enums/StaffRolesEnum";
 import { ExtractToken } from "#libs/decorators/ExtractTokenDecorator";
 import { GetPatientInfoRequestDto } from "#modules/patient-service/queries/patient-info/GetPatientInfoRequestDto";
-import { CoreApiResponse } from "#modules/experimental/CoreApiResponse";
+import { CoreApiResponse } from "#libs/client-response/CoreApiResponse";
 
 @Controller("patient-service")
 export class GetPatientInfoController {

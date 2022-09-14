@@ -3,8 +3,8 @@ import { InventoryRepositoryPort } from "#modules/inventory/infrastructure/Inven
 import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
 import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { DrugMapper } from "#modules/inventory/domain/DrugMapper";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 @Injectable()
 export class InventoryRepository implements InventoryRepositoryPort {

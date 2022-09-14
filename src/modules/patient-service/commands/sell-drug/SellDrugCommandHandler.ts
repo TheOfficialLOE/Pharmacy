@@ -7,8 +7,8 @@ import { PatientDiTokens } from "#libs/tokens/PatientDiTokens";
 import { PatientRepositoryPort } from "#modules/patient-service/infrastructure/PatientRepositoryPort";
 import { DemandedDrug } from "#modules/patient-service/domain/DemandedDrug";
 import { Drug } from "#modules/inventory/domain/DrugDomainEntity";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 @CommandHandler(SellDrugCommand)
 export class SellDrugCommandHandler implements ICommandHandler<SellDrugCommand> {

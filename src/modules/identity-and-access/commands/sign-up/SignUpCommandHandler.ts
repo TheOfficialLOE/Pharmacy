@@ -4,8 +4,8 @@ import { Inject } from "@nestjs/common";
 import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiTokens";
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 @CommandHandler(SignUpCommand)
 export class SignUpCommandHandler implements ICommandHandler<SignUpCommand> {

@@ -1,7 +1,7 @@
 import { DomainPrimitive, ValueObject } from "#libs/ddd/base-classes/BaseValueObject";
 import * as bcrypt from "bcrypt";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 export class Password extends ValueObject<string> {
     constructor(value: string) {

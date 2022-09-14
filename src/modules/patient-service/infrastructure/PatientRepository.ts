@@ -3,8 +3,8 @@ import { PrismaAdapter } from "#infrastructure/prisma/PrismaAdapter";
 import { Patient } from "#modules/patient-service/domain/PatientDomainEntity";
 import { PatientMapper } from "#modules/patient-service/domain/PatientMapper";
 import { DomainEvents } from "#libs/ddd/domain-events/DomainEvents";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 export class PatientRepository implements PatientRepositoryPort {
     constructor(

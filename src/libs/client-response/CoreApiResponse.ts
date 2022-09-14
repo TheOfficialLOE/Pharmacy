@@ -1,4 +1,4 @@
-import { Code } from "#modules/experimental/Code";
+import { Code } from "#libs/client-response/Code";
 
 export class CoreApiResponse<Data> {
     public readonly code: number;

@@ -1,4 +1,4 @@
-import { CodeDescription } from "#modules/experimental/Code";
+import { CodeDescription } from "#libs/client-response/Code";
 
 export type CreateExceptionPayload<TData> = {
     code: CodeDescription,

@@ -5,9 +5,9 @@ import { IdentityAndAccessDiTokens } from "#libs/tokens/IdentityAndAccessDiToken
 import { StaffRepositoryPort } from "#modules/identity-and-access/infrastructure/StaffRepositoryPort";
 import { JwtService } from "@nestjs/jwt";
 import { StaffRoles } from "#libs/enums/StaffRolesEnum";
-import { Exception } from "#modules/experimental/BaseException";
-import { Code } from "#modules/experimental/Code";
 import { Staff } from "#modules/identity-and-access/domain/StaffDomainEntity";
+import { Exception } from "#libs/client-response/BaseException";
+import { Code } from "#libs/client-response/Code";
 
 @QueryHandler(SignInQuery)
 export class SignInQueryHandler implements IQueryHandler<SignInQuery> {

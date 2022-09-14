@@ -3,7 +3,7 @@ import { SignInRequestDto } from "#modules/identity-and-access/queries/sign-in/S
 import { SignInQuery } from "#modules/identity-and-access/queries/sign-in/SignInQuery";
 import { InfrastructureDiTokens } from "#libs/tokens/InfrastructureDiTokens";
 import { QueryBusPort } from "#libs/message/QueryBusPort";
-import { CoreApiResponse } from "#modules/experimental/CoreApiResponse";
+import { CoreApiResponse } from "#libs/client-response/CoreApiResponse";
 
 @Controller("auth")
 export class SignInController {

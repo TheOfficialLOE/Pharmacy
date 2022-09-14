@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { RootModule } from './RootModule';
 import { ValidationPipe } from "@nestjs/common";
-import { MyExceptionFilter } from "#modules/experimental/MyExceptionFilter";
+import { MyExceptionFilter } from "#libs/client-response/MyExceptionFilter";
 
 async function bootstrap() {
     const app = await NestFactory.create(RootModule);
